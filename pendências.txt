@@ -1,0 +1,5 @@
+-Estudar repository ( caixa preta e bla bla bla bla bla bla bla bla bla bla)
+-Padronizar nomenclatura de rotas, views e componentes de
+-Usar axios em todas as requisições
+-Usar .then.catch na requisições
+-Pesquisar sobre guards
