@@ -43,8 +43,7 @@
                         <option v-for="nomecidade in cidades.cidade" :key="nomecidade.nome" :selected= "autor.id_cidade == nomecidade.id" :value="nomecidade.id" >
                                 {{nomecidade.nome}}
                         </option>
-                    </select>
-                    
+                    </select>                    
                     
                     <br>
                     

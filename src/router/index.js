@@ -56,6 +56,16 @@ const routes = [
     path: '/show_obra/:id',
     name: 'ObraShow',
     component: () => import(/* webpackChunkName: "UserView" */ '../views/ObraShow.vue')
+  },
+  {
+    path: '/edit_obra_list',
+    name: 'ObraEditList',
+    component: () => import(/* webpackChunkName: "AutorView" */ '../views/ObraEditList.vue')
+  },
+  {
+    path: '/edit_obra/:id',
+    name: 'ObraEditView',
+    component: () => import(/* webpackChunkName: "UserView" */ '../views/ObraEditView.vue')
   }
   
 ]

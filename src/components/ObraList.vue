@@ -2,9 +2,17 @@
     <div>
       <!-- {{ obras }} -->
         <h1>Chegou aqui</h1>
-        <div class="container" v-for="item in obras.obra" :key="item.id" @click="show_obra(item.id)">
+        <!-- <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Nome" aria-describedby="basic-addon1" v-model="search">
+        </div> -->
+        <!-- <div class="container" v-for="item in obras.obra" :key="item.id" @click="show_obra(item.id)">
           {{ item.id }}
           {{item.nome}}
+        </div> -->
+        <!-- <p>*********************</p> -->
+        <input v-model="searchQuery">
+        <div class="container" v-for="r of resultQuery" :key="r.id" @click="show_obra(r.id)">
+          {{r.nome}}
         </div>
     </div>
 </template>
@@ -14,7 +22,9 @@
     name: "ObraList",
     data() {
       return {
-        obras: []
+        obras: [],
+        searchQuery: null,
+        obra: ""
       }
     },
     methods: {
@@ -35,7 +45,22 @@
     },
     mounted () {
         this.getObras()
-    }
+    },
+    computed: {
+      resultQuery() {
+        if (this.searchQuery) {
+          console.log(this.obras.obra)
+          return this.obras.obra.filter(item => {
+            return this.searchQuery
+              .toLowerCase()
+              .split(" ")
+              .every(v => item.nome.toLowerCase().includes(v));
+          });
+        } else {
+          return this.obras.obra;
+        }
+      }
+  }
   }
 </script>
 

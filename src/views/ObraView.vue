@@ -6,11 +6,13 @@
 
 <script>
   import ObraList from "../components/ObraList.vue"
+  // import GenerosLiterarios from "../components/GeneroLiterarioFiltro.vue"
 
   export default{
-    name: "ObraVie",
+    name: "ObraView",
     components:{
-      ObraList
+      ObraList,
+      // GenerosLiterarios
     }
   }
 </script>

@@ -32,7 +32,7 @@
 <script>
   import axios from "axios"
   export default {
-    name: "AutorComponent",
+    name: "AutorEditList",
     data() {
       return {
         autores: [],

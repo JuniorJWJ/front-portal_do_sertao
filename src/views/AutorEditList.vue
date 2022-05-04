@@ -5,7 +5,7 @@
 </template>
 
 <script>
-  import AutorComponent from "../components/AutorEditComponent.vue"
+  import AutorComponent from "../components/AutorEditList.vue"
 
   export default{
     name: "AutorEditList",

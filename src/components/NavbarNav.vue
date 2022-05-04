@@ -21,7 +21,13 @@
               <a class="nav-link active" aria-current="page" href="#">Sobre</a>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link active" to="/edit_autor_list">Edit list</router-link> 
+            <router-link class="nav-link active" to="/edit_autor_list">Edit list Autor</router-link> 
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link active" to="/create_obra">Create Obra</router-link> 
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link active" to="/edit_obra_list">Edit list Obra</router-link> 
           </li>
         </ul>
       </div>

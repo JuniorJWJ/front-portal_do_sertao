@@ -10,22 +10,23 @@
                         id="nome" 
                         name="nome"
                         v-model="nome"
-                    /><br>
+                    />
+                    <br>
                     
-                    <label for="select_cidade">Autor:</label>
-                    <select name="select_cidade" id="select_cidade" v-model="select_cidade">
-                        <option v-for="nomecidade in cidades.cidade" :key="nomecidade.nome" :value="nomecidade.id">
-                                {{nomecidade.nome}}
+                    <label for="select_autor">Autor:</label>
+                    <select name="select_autor" id="select_autor" v-model="select_autor">
+                        <option v-for="nomeautor in autores.autor" :key="nomeautor.nome" :value="nomeautor.id">
+                                {{ nomeautor.id }} {{nomeautor.nome}}
                         </option>
                     </select>
-
-                
-                    <label for="select_cidade">Gênero Literário:</label>
-                    <select name="select_cidade" id="select_cidade" v-model="select_cidade">
-                        <option v-for="nomecidade in cidades.cidade" :key="nomecidade.nome" :value="nomecidade.id">
-                                {{nomecidade.nome}}
+                    <br>
+                    <label for="select_genero_literario">Gênero Literário:</label>
+                    <select name="select_genero_literario" id="select_genero_literario" v-model="select_genero_literario">
+                        <option v-for="nomegeneroliterario in GenerosLiterarios.generoLiterario" :key="nomegeneroliterario.nome" :value="nomegeneroliterario.id">
+                                {{nomegeneroliterario.nome}}
                         </option>
                     </select>
+                    <br>
                     
                     <input 
                         type="file"
@@ -46,17 +47,12 @@
         name: "FormEditAutor",
         data(){
             return{
-                id: this.$route.params.id,
-                autor: [],
-                cidades: [],
+                autores: [],
+                GenerosLiterarios: [],
                 nome: "",
-                profissao: "",
-                biografia: "",
-                email: "",
-                select_cidade: "",
-                genero: "",
+                select_autor: "",
+                select_genero_literario: "",
                 file:"",
-                message: "",
             }
         },
         methods: {
@@ -70,55 +66,32 @@
                 const formData = new FormData();
                 formData.append('file', this.file)
                 formData.append('nome', this.nome)                
-                formData.append('profissao', this.profissao)
-                formData.append('biografia', this.biografia)
-                formData.append('email', this.email)
-                formData.append('id_cidade', this.select_cidade )
-                formData.append('genero', this.genero)
+                formData.append('select_autor', this.select_autor)
+                formData.append('select_genero_literario', this.select_genero_literario)
                 console.log(formData)
                 try{
-                    await axios.post('http://localhost:3000/create_autor', formData);
-                    this.$router.push({name: "AutorView"})
+                    await axios.post('http://localhost:3000/create_obra', formData);
+                    this.$router.push({name: "ObraView"})
                 }catch(err){
                     console.log(err)
                 }
             },
-            async createAutor(e){
-                e.preventDefault();
-                console.log("enviou o form")
-                console.log(this.file)
-                //teste a seguir 
-                const data = {
-                    nome: this.nome,
-                    profissao: this.profissao,
-                    biografia: this.biografia,        
-                    email: this.email,
-                    id_cidade: this.select_cidade,
-                    genero: this.genero,  
-                    endereco_foto: this.file ? `http://localhost:3000/images/${this.file.name}` : ''
-                }
-                console.log(data)
-                const dataJson = JSON.stringify(data)
-                // const res = 
-                await fetch(`http://localhost:3000/create_autor`, {
-                    method : "POST",
-                    headers: { "content-type": "application/json"},
-                    //credentials: "include",
-                    // mode: 'no-cors',
-                    body: dataJson
-                })
-                // const tokenjwt = (await res.json()).token
-                
-                // localStorage.setItem('token', tokenjwt);
-
-                this.$router.push({name: "AutorView"})
-                // console.log(tokenjwt)
-            },
-            getCidades() {
+            getAutores() {
                 axios
-                .get(`http://localhost:3000/lista_cidade`)
+                .get(`http://localhost:3000/lista_autor`)
                 .then((res) => {
-                    this.cidades = res.data;
+                    this.autores = res.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            },
+            getGenerosLiterarios() {
+                axios
+                .get(`http://localhost:3000/lista_generos_literarios`)
+                .then((res) => {
+                    this.GenerosLiterarios = res.data;
+                    console.log(this.GenerosLiterarios)
                 })
                 .catch((error) => {
                     console.log(error);
@@ -126,7 +99,8 @@
             }
         },
         mounted () {
-            this.getCidades()
+            this.getGenerosLiterarios(),
+            this.getAutores()
         }
     }
 </script>
