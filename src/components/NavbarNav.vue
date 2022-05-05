@@ -20,18 +20,44 @@
           <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Sobre</a>
           </li>
-          <li class="nav-item">
+          <!-- AQUI COMEÇA -->
+          <template v-if="token">
+            <li class="nav-item">
+              <router-link class="nav-link active" to="/edit_autor_list">Edit list Autor</router-link> 
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link active" to="/create_obra">Create Obra</router-link> 
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link active" to="/create_autor">Create Autor</router-link>  
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link active" to="/edit_obra_list">Edit list Obra</router-link> 
+            </li>
+            <div class="form-inline my-2 my-lg-0">
+              <router-link class="nav-link active" to="/log_user" @click="deslogUser">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-excel-fill" viewBox="0 0 16 16">
+                  <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5.884 4.68 8 7.219l2.116-2.54a.5.5 0 1 1 .768.641L8.651 8l2.233 2.68a.5.5 0 0 1-.768.64L8 8.781l-2.116 2.54a.5.5 0 0 1-.768-.641L7.349 8 5.116 5.32a.5.5 0 1 1 .768-.64z"/>
+                </svg>
+              </router-link> 
+            </div>
+          </template>
+          <!-- <li class="nav-item">
             <router-link class="nav-link active" to="/edit_autor_list">Edit list Autor</router-link> 
           </li>
           <li class="nav-item">
             <router-link class="nav-link active" to="/create_obra">Create Obra</router-link> 
           </li>
           <li class="nav-item">
-            <router-link class="nav-link active" to="/edit_obra_list">Edit list Obra</router-link> 
+            <router-link class="nav-link active" to="/create_autor">Create Autor</router-link>  
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link active" to="/edit_obra_list">Edit list Obra</router-link> 
+          </li> -->
+          <!-- AQUI ACABA -->
         </ul>
       </div>
-      <div class="form-inline my-2 my-lg-0">
+      <div class="form-inline my-2 my-lg-0" v-if="!token">
         <router-link class="nav-link active" to="/log_user">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
@@ -45,7 +71,17 @@
 
 <script>
 export default {
-  name: "NavbarNav"
+  name: "NavbarNav",
+  data(){
+      return{
+          token: localStorage.getItem("token")
+      }
+  },
+  methods: {
+    async deslogUser(){
+      localStorage.clear();
+    }
+  }
 }
 </script>
 <style scoped>

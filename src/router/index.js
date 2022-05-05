@@ -1,5 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LogUserView from '../views/LogUserView.vue'
+const navigationAdminRouteGuard = (to) => {
+  const bearerToken = localStorage.getItem("token")
+    if (
+      !bearerToken &&
+      to.name !== 'LogUserView'
+    ) {
+      return { name: 'LogUserView' }
+    }
+}
+
 
 const routes = [
   {
@@ -10,7 +20,8 @@ const routes = [
   {
     path: '/create_autor',
     name: 'AutorCreate',
-    component: () => import(/* webpackChunkName: "UserView" */ '../views/AutorCreate.vue')
+    component: () => import(/* webpackChunkName: "UserView" */ '../views/AutorCreate.vue'),
+    beforeEnter: navigationAdminRouteGuard
   },
   {
     path: '/list_autor',
@@ -25,12 +36,14 @@ const routes = [
   {
     path: '/edit_autor_list',
     name: 'AutorEditList',
-    component: () => import(/* webpackChunkName: "AutorView" */ '../views/AutorEditList.vue')
+    component: () => import(/* webpackChunkName: "AutorView" */ '../views/AutorEditList.vue'),
+    beforeEnter: navigationAdminRouteGuard
   },
   {
     path: '/edit_autor/:id',
     name: 'AutorEditView',
-    component: () => import(/* webpackChunkName: "UserView" */ '../views/AutorEditView.vue')
+    component: () => import(/* webpackChunkName: "UserView" */ '../views/AutorEditView.vue'),
+    beforeEnter: navigationAdminRouteGuard
   },
   {
     path: '/show_user',
@@ -45,7 +58,8 @@ const routes = [
   {
     path: '/create_obra',
     name: 'ObraCreate',
-    component: () => import(/* webpackChunkName: "UserView" */ '../views/ObraCreate.vue')
+    component: () => import(/* webpackChunkName: "UserView" */ '../views/ObraCreate.vue'),
+    beforeEnter: navigationAdminRouteGuard
   },
   {
     path: '/list_obra',
@@ -60,12 +74,14 @@ const routes = [
   {
     path: '/edit_obra_list',
     name: 'ObraEditList',
-    component: () => import(/* webpackChunkName: "AutorView" */ '../views/ObraEditList.vue')
+    component: () => import(/* webpackChunkName: "AutorView" */ '../views/ObraEditList.vue'),
+    beforeEnter: navigationAdminRouteGuard
   },
   {
     path: '/edit_obra/:id',
     name: 'ObraEditView',
-    component: () => import(/* webpackChunkName: "UserView" */ '../views/ObraEditView.vue')
+    component: () => import(/* webpackChunkName: "UserView" */ '../views/ObraEditView.vue'),
+    beforeEnter: navigationAdminRouteGuard
   }
   
 ]
