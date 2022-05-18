@@ -1,14 +1,24 @@
 <template>
     {{ id }}
-    <div  v-for="item in autor.autor" :key="item.id">
-        <p>Nome:{{ item.nome }}</p>
-        <p>Profissão:{{ item.profissao }}</p>
-        <p>Email:{{ item.email }}</p>
-        <p>Biografia:{{ item.biografia }}</p>
-        <p>Gênero:{{ item.genero }}</p>
-        <p>Cidade:{{ item.id_cidade }}</p>
-        <img :src="item.endereco_foto"/>
+    <div>
+        <div  v-for="item in autor.autor" :key="item.id">
+            <p>Nome:{{ item.nome }}</p>
+            <p>Profissão:{{ item.profissao }}</p>
+            <p>Email:{{ item.email }}</p>
+            <p>Biografia:{{ item.biografia }}</p>
+            <p>Gênero:{{ item.genero }}</p>
+            <p>Cidade:{{ item.id_cidade }}</p>
+            <img :src="item.endereco_foto"/>
+        </div>
+        <div>
+            <h2>Obras publicadas:</h2>
+            <div class="container" v-for="item in obras.obra" :key="item.id" @click="show_obra(item.id)">
+                {{ item.id }}
+                {{item.nome}}
+            </div> -->
+        </div>
     </div>
+    
 </template>
 
 <script>
@@ -21,6 +31,7 @@
                 id: this.$route.params.id,
                 autor: [],
                 cidades: [],
+                obras: [],
                 nome: "",
                 profissao: "",
                 biografia: "",
@@ -36,12 +47,6 @@
                 .then((res) => {
                     this.autor = res.data;
                     console.log(this.autor)
-                    //this.autor = JSON.parse(this.autor)
-                    //console.log(this.autor)
-                    //this.autor = JSON.stringify(this.autor)
-                    //console.log(this.autor)
-                    //this.autor = JSON.parse(this.autor)
-                    //console.log(this.autor)
                 })
                 .catch((error) => {
                     console.log(error);
@@ -52,22 +57,38 @@
                 .get(`http://localhost:3000/lista_cidade`)
                 .then((res) => {
                     this.cidades = res.data;
-                    //console.log(this.cidades);
-                    // this.cidades = JSON.stringify(this.cidades)
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            },getObras() {
+                axios
+                .get("http://localhost:3000/lista_obra")
+                .then((res) => {
+                    this.obras = res.data;
+                    this.obras.obra = (this.obras.obra.filter( item  => item.id_autor == this.id))
                 })
                 .catch((error) => {
                     console.log(error);
                 });
             },
+            show_obra(id){
+                this.$router.push({name: "ObraShow", params: {id: id}})
+            }
         },
         mounted () {
             this.getAutor(this.$route.params.id),
-            this.getCidades()
+            this.getCidades(),
+            this.getObras()
         }
     }
 </script>
     
 <style scoped>
+    .container{
+        background-color: beige;
+        margin: 10px;
+   }
     img{
       width: 60px;
       height: 60px 

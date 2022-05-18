@@ -78,19 +78,6 @@
       show_obra(id){
         this.$router.push({name: "ObraShow", params: {id: id}})
       },
-      searchQueryGenero(id) {
-        this.getObras()
-        // console.log(id)
-        // console.log(this.obras.obra)
-        this.obras.obra = this.obrasBegin.obra
-        // console.log(this.obras.obra)
-        // console.log(this.obras.obra.filter( item  => item.id_genero_literario == id));
-        console.log(this.obras.obra, "this.obras.obra antes")
-        console.log(this.obrasBegin.obra, "this.obrasBegin.obra antes")
-        this.obras.obra = (this.obras.obra.filter( item  => item.id_genero_literario == id))
-        console.log(this.obras.obra, "this.obras.obra depois")
-        console.log(this.obrasBegin.obra, "this.obrasBegin.obra depois")
-      }
     },
     mounted () {
         this.getObras(),
