@@ -1,18 +1,23 @@
 <template>
     <div >
-        id:{{ obra.id }}
-        <br>
-        nome: {{ obra.nome }}
-        <br>
-        autor: {{ obra.id_autor}}
-        <br>
-        link: {{ obra.endereco_pdf}}
-        <br>
-        gênero literário: {{ obra.id_genero_literario}}
-        <div @click="go_link()"    >
-            Link
+        <div>
+            id:{{ obra.id }}
+            <br>
+            nome: {{ obra.nome }}
+            <br>
+            autor: {{ obra.id_autor}}
+            <br>
+            link: {{ obra.endereco_pdf}}
+            <br>
+            gênero literário: {{ obra.id_genero_literario}}
+            <div @click="go_link()"    >
+                Link
+            </div>
+            <a :href='obra.endereco_pdf'>{{obra.nome}}</a>
         </div>
-        <a :href='obra.endereco_pdf'>{{obra.nome}}</a>
+        <div>
+            
+        </div>
     </div>
 </template>
 
