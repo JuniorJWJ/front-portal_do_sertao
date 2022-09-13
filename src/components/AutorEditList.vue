@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Chegou aqui</h1>
+        <h1>Autores</h1>
         <!-- {{autores}} -->
         <table class="table">
           <thead>

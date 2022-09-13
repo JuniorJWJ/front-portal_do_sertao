@@ -1,10 +1,8 @@
 <template>
     <div>
-        {{ id }}
-        {{ autor }}
         <h2 class="titulo"> Alterar autor:</h2>
         <!-- <form class="form-group" @submit="updateAutor" v-for="item in autor.autor" :key="item.id"> -->        
-        <form class="form-group" @submit="updateAutor">
+        <form class="form-group container" @submit="updateAutor">
             <fieldset class="grupo">
                 <div class="campo">
                     <label for="nome">Nome:</label>
@@ -13,7 +11,8 @@
                         id="nome" 
                         name="nome"
                         v-model="autor.nome"
-                    /><br>
+                        class="form-control"
+                    />
                     
                     <label for="Email">Email:</label>
                     <input 
@@ -21,7 +20,8 @@
                         id="email" 
                         name="email"
                         v-model="autor.email"
-                    /><br>
+                        class="form-control"
+                    />
                 
                     <label for="Profissão">Profissão:</label>
                     <input 
@@ -29,43 +29,43 @@
                         id="profissao" 
                         name="profissao"
                         v-model="autor.profissao"
-                    /><br>
+                        class="form-control"
+                    />
                     <label for="Email">Biografia:</label>
                     <textarea
                         id="biografia" 
                         name="biografia" 
                         rows="4" 
                         cols="50"
+                        class="form-control"
                         v-model="autor.biografia">
-                    </textarea><br>
+                    </textarea>
                     <label for="select_cidade">Cidade:</label>
-                    <select name="select_cidade" id="select_cidade" v-model="autor.id_cidade">
+                    <select name="select_cidade" id="select_cidade" v-model="autor.id_cidade" class="form-select">
                         <option v-for="nomecidade in cidades.cidade" :key="nomecidade.nome" :selected= "autor.id_cidade == nomecidade.id" :value="nomecidade.id" >
                                 {{nomecidade.nome}}
                         </option>
                     </select>                    
-                    
-                    <br>
-                    
+                                    
                     <label for="genero">Gênero</label>
-                    <select v-model="autor.genero" name="genero" id="genero">
+                    <select v-model="autor.genero" name="genero" id="genero"  class="form-select">
                         <option disabled value="" :selected= "autor.genero"></option>
                         <option>Masculino </option>
                         <option>Feminino</option>
                         <option>Prefiro não dizer</option>
                     </select>
-                    <br>
 
                     <img :src="autor.endereco_foto"/>
                     <input 
                         type="file"
                         ref="file"
                         @change="onSelect"
+                        class="form-control" 
+                        id="customFile"
                     >
-                    <br>
+            <button type="submit" class="btn btn-success">Salvar alterações</button>
                 </div>
             </fieldset>
-            <button type="submit">Salvar alterações</button>
         </form>
     </div>
 </template>
@@ -158,5 +158,24 @@
    .preview-image{
        width: 327px;
        height: 184px
+    }
+    .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    label{
+        text-align: left;
+        display: flex;
+        margin-top: 12px;
+    }
+    button{
+        margin-top: 12px;
+        width: 100%;
+        text-transform: uppercase;
+    }
+    #customFile{
+        margin-top: 12px;
     }
 </style>

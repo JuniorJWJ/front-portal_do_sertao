@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h2 class="titulo"> Logar:</h2>
         <form id="user-form" @submit="logUser">
             <fieldset class="grupo">
                 <div class="campo">
@@ -23,7 +22,7 @@
                 </div>
             </fieldset>
             <button type="submit">Logar</button>
-        </form>
+        </form> 
     </div>
 </template>
 
@@ -67,5 +66,10 @@
 </script>
     
 <style scoped>
-
+    form{
+  align-items: center
+    }
+    input{
+        width:300px;
+    }
 </style>

@@ -1,10 +1,7 @@
 <template>
     <div>
-        {{ id }} <br>
-        {{ obra }} <br>
-        {{ obra.id_autor}} <br>
         <h2 class="titulo"> Alterar Obra:</h2>
-        <form class="form-group" @submit="updateObra" enctype="multipart/form-data">
+        <form class="form-group container" @submit="updateObra" enctype="multipart/form-data">
             <fieldset class="grupo">
                 <div class="campo">
                     <label for="nome">Nome:</label>
@@ -12,33 +9,33 @@
                         type="text" 
                         id="nome" 
                         name="nome"
+                        class="form-control"   
                         v-model="obra.nome"
                     />
-                    <br>
                     
                     <label for="select_autor">Autor:</label>
-                    <select name="select_autor" id="select_autor" v-model="obra.id_autor">
+                    <select name="select_autor" id="select_autor" v-model="obra.id_autor" class="form-select">
                         <option v-for="autorselecionado in autores.autor" :key="autorselecionado.nome" :value="autorselecionado.id" :selected= "autorselecionado.id == obra.id_autor">
                                  {{ autorselecionado.id }} {{autorselecionado.nome}}
                         </option>
                     </select> 
-                    <br>
                     <label for="select_genero_literario">Gênero Literário:</label>
-                    <select name="select_genero_literario" id="select_genero_literario" v-model="obra.id_genero_literario">
+                    <select name="select_genero_literario" id="select_genero_literario" v-model="obra.id_genero_literario"  class="form-select">
                         <option v-for="nomegeneroliterario in GenerosLiterarios.generoLiterario" :key="nomegeneroliterario.nome" :value="nomegeneroliterario.id" :selected= "obra.id_genero_literario == nomegeneroliterario.id">
                                 {{nomegeneroliterario.nome}}
                         </option>
                     </select> 
-                    <br>
                     
                     <input 
                         type="file"
                         ref="file"
                         @change="onSelect"
+                        class="form-control" 
+                        id="customFile"
                     >
+                    <button type="submit" class="btn btn-success">Salvar alterações</button>
                 </div>
             </fieldset>
-            <button type="submit">Salvar alterações</button>
         </form>
     </div>
 </template>
@@ -131,12 +128,23 @@
 </script>
     
 <style scoped>
-    img{
-      width: 60px;
-      height: 60px 
-   }
-   .preview-image{
-       width: 327px;
-       height: 184px
-    }
+        .container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        label{
+            text-align: left;
+            display: flex;
+            margin-top: 12px;
+        }
+        button{
+            margin-top: 12px;
+            width: 100%;
+            text-transform: uppercase;
+        }
+        #customFile{
+            margin-top: 12px;
+        }
 </style>

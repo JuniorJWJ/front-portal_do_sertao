@@ -1,66 +1,73 @@
 <template>
     <div>
-        <h2 class="titulo"> Criar autor:</h2>
-        <form class="form-group" @submit="onSubmit" enctype="multipart/form-data">
+        <h2 class="titulo"> Criar autor</h2>
+        <form class="form-group container" @submit="onSubmit" enctype="multipart/form-data">
             <fieldset class="grupo">
                 <div class="campo">
-                    <label for="nome">Nome:</label>
+
+                    <label for="nome">Autor</label>
                     <input 
                         type="text" 
                         id="nome" 
                         name="nome"
                         v-model="nome"
-                    /><br>
+                        class="form-control"
+                    />
                     
-                    <label for="Email">Email:</label>
+                    <label for="Email">Email</label>
                     <input 
                         type="email" 
                         id="email" 
                         name="email"
                         v-model="email"
-                    /><br>
+                        class="form-control"
+                    />
                 
-                    <label for="Profissão">Profissão:</label>
+                    <label for="Profissão">Profissão</label>
                     <input 
                         type="text" 
                         id="profissao" 
                         name="profissao"
                         v-model="profissao"
-                    /><br>
+                        class="form-control"
+                    />
 
-                    <label for="Email">Biografia:</label>
+                    <label for="Email">Biografia</label>
                     <textarea
                         id="biografia" 
                         name="biografia" 
                         rows="4" 
                         cols="50"
+                        class="form-control"
                         v-model="biografia">
-                    </textarea><br>
+                    </textarea>
 
-                    <label for="select_cidade">Cidade:</label>
-                    <select name="select_cidade" id="select_cidade" v-model="select_cidade">
+                    <label for="select_cidade">Cidade</label>
+                    <select name="select_cidade" id="select_cidade" v-model="select_cidade" class="form-select">
                         <option v-for="nomecidade in cidades.cidade" :key="nomecidade.nome" :value="nomecidade.id">
                                 {{nomecidade.nome}}
                         </option>
                     </select>
 
                     <label for="genero">Gênero</label>
-                    <select v-model="genero" name="genero" id="genero">
+                    <select v-model="genero" name="genero" id="genero" class="form-select">
                         <option disabled value=""></option>
                         <option>Masculino </option>
                         <option>Feminino</option>
                         <option>Prefiro não dizer</option>
                     </select>
-                    <br>
+                    
                     
                     <input 
                         type="file"
                         ref="file"
                         @change="onSelect"
+                        class="form-control" 
+                        id="customFile"
                     >
+                    <button type="submit" class="btn btn-success">Salvar</button>
                 </div>
             </fieldset>
-            <button type="submit">Salvar alterações</button>
         </form>
     </div>
 </template>
@@ -158,8 +165,27 @@
 </script>
     
 <style scoped>
+    .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
     img{
       width: 60px;
       height: 60px 
-   }
+    }
+    label{
+        text-align: left;
+        display: flex;
+        margin-top: 12px;
+    }
+    button{
+        margin-top: 12px;
+        width: 100%;
+        text-transform: uppercase;
+    }
+    #customFile{
+        margin-top: 12px;
+    }
 </style>

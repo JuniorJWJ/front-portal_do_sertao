@@ -1,12 +1,11 @@
 <template>
     <div>
-        <h1>Chegou aqui</h1>
         <!-- <div class="container" v-for="item in autores.autor" :key="item.id" @click="show_autor(item.id)">
           {{ item.id }}
           {{item.nome}}
           <img :src="item.endereco_foto"/>
         </div> -->
-        <input v-model="searchQuery">
+        <input v-model="searchQuery" class="form-control inputsearch" placeholder="Digite o nome do Autor...">
         <div class="container" v-for="r of resultQuery" :key="r.id" @click="show_autor(r.id)">
           {{r.nome}}
           <img :src="r.endereco_foto"/>
@@ -68,5 +67,10 @@
    .container{
      background-color: beige;
      margin: 10px;
+     border-radius: 30px;
+   }
+   .inputsearch{
+     margin: 10px;
+     border-radius: 30px;
    }
 </style>

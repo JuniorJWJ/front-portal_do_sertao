@@ -36,7 +36,7 @@
 </script>
 
 <style scoped>
-  .container{
+  /* .container{
     background-color: beige;
     margin: 10px;
    }
@@ -46,5 +46,5 @@
         float: left;
         width: 10%;
         height: 900px;
-   }
+   } */
 </style>

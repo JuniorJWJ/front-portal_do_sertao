@@ -1,47 +1,51 @@
 <template>
-    <div>
-      <!-- {{ obrasBegin.obra }} -->
-      <!-- {{ obras }} -->
-        <!-- <h1>Chegou aqui</h1> -->
-        <!-- <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Nome" aria-describedby="basic-addon1" v-model="search">
-        </div> -->
-        <!-- <div class="container" v-for="item in obras.obra" :key="item.id" @click="show_obra(item.id)">
-          {{ item.id }}
-          {{item.nome}}
-        </div> -->
-        <!-- <p>*********************</p> -->
-        <input v-model="searchQuery">
-        <div class="container" v-for="r of resultQuery" :key="r.id" @click="show_obra(r.id)">
-          {{r.nome}}
-        </div>
-        <div>
-          <ul>
-              <li v-for="nomegeneroliterario in GenerosLiterarios.generoLiterario" :key="nomegeneroliterario.nome" :value="nomegeneroliterario.id" @click="getObrasFiltroGenero(nomegeneroliterario.id)">
-                  {{nomegeneroliterario.id}}{{nomegeneroliterario.nome}}
-              </li>
-          </ul>
-        </div>
+  <div id="mainObra">
+    <div id="barraLateralObra">
+      <ul>
+        <li
+          v-for="nomegeneroliterario in GenerosLiterarios.generoLiterario"
+          :key="nomegeneroliterario.nome"
+          :value="nomegeneroliterario.id"
+          @click="getObrasFiltroGenero(nomegeneroliterario.id)"
+        >
+          {{ nomegeneroliterario.nome }}
+          <div class="row"></div>
+        </li>
+      </ul>
     </div>
+    <div id="listaObraMain">
+      <div id="pesquisaObra">
+        <input placeholder="Pesquisar obra" class="form-control inputsearch"  v-model="searchQuery" />
+      </div>
+      <div
+        class="container"
+        v-for="r of resultQuery"
+        :key="r.id"
+        @click="show_obra(r.id)"
+      >
+        {{ r.nome }}
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-  import axios from "axios"
+  import axios from 'axios';
   export default {
-    name: "ObraList",
+    name: 'ObraList',
     data() {
       return {
         obras: [],
         obrasBegin: [],
         searchQuery: null,
-        obra: "",
+        obra: '',
         //...
-        GenerosLiterarios: []
-      }
+        GenerosLiterarios: [],
+      };
     },
     methods: {
       getObras() {
         axios
-          .get("http://localhost:3000/lista_obra")
+          .get('http://localhost:3000/lista_obra')
           .then((res) => {
             this.obras = res.data;
             // this.obrasBegin = res.data;
@@ -65,56 +69,94 @@
       },
       //...
       getGenerosLiterarios() {
-            axios
-            .get(`http://localhost:3000/lista_generos_literarios`)
-            .then((res) => {
-                this.GenerosLiterarios = res.data;
-                // console.log(this.GenerosLiterarios)
-            })
-            .catch((error) => {
-                console.log(error); 
-            });
+        axios
+          .get(`http://localhost:3000/lista_generos_literarios`)
+          .then((res) => {
+            this.GenerosLiterarios = res.data;
+            // console.log(this.GenerosLiterarios)
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       },
-      show_obra(id){
-        this.$router.push({name: "ObraShow", params: {id: id}})
+      show_obra(id) {
+        this.$router.push({ name: 'ObraShow', params: { id: id } });
       },
     },
-    mounted () {
-        this.getObras(),
-        this.getGenerosLiterarios()
+    mounted() {
+      this.getObras(), this.getGenerosLiterarios();
     },
     computed: {
       resultQuery() {
         if (this.searchQuery) {
           //console.log(this.obras.obra)
-          return this.obras.obra.filter(item => {
+          return this.obras.obra.filter((item) => {
             return this.searchQuery
               .toLowerCase()
-              .split(" ")
-              .every(v => item.nome.toLowerCase().includes(v));
+              .split(' ')
+              .every((v) => item.nome.toLowerCase().includes(v));
           });
         } else {
           return this.obras.obra;
         }
-      }
-  }
-  }
+      },
+    },
+  };
 </script>
 
 <style scoped>
-  .container{
-     background-color: beige;
-     margin: 10px;
-   }
-  /* ... */
-  ul{
-      margin-top: 4%;
-        background:silver;
-        font-family:"Comic Sans MS";
-        /* width: 10%; */
-        height: 900px;
-        position: fixed;
-        top: 0;
-        left: 0;
-  }
+#barraLateralObra {
+  display: flex;
+  text-align: left;
+  outline: none;
+  font-size: 22px;
+}
+#mainObra {
+  display: flex;
+}
+#listaObraMain {
+  text-align: left;
+}
+.container {
+  background-color: beige;
+  margin-top: 10px;
+  height: 40px;
+  border-radius: 30px;
+  font-size: 22px;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  color: #000;
+  width: 740px;
+}
+.container:hover {
+  font-weight: bold;
+}
+ul li{
+  list-style-type: none;
+}
+.inputsearch{
+  width: 740px;
+  border-radius: 30px;
+}
+img{
+  width: 40px;
+}
+ul li{
+  margin-right: 30px;
+  width: 300px;
+	padding: 10px; 
+	border-top: 1px solid #CCC;
+  border-left: 1px solid #CCC;
+  border-right: 1px solid #CCC;
+}
+#barraLateralObra ul li:first-child{
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+#barraLateralObra ul li:last-child{
+  border-bottom-left-radius:10px;
+  border-bottom-right-radius: 10px;
+	border-bottom: 1px solid #CCC;
+}
 </style>

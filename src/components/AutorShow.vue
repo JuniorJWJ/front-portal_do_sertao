@@ -15,7 +15,7 @@
             <div class="container" v-for="item in obras.obra" :key="item.id" @click="show_obra(item.id)">
                 {{ item.id }}
                 {{item.nome}}
-            </div> -->
+            </div> 
         </div>
     </div>
     
@@ -45,18 +45,22 @@
                 axios
                 .get(`http://localhost:3000/autor/${id}`)
                 .then((res) => {
-                    this.autor = res.data;
-                    console.log(this.autor)
+                    this.autor = res.data;  
+                    console.log(this.autor.autor[0].id_cidade)
+                    this.getCidade(this.autor.autor[0].id_cidade)
+
                 })
                 .catch((error) => {
                     console.log(error);
                 });
             },
-            getCidades() {
+            getCidade(id) {
                 axios
-                .get(`http://localhost:3000/lista_cidade`)
+                .get(`http://localhost:3000/cidade/${id}`)
                 .then((res) => {
-                    this.cidades = res.data;
+                    this.cidade = res.data.cidade;
+                    console.log(this.cidade[0].nome)
+                    this.autor.autor[0].id_cidade = this.cidade[0].nome
                 })
                 .catch((error) => {
                     console.log(error);
@@ -78,7 +82,6 @@
         },
         mounted () {
             this.getAutor(this.$route.params.id),
-            this.getCidades(),
             this.getObras()
         }
     }

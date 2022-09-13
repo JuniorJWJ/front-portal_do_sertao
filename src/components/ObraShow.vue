@@ -3,17 +3,15 @@
         <div>
             id:{{ obra.id }}
             <br>
-            nome: {{ obra.nome }}
+            Nome da Obra: {{ obra.nome }}
             <br>
-            autor: {{ obra.id_autor}}
+            Autor: {{ obra.id_autor}}
             <br>
-            link: {{ obra.endereco_pdf}}
-            <br>
-            gênero literário: {{ obra.id_genero_literario}}
-            <div @click="go_link()"    >
-                Link
+            Gênero literário: {{ obra.id_genero_literario}}
+            <div @click="go_link()">
+                Link  <a :href='obra.endereco_pdf'>{{obra.nome}}</a>
             </div>
-            <a :href='obra.endereco_pdf'>{{obra.nome}}</a>
+           
         </div>
         <div>
             
@@ -34,33 +32,44 @@
                 nome: "",
                 endereco_pdf: "",
                 genero_literario: "",
-                email: "",
-                select_cidade: "",
-                select_genero: "",
             }
         },
         methods: {
-            getAutor(id) {
+            getObra(id) {
                 axios
                 .get(`http://localhost:3000/obra/${id}`)
                 .then((res) => {
                     this.obra = res.data.obra[0];
-                    //console.log(this.autor)
-                    //this.autor = res.data.autor[0];
-                    //console.log(this.autor)
-                    console.log(this.obra)
+                    // console.log(this.obra);
+                    this.getAutor(this.obra.id_autor);
+                    // console.log(this.obra.id_genero_literario);
+                    this.getGeneroLiterario(this.obra.id_genero_literario)
+
                 })
                 .catch((error) => {
                     console.log(error);
                 });
             },
-            getCidades() {
+            getAutor(id) {
                 axios
-                .get(`http://localhost:3000/lista_cidade`)
+                .get(`http://localhost:3000/autor/${id}`)
                 .then((res) => {
-                    this.cidades = res.data;
-                    //console.log(this.cidades);
-                    // this.cidades = JSON.stringify(this.cidades)
+                    this.autor = res.data.autor;
+                    // console.log(this.autor[0].nome)
+                    this.obra.id_autor = this.autor[0].nome;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            },
+            getGeneroLiterario(id) {
+                axios
+                .get(`http://localhost:3000/genero_literario/${id}`)
+                .then((res) => {
+                    this.genero_literario = res.data.generoLiterario;
+                    // console.log(this.genero_literario)
+                    // console.log(this.genero_literario[0].nome)
+                    this.obra.id_genero_literario = this.genero_literario[0].nome;
                 })
                 .catch((error) => {
                     console.log(error);
@@ -70,10 +79,9 @@
                  window.location.href = this.obra.endereco_pdf;
             }
         },
-        mounted () {
-            this.getAutor(this.$route.params.id),
-            this.getCidades()
-        }
+        created() {
+            this.getObra(this.$route.params.id)
+        },
     }
 </script>
     

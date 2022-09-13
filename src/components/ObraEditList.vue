@@ -1,22 +1,22 @@
 <template>
-    <div>
-        <h1>Edit List Obra</h1>
-        <!-- {{autores}} -->
+    <div class="corpo">
+        <h1 class="title">Obras</h1>
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Nome</th>
+              <th scope="col">ID</th>
+              <th  class="nomeobratabela" scope="col">Nome</th>
+              <th scope="col">Opções</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="item in obras.obra" :key="item.id">
               <th scope="row">{{ item.id }}</th>
-              <td>{{ item.nome }}</td>
+              <td class="nomeobratabela">{{ item.nome }}</td>
               
               <td>
-                <button @click="editObras(item.id)" class="btn btn-info">Editar</button>
-                <button @click="deleteObras(item.id)" class="btn btn-danger">Excluir</button>
+                <button @click="editObras(item.id)" class="btn btn buttonedit">Editar</button>
+                <button @click="deleteObras(item.id)" class="btn btn buttondelet">Excluir</button>
               </td>
             </tr>
           </tbody>
@@ -64,8 +64,28 @@
 </script>
 
 <style scoped>
-   img{
-      width: 60px;
-      height: 60px 
-   }
+  img{
+    width: 60px;
+    height: 60px 
+  }
+  button{
+    margin-left: 10px;
+    color: white;
+  }
+  .buttonedit{
+    background: #029bbf;
+  }
+  .buttondelet{
+    background: #e85850;
+  }
+  .nomeobratabela{
+    text-align: left;
+  }
+  #title{
+    padding: 0.5em;
+  }
+  .corpo{
+    height: 100%;
+    padding-bottom: 40px;
+  }
 </style>
