@@ -6,8 +6,7 @@
           v-for="nomegeneroliterario in GenerosLiterarios.generoLiterario"
           :key="nomegeneroliterario.nome"
           :value="nomegeneroliterario.id"
-          @click="getObrasFiltroGenero(nomegeneroliterario.id)"
-        >
+          @click="getObrasFiltroGenero(nomegeneroliterario.id)">
           {{ nomegeneroliterario.nome }}
           <div class="row"></div>
         </li>
@@ -118,7 +117,7 @@
   text-align: left;
 }
 .container {
-  background-color: beige;
+  background-color: #006919;
   margin-top: 10px;
   height: 40px;
   border-radius: 30px;
@@ -126,7 +125,7 @@
   display:flex;
   flex-direction: column;
   justify-content: center;
-  color: #000;
+  color: white;
   width: 740px;
 }
 .container:hover {

@@ -1,14 +1,16 @@
 <template>
-    {{ id }}
-    <div>
-        <div  v-for="item in autor.autor" :key="item.id">
-            <p>Nome:{{ item.nome }}</p>
-            <p>Profissão:{{ item.profissao }}</p>
-            <p>Email:{{ item.email }}</p>
-            <p>Biografia:{{ item.biografia }}</p>
-            <p>Gênero:{{ item.genero }}</p>
-            <p>Cidade:{{ item.id_cidade }}</p>
-            <img :src="item.endereco_foto"/>
+    <div id="corpo">  
+        <div id="main">
+            <div id="dados" v-for="item in autor.autor" :key="item.id">
+                <span id="nome">{{ item.nome }}</span>
+                {{ item.profissao }}
+                {{ item.email }}
+                Biografia:{{ item.biografia }}
+                Cidade:{{ item.id_cidade }}
+            </div>
+            <div id="foto" v-for="item in autor.autor" :key="item.id">
+                    <img :src="item.endereco_foto"/>
+            </div>
         </div>
         <div>
             <h2>Obras publicadas:</h2>
@@ -88,12 +90,40 @@
 </script>
     
 <style scoped>
+    #corpo{
+        text-align: center; 
+    }
+    #main{
+        display: -webkit-inline-box;
+    }
+    #nome{
+        text-align: left;
+    }
+    #dados{
+        border: 1px solid;
+        border-radius: 15%;
+        width: 60%;
+    }
+    #foto{
+        margin-left: 50px;
+    }
+    img{
+        border-radius: 50%;
+    }
     .container{
-        background-color: beige;
-        margin: 10px;
+        background-color: #006919;
+        margin-top: 10px;
+        height: 40px;
+        border-radius: 30px;
+        font-size: 22px;
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        color: white;
+        width: 740px;
    }
     img{
-      width: 60px;
-      height: 60px 
+      width: 180px;
+      height: 180px 
    }
 </style>

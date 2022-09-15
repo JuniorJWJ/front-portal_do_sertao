@@ -2,6 +2,7 @@
   <div>
     <!-- <NavbarNav /> -->
     Home
+    
   </div>
 </template>
 
