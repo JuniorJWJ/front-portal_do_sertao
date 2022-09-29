@@ -1,27 +1,25 @@
 <template>
     <div>
-        <form id="user-form" @submit="logUser">
-            <fieldset class="grupo">
-                <div class="campo">
-                    <label for="login">Login:</label>
-                    <input 
-                        type="text" 
-                        id="login" 
-                        name="email"
-                        v-model="email"
-                    />
+        <form class="form-group container" id="user-form" @submit="logUser">
+            <div class="campo">
+                <label for="login">Login:</label>
+                <input 
+                    type="text" 
+                    id="login" 
+                    name="email"
+                    v-model="email"
+                    class="form-control"
+                />
+                <label for="password">Senha:</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password"
+                    v-model="password"
+                    class="form-control"
+                />
+                <button class="btn btn-success" type="submit">Logar</button>
                 </div>
-                <div class="campo">
-                    <label for="password">Senha:</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password"
-                        v-model="password"
-                    />
-                </div>
-            </fieldset>
-            <button type="submit">Logar</button>
         </form> 
     </div>
 </template>
@@ -66,10 +64,23 @@
 </script>
     
 <style scoped>
-    form{
-  align-items: center
-    }
     input{
         width:300px;
+    }
+    .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    label{
+        text-align: left;
+        display: flex;
+        margin-top: 12px;
+    }
+    button{
+        margin-top: 12px;
+        width: 100%;
+        text-transform: uppercase;
     }
 </style>

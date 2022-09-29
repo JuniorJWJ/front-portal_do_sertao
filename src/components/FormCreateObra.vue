@@ -106,24 +106,24 @@
         }
     </script>
         
-    <style scoped>
-        .container {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-        }
-        label{
-            text-align: left;
-            display: flex;
-            margin-top: 12px;
-        }
-        button{
-            margin-top: 12px;
-            width: 100%;
-            text-transform: uppercase;
-        }
-        #customFile{
-            margin-top: 12px;
-        }
-    </style>
+<style scoped>
+    .container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+    label{
+        text-align: left;
+        display: flex;
+        margin-top: 12px;
+    }
+    button{
+        margin-top: 12px;
+        width: 100%;
+        text-transform: uppercase;
+    }
+    #customFile{
+        margin-top: 12px;
+    }
+</style>

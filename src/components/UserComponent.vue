@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h1>Chegou aqui</h1>
-        {{users}}
+        <h1>Bem vindo, ADM</h1>
     </div>
 </template>
 <script>
