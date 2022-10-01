@@ -6,24 +6,28 @@
           v-for="nomecidade in Cidade.cidade"
           :key="nomecidade.nome"
           :value="nomecidade.id"
-          @click="getAutorFiltroCidade(nomecidade.id)"> 
+          @click="toggleFilterOption(nomecidade.id)"
+          :class="[activeFilterOption === nomecidade.id ? 'activeOption' : '']"> 
           {{ nomecidade.nome }}
-          <div class="row"></div>
+          <i v-show="activeFilterOption === nomecidade.id" class="bi-check"></i>
         </li>
       </ul>
     </div>
-    <div id="listaAutorMain">
+    <section id="listaAutorMain">
       <div id="pesquisaAutor">
         <input v-model="searchQuery" class="form-control inputsearch" placeholder="Digite o nome do Autor...">
       </div>
-      <div class="container" 
+      <article class="container" 
         v-for="r of resultQuery" 
         :key="r.id" 
         @click="show_autor(r.id)">
-        <img :src="r.endereco_foto"/>
-        {{r.nome}}
-      </div>
-    </div>
+        <div>
+          <img :src="r.endereco_foto"/>
+          {{r.nome}}
+        </div>
+        <i class="bi-chevron-right"></i>
+      </article>
+    </section>
   </div>
 </template>
 <script>
@@ -35,7 +39,8 @@
         autores: [],
         searchQuery: null,
         autor: "",
-        Cidade: []
+        Cidade: [],
+        activeFilterOption: ""
       }
     },
     methods: {
@@ -74,6 +79,16 @@
       show_autor(id){
         this.$router.push({name: "AutorShow", params: {id: id}})
       },
+      toggleFilterOption(itemId){
+        if (this.activeFilterOption === itemId) {
+          this.activeFilterOption = ""
+          this.getAutores()
+          return
+        }
+
+        this.getAutorFiltroCidade(itemId)
+        this.activeFilterOption = itemId
+      },
     },
     mounted () {
         this.getAutores(), this.getCidades();
@@ -103,35 +118,50 @@
   outline: none;
   font-size: 22px;
 }
+#barraLateralAutor ul li:hover,
+.activeOption {
+  background-color: #dad8d8;
+}
 #mainAutor {
   display: flex;
 }
 #listaAutorMain {
-  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .container {
-  background-color: #006919;
-  margin-top: 10px;
-  height: 50px;
-  border-radius: 30px;
+  background-color: #fafafa;
+  box-shadow: 3px 2px 7px rgba(0, 0, 0, 0.15);
+  border: 1px solid #D2D2D2;
+  border-radius: 16px;
   font-size: 22px;
-  flex-direction: column;
-  color: white;
-  width: 740px;
+  color: #3B3B3B;
+  width: 100%;
+  padding: 10px 15px;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: all ease .5s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .container:hover {
-  font-weight: bold;
+  background-color: #a2691a;
+  color: #F2F2F2;
 }
 img{
-  width: 60px;
-  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  margin-right: 10px;
 }
 ul li{
   list-style-type: none;
 }
 .inputsearch{
+  border-radius: 8px;
   width: 740px;
-  border-radius: 30px;
 }
 img{
   width: 40px;

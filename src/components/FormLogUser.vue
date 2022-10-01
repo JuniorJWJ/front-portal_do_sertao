@@ -1,25 +1,23 @@
 <template>
     <div>
-        <form class="form-group container" id="user-form" @submit="logUser">
-            <div class="campo">
-                <label for="login">Login:</label>
-                <input 
-                    type="text" 
-                    id="login" 
-                    name="email"
-                    v-model="email"
-                    class="form-control"
-                />
-                <label for="password">Senha:</label>
-                <input 
-                    type="password" 
-                    id="password" 
-                    name="password"
-                    v-model="password"
-                    class="form-control"
-                />
-                <button class="btn btn-success" type="submit">Logar</button>
-                </div>
+        <form id="user-form" @submit="logUser">
+            <label for="login">Login:</label>
+            <input 
+                type="text" 
+                id="login" 
+                name="email"
+                v-model="email"
+                class="form-control"
+            />
+            <label for="password">Senha:</label>
+            <input 
+                type="password" 
+                id="password" 
+                name="password"
+                v-model="password"
+                class="form-control"
+            />
+            <button type="submit">Logar</button>
         </form> 
     </div>
 </template>
@@ -67,20 +65,25 @@
     input{
         width:300px;
     }
-    .container {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-    }
     label{
         text-align: left;
         display: flex;
         margin-top: 12px;
     }
-    button{
-        margin-top: 12px;
+    button {
+        background-color: #a2691a;
+        border-radius: 10px;
+        border: none;
+        font-size: 22px;
+        color: #F2F2F2;
+        text-transform: capitalize;
+        padding: 5px 10px;
+        margin: 10px auto;
+        cursor: pointer;
+        transition: all ease .5s;
         width: 100%;
-        text-transform: uppercase;
+    }
+    button:hover {
+        background-color: #c9872c;
     }
 </style>

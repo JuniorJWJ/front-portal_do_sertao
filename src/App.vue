@@ -1,7 +1,9 @@
 <template>
-  <router-view/>
-  <NavbarNav />
-  <FooterFoot />
+  <main>
+    <NavbarNav />
+    <router-view/>
+    <FooterFoot />
+  </main>
 </template>
 
 <script>
@@ -18,14 +20,14 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+main {
+  font-family: 'Roboto', sans-serif;
   color: #2c3e50;
-  margin-top: 200px;
-  max-width: 1123px;
-  margin: 150px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  overflow-x: hidden;
 }
 </style>

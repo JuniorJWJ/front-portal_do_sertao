@@ -1,22 +1,47 @@
 <template>
-    <div id="corpo">  
-        <div id="main">
-            <div id="dados" v-for="item in autor.autor" :key="item.id">
-                <span id="nome">{{ item.nome }}</span>
-                {{ item.profissao }}
-                {{ item.email }}
-                Biografia:{{ item.biografia }}
-                Cidade:{{ item.id_cidade }}
-            </div>
+    <div class="body">  
+        <section id="main">
             <div id="foto" v-for="item in autor.autor" :key="item.id">
-                    <img :src="item.endereco_foto"/>
+              <img :src="item.endereco_foto"/>
             </div>
-        </div>
-        <div>
-            <h2>Obras publicadas:</h2>
+            <div class="content" v-for="item in autor.autor" :key="item.id">
+                <div>
+                  <article>
+                    <span>Nome</span>
+                    <h5>{{ item.nome }}</h5>
+                  </article>
+
+                  <article>
+                    <span>Profissão</span>
+                    <h5>{{ item.profissao }}</h5>
+                  </article>
+                </div>
+
+                <div>
+                  <article>
+                    <span>Email</span>
+                    <h5>{{ item.email }}</h5>
+                  </article>
+
+                  <article>
+                    <span>Cidade</span>
+                    <h5>{{ item.id_cidade }}</h5>
+                  </article>
+                </div>
+                
+                <div>
+                  <article>
+                    <span>Biografia</span>
+                    <h5>{{ item.biografia }}</h5>
+                  </article>
+                </div>
+            </div>
+        </section>
+        <h2>Obras publicadas:</h2>
+        <div class="obrasContainer">
             <div class="container" v-for="item in obras.obra" :key="item.id" @click="show_obra(item.id)">
-                {{ item.id }}
-                {{item.nome}}
+                <span>{{item.nome}}</span>
+                <i class="bi-chevron-right"></i>
             </div> 
         </div>
     </div>
@@ -89,40 +114,62 @@
 </script>
     
 <style scoped>
-    #corpo{
-        text-align: center; 
-    }
-    #main{
-        display: -webkit-inline-box;
-    }
-    #nome{
-        text-align: left;
-    }
-    #dados{
-        border: 1px solid;
-        border-radius: 15%;
-        width: 60%;
-    }
-    #foto{
-        margin-left: 50px;
-    }
-    img{
-        border-radius: 50%;
-    }
-    .container{
-        background-color: #006919;
-        margin-top: 10px;
-        height: 40px;
-        border-radius: 30px;
-        font-size: 22px;
-        display:flex;
-        flex-direction: column;
-        justify-content: center;
-        color: white;
-        width: 740px;
-   }
-    img{
-      width: 180px;
-      height: 180px 
-   }
+.body {
+  text-align: left;
+}
+#main {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  text-align: left;
+  margin-bottom: 30px;
+}
+#foto img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+}
+.content {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+.content div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.content div article {
+  max-width: 300px;
+  word-wrap: break-word;
+}
+.obrasContainer {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 15px;
+}
+.container {
+  background-color: #fafafa;
+  box-shadow: 3px 2px 7px rgba(0, 0, 0, 0.15);
+  border: 1px solid #D2D2D2;
+  border-radius: 16px;
+  font-size: 22px;
+  color: #3B3B3B;
+  width: 100%;
+  padding: 10px 15px;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: all ease .5s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.container:hover {
+  background-color: #a2691a;
+  color: #F2F2F2;
+}
+img{
+    width: 180px;
+    height: 180px 
+}
 </style>

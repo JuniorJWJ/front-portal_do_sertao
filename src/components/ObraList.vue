@@ -6,25 +6,27 @@
           v-for="nomegeneroliterario in GenerosLiterarios.generoLiterario"
           :key="nomegeneroliterario.nome"
           :value="nomegeneroliterario.id"
-          @click="getObrasFiltroGenero(nomegeneroliterario.id)">
+          @click="toggleFilterOption(nomegeneroliterario.id)"
+          :class="[activeFilterOption === nomegeneroliterario.id ? 'activeOption' : '']">
           {{ nomegeneroliterario.nome }}
-          <div class="row"></div>
+          <i v-show="activeFilterOption === nomegeneroliterario.id" class="bi-check"></i>
         </li>
       </ul>
     </div>
-    <div id="listaObraMain">
+    <section id="listaObraMain">
       <div id="pesquisaObra">
         <input placeholder="Pesquisar obra" class="form-control inputsearch"  v-model="searchQuery" />
       </div>
-      <div
+      <article
         class="container"
         v-for="r of resultQuery"
         :key="r.id"
         @click="show_obra(r.id)"
       >
         {{ r.nome }}
-      </div>
-    </div>
+        <i class="bi-chevron-right"></i>
+      </article>
+    </section>
   </div>
 </template>
 <script>
@@ -37,7 +39,7 @@
         obrasBegin: [],
         searchQuery: null,
         obra: '',
-        //...
+        activeFilterOption: "",
         GenerosLiterarios: [],
       };
     },
@@ -81,6 +83,16 @@
       show_obra(id) {
         this.$router.push({ name: 'ObraShow', params: { id: id } });
       },
+      toggleFilterOption(itemId){
+        if (this.activeFilterOption === itemId) {
+          this.activeFilterOption = ""
+          this.getObras()
+          return
+        }
+
+        this.getObrasFiltroGenero(itemId)
+        this.activeFilterOption = itemId
+      },
     },
     mounted() {
       this.getObras(), this.getGenerosLiterarios();
@@ -110,33 +122,43 @@
   outline: none;
   font-size: 22px;
 }
+#barraLateralObra ul li:hover,
+.activeOption {
+  background-color: #dad8d8;
+}
 #mainObra {
   display: flex;
 }
 #listaObraMain {
-  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 .container {
-  background-color: #006919;
-  margin-top: 10px;
-  height: 40px;
-  border-radius: 30px;
+  background-color: #a2691a;
+  box-shadow: 3px 2px 7px rgba(0, 0, 0, 0.15);
+  border: 1px solid #D2D2D2;
+  border-radius: 16px;
   font-size: 22px;
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  color: white;
-  width: 740px;
+  color: #F2F2F2;
+  width: 100%;
+  padding: 10px 15px;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: all ease .5s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .container:hover {
-  font-weight: bold;
+  background-color: #c9872c;
 }
 ul li{
   list-style-type: none;
 }
 .inputsearch{
+  border-radius: 8px;
   width: 740px;
-  border-radius: 30px;
 }
 img{
   width: 40px;

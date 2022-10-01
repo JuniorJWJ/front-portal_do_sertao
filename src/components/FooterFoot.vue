@@ -17,11 +17,9 @@ export default {
 </script>
 <style scoped>
   footer{
-    position: fixed; 
-    bottom: 0;
-    width: 100%;
-    left: 0;
-    background-image: url("../assets/nav.jpg");
+    margin-top: 50px;
+    background-color: #f2f2f2;
+    width: 100vw;
   }
   #logoifba{
     width: 320px;

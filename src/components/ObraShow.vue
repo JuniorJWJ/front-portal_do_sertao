@@ -1,21 +1,32 @@
 <template>
-    <div >
-        <div>
-            id:{{ obra.id }}
-            <br>
-            Nome da Obra: {{ obra.nome }}
-            <br>
-            Autor: {{ obra.id_autor}}
-            <br>
-            Gênero literário: {{ obra.id_genero_literario}}
-            <div @click="go_link()">
-                Link  <a :href='obra.endereco_pdf'>{{obra.nome}}</a>
-            </div>
-           
-        </div>
-        <div>
-            
-        </div>
+    <div class="container">
+      <article>
+        <span>Nome da Obra</span>
+        <h5>{{ obra.nome }}</h5>
+      </article>
+      <article>
+        <span>Autor</span>
+        <h5>{{ obra.id_autor}}</h5>
+      </article>
+      <article>
+        <span>Gênero literário</span>
+        <h5>{{ obra.id_genero_literario}}</h5>
+      </article>
+      <div class="action">
+        <a @click="goBack()">
+          <button>
+            <i class="bi-chevron-left"></i>
+            <span>Voltar</span>
+          </button>
+        </a>
+
+        <a href="{{endereco_pdf}}" target="_blank">
+          <button>
+            <span>Acessar Obra</span>
+            <i class="bi-chevron-right"></i>
+          </button>
+        </a>
+      </div>
     </div>
 </template>
 
@@ -75,8 +86,8 @@
                     console.log(error);
                 });
             },
-            go_link(){
-                 window.location.href = this.obra.endereco_pdf;
+            goBack() {
+              window.history.back()
             }
         },
         created() {
@@ -86,8 +97,56 @@
 </script>
     
 <style scoped>
-    img{
-      width: 60px;
-      height: 60px 
-   }
+img{
+    width: 60px;
+    height: 60px 
+}
+.container {
+  background-color: #fafafa;
+  box-shadow: 3px 2px 7px rgba(0, 0, 0, 0.15);
+  border: 1px solid #D2D2D2;
+  border-radius: 16px;
+  font-size: 22px;
+  color: #3B3B3B;
+  text-transform: capitalize;
+  padding: 0;
+  width: 600px;
+}
+.container article {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #d2d2d2a1;
+  padding: 10px 20px;
+}
+.container article h5 {
+  font-weight: 500;
+}
+.container a {
+  text-decoration: none;
+}
+.action {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.container button {
+  background-color: #a2691a;
+  border-radius: 10px;
+  border: none;
+  font-size: 22px;
+  color: #F2F2F2;
+  text-transform: capitalize;
+  padding: 5px 10px;
+  margin: 10px 0;
+  cursor: pointer;
+  transition: all ease .5s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.container button:hover {
+  background-color: #c9872c;
+}
 </style>
