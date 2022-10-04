@@ -20,7 +20,7 @@
           </button>
         </a>
 
-        <a href="{{endereco_pdf}}" target="_blank">
+        <a :href='obra.endereco_pdf' target="_blank">
           <button>
             <span>Acessar Obra</span>
             <i class="bi-chevron-right"></i>
