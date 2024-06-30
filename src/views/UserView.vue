@@ -5,12 +5,12 @@
 </template>
 
 <script>
-  import UserComponent from "../components/UserComponent.vue"
+import UserComponent from '../components/UserComponent.vue'
 
-  export default{
-    name: "UserView",
-    components:{
-      UserComponent
-    }
-  }
+export default {
+  name: 'UserView',
+  components: {
+    UserComponent,
+  },
+}
 </script>

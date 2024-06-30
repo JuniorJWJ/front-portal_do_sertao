@@ -4,43 +4,21 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">Código Obra</th>
+          <th scope="col">ID</th>
           <th class="nomeobratabela" scope="col">Nome</th>
-          <th scope="col">Link Obra</th>
           <th scope="col">Opções</th>
-          <th scope="col">Status</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in obras.obra" :key="item.id">
           <th scope="row">{{ item.id }}</th>
           <td class="nomeobratabela">{{ item.nome }}</td>
-          <td class="endereco_pdf">
-            <a :href="item.endereco_pdf" target="_blank">
-              <button class="btn botaoacessarobra">
-                <span>Acessar Obra</span>
-                <i ></i>
-              </button>
-            </a> 
-          </td>
           <td>
             <button @click="editObras(item.id)" class="btn btn buttonedit">
               Editar
             </button>
             <button @click="deleteObras(item.id)" class="btn btn buttondelet">
               Excluir
-            </button>
-          </td>
-          <td>
-            <button
-              @click="approvObras(item.id)"
-              class="btn"
-              :class="{
-                'btn-warning': item.aprovado === 0,
-                'btn-success': item.aprovado === 1,
-              }"
-            >
-              {{ item.aprovado === 1 ? 'Aprovada' : 'Pendente' }}
             </button>
           </td>
         </tr>
@@ -51,17 +29,29 @@
 
 <script>
 import axios from 'axios'
+import jwtDecode from 'jwt-decode'
+
 export default {
-  name: 'ObraEditList',
+  name: 'MinhasObras',
+  mounted() {
+    const token = localStorage.getItem('token')
+    if (token) {
+      const decodedToken = jwtDecode(token)
+      this.userId = decodedToken.id
+    }
+    this.getObras(this.userId)
+  },
   data() {
     return {
       obras: [],
+      userId: null,
+      token: null,
     }
   },
   methods: {
     getObras() {
       axios
-        .get('http://localhost:3000/lista_obra_adm')
+        .get(`http://localhost:3000/lista_obra/autor/${this.userId}`)
         .then((res) => {
           this.obras = res.data
         })
@@ -70,6 +60,7 @@ export default {
         })
     },
     deleteObras(id) {
+      console.log('id dentro de deleteobras: ' + id)
       axios
         .delete(`http://localhost:3000/obra/delete/${id}`)
         .then(() => {
@@ -82,19 +73,6 @@ export default {
     editObras(id) {
       this.$router.push({ name: 'ObraEditView', params: { id: id } })
     },
-    approvObras(id) {
-      axios
-        .patch(`http://localhost:3000/obra/approv/${id}`)
-        .then(() => {
-          this.getObras()
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    },
-  },
-  mounted() {
-    this.getObras()
   },
 }
 </script>
@@ -123,18 +101,5 @@ button {
 .corpo {
   height: 100%;
   padding-bottom: 40px;
-}
-.botaoacessarobra {
-  background-color: #343a40;
-  border-radius: 10px;
-  border: none;
-  font-size: 15px;
-  color: #f2f2f2;
-  text-transform: capitalize;
-  cursor: pointer;
-  transition: all ease 0.5s;
-  align-items: center;
-  gap: 5px;
-  padding: 8px 4px;
 }
 </style>

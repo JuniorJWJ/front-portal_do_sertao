@@ -90,9 +90,19 @@
 
 <script>
 import axios from 'axios'
+import jwtDecode from 'jwt-decode'
 
 export default {
   name: 'FormEditAutor',
+  mounted() {
+    const token = localStorage.getItem('token')
+    if (token) {
+      const decodedToken = jwtDecode(token)
+      this.userId = decodedToken.id
+    }
+    this.getAutor(this.userId)
+    this.getCidades()
+  },
   data() {
     return {
       id: this.$route.params.id,
@@ -105,6 +115,8 @@ export default {
       select_cidade: '',
       select_genero: '',
       ImagePreview: '',
+      userId: null,
+      token: null,
     }
   },
   methods: {
@@ -132,10 +144,10 @@ export default {
       }
       try {
         await axios.put(
-          `http://localhost:3000/autor/update/${this.id}`,
+          `http://localhost:3000/autor/update/${this.userId}`,
           formData
         )
-        this.$router.push({ name: 'AutorEditList' })
+        this.$router.push({ name: 'AutorPerfilView' })
       } catch (err) {
         console.log(err)
       }
@@ -162,9 +174,6 @@ export default {
           console.log(error)
         })
     },
-  },
-  mounted() {
-    this.getAutor(this.$route.params.id), this.getCidades()
   },
 }
 </script>

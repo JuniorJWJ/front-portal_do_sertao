@@ -8,7 +8,7 @@
 import FormCreateAutor from '../components/FormCreateAutor.vue'
 
 export default {
-  name: 'AutorCreate',
+  name: 'AutorRegisterView',
   components: {
     FormCreateAutor,
   },

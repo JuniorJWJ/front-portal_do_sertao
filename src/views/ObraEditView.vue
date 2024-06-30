@@ -5,12 +5,12 @@
 </template>
 
 <script>
-  import FormEditObra from "../components/FormEditObra.vue"
+import FormEditObra from '../components/FormEditObra.vue'
 
-  export default{
-    name: "ObraEditView",
-    components:{
-      FormEditObra
-    }
-  }
+export default {
+  name: 'ObraEditView',
+  components: {
+    FormEditObra,
+  },
+}
 </script>

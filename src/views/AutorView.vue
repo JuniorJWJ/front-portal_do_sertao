@@ -5,12 +5,12 @@
 </template>
 
 <script>
-  import AutorList from "../components/AutorList.vue"
+import AutorList from '../components/AutorList.vue'
 
-  export default{
-    name: "AutorView",
-    components:{
-      AutorList
-    }
-  }
+export default {
+  name: 'AutorView',
+  components: {
+    AutorList,
+  },
+}
 </script>

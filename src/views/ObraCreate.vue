@@ -5,12 +5,12 @@
 </template>
 
 <script>
-  import FormCreateObra from "../components/FormCreateObra.vue"
+import FormCreateObra from '../components/FormCreateObra.vue'
 
-  export default{
-    name: "ObraCreate",
-    components:{
-      FormCreateObra
-    }
-  }
+export default {
+  name: 'ObraCreate',
+  components: {
+    FormCreateObra,
+  },
+}
 </script>

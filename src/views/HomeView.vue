@@ -1,18 +1,17 @@
 <template>
   <div>
     <!-- <NavbarNav /> -->
-    Home
-    
+    <Registrese />
   </div>
 </template>
 
 <script>
 //   import NavbarNav from "../components/NavbarNav.vue"
-
-  export default{
-    // name: "AutorView",
-    components:{
-    //   NavbarNav
-    }
-  }
+import Registrese from '../components/Registrese.vue'
+export default {
+  name: 'HomeView',
+  components: {
+    Registrese,
+  },
+}
 </script>

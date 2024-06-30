@@ -5,12 +5,12 @@
 </template>
 
 <script>
-  import FormEditAutor from "../components/FormEditAutor.vue"
+import FormEditAutor from '../components/FormEditAutor.vue'
 
-  export default{
-    name: "AutorEditView",
-    components:{
-      FormEditAutor
-    }
-  }
+export default {
+  name: 'AutorEditView',
+  components: {
+    FormEditAutor,
+  },
+}
 </script>

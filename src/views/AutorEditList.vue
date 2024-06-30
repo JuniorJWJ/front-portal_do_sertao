@@ -5,12 +5,12 @@
 </template>
 
 <script>
-  import AutorComponent from "../components/AutorEditList.vue"
+import AutorComponent from '../components/AutorEditList.vue'
 
-  export default{
-    name: "AutorEditList",
-    components:{
-      AutorComponent
-    }
-  }
+export default {
+  name: 'AutorEditList',
+  components: {
+    AutorComponent,
+  },
+}
 </script>

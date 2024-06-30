@@ -5,12 +5,12 @@
 </template>
 
 <script>
-  import ObraComponent from "../components/ObraEditList.vue"
+import ObraComponent from '../components/ObraEditList.vue'
 
-  export default{
-    name: "ObraEditList",
-    components:{
-      ObraComponent
-    }
-  }
+export default {
+  name: 'ObraEditList',
+  components: {
+    ObraComponent,
+  },
+}
 </script>

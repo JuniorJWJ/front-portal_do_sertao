@@ -1,7 +1,7 @@
 <template>
   <main>
     <NavbarNav />
-    <router-view/>
+    <router-view />
     <FooterFoot />
   </main>
 </template>
@@ -14,8 +14,8 @@ export default {
   name: 'App',
   components: {
     NavbarNav,
-    FooterFoot
-  }
+    FooterFoot,
+  },
 }
 </script>
 

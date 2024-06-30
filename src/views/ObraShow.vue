@@ -5,12 +5,12 @@
 </template>
 
 <script>
-  import ObraShowComponent from "../components/ObraShow.vue"
+import ObraShowComponent from '../components/ObraShow.vue'
 
-  export default{
-    name: "ObraShow",
-    components:{
-      ObraShowComponent
-    }
-  }
+export default {
+  name: 'ObraShow',
+  components: {
+    ObraShowComponent,
+  },
+}
 </script>

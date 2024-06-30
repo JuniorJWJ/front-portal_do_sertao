@@ -37,7 +37,7 @@
         </div>
       </div>
     </section>
-    <h2>Obras publicadas:</h2>
+    <!-- <h2>Obras publicadas:</h2>
     <div class="obrasContainer">
       <div
         class="container"
@@ -48,18 +48,27 @@
         <span>{{ item.nome }}</span>
         <i class="bi-chevron-right"></i>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import jwtDecode from 'jwt-decode'
 
 export default {
   name: 'AutorShow',
+  mounted() {
+    const token = localStorage.getItem('token')
+    if (token) {
+      const decodedToken = jwtDecode(token)
+      this.userId = decodedToken.id
+    }
+    this.getAutor(this.userId), this.getObras()
+  },
   data() {
     return {
-      id: this.$route.params.id,
+      // id: this.$route.params.id,
       autor: [],
       cidades: [],
       obras: [],
@@ -69,6 +78,8 @@ export default {
       email: '',
       select_cidade: '',
       select_genero: '',
+      userId: null,
+      token: null,
     }
   },
   methods: {
@@ -77,7 +88,7 @@ export default {
         .get(`http://localhost:3000/autor/${id}`)
         .then((res) => {
           this.autor = res.data
-          console.log(this.autor.autor[0].id_cidade)
+          // console.log(this.autor.autor[0].id_cidade)
           this.getCidade(this.autor.autor[0].id_cidade)
         })
         .catch((error) => {
@@ -89,7 +100,7 @@ export default {
         .get(`http://localhost:3000/cidade/${id}`)
         .then((res) => {
           this.cidade = res.data.cidade
-          console.log(this.cidade[0].nome)
+          // console.log(this.cidade[0].nome)
           this.autor.autor[0].id_cidade = this.cidade[0].nome
         })
         .catch((error) => {
@@ -101,6 +112,7 @@ export default {
         .get('http://localhost:3000/lista_obra')
         .then((res) => {
           this.obras = res.data
+          console.log(this.obras)
           this.obras.obra = this.obras.obra.filter(
             (item) => item.id_autor == this.id
           )
@@ -112,9 +124,6 @@ export default {
     show_obra(id) {
       this.$router.push({ name: 'ObraShow', params: { id: id } })
     },
-  },
-  mounted() {
-    this.getAutor(this.$route.params.id), this.getObras()
   },
 }
 </script>
