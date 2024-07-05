@@ -107,7 +107,7 @@ export default {
       }
       try {
         await axios.put(
-          `http://localhost:3000/obra/update/${this.id}`,
+          `${process.env.VUE_APP_API_URL}/obra/update/${this.id}`,
           formData
         )
         this.$router.push({ name: 'ObraEditList' })
@@ -117,7 +117,7 @@ export default {
     },
     getObra(id) {
       axios
-        .get(`http://localhost:3000/obra/${id}`)
+        .get(`${process.env.VUE_APP_API_URL}/obra/${id}`)
         .then((res) => {
           this.obra = res.data.obra[0]
           console.log(this.obra)
@@ -128,7 +128,7 @@ export default {
     },
     getAutores() {
       axios
-        .get(`http://localhost:3000/lista_autor`)
+        .get(`${process.env.VUE_APP_API_URL}/lista_autor`)
         .then((res) => {
           this.autores = res.data
         })
@@ -138,7 +138,7 @@ export default {
     },
     getGenerosLiterarios() {
       axios
-        .get(`http://localhost:3000/lista_generos_literarios`)
+        .get(`${process.env.VUE_APP_API_URL}/lista_generos_literarios`)
         .then((res) => {
           this.GenerosLiterarios = res.data
           console.log(this.GenerosLiterarios)

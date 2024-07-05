@@ -61,7 +61,7 @@ export default {
   methods: {
     getObras() {
       axios
-        .get('http://localhost:3000/lista_obra_adm')
+        .get('${process.env.VUE_APP_API_URL}/lista_obra_adm')
         .then((res) => {
           this.obras = res.data
         })
@@ -71,7 +71,7 @@ export default {
     },
     deleteObras(id) {
       axios
-        .delete(`http://localhost:3000/obra/delete/${id}`)
+        .delete(`${process.env.VUE_APP_API_URL}/obra/delete/${id}`)
         .then(() => {
           this.getObras()
         })
@@ -84,7 +84,7 @@ export default {
     },
     approvObras(id) {
       axios
-        .patch(`http://localhost:3000/obra/approv/${id}`)
+        .patch(`${process.env.VUE_APP_API_URL}/obra/approv/${id}`)
         .then(() => {
           this.getObras()
         })

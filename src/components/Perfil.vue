@@ -85,7 +85,7 @@ export default {
   methods: {
     getAutor(id) {
       axios
-        .get(`http://localhost:3000/autor/${id}`)
+        .get(`${process.env.VUE_APP_API_URL}/autor/${id}`)
         .then((res) => {
           this.autor = res.data
           // console.log(this.autor.autor[0].id_cidade)
@@ -97,7 +97,7 @@ export default {
     },
     getCidade(id) {
       axios
-        .get(`http://localhost:3000/cidade/${id}`)
+        .get(`${process.env.VUE_APP_API_URL}/cidade/${id}`)
         .then((res) => {
           this.cidade = res.data.cidade
           // console.log(this.cidade[0].nome)
@@ -109,7 +109,7 @@ export default {
     },
     getObras() {
       axios
-        .get('http://localhost:3000/lista_obra')
+        .get('${process.env.VUE_APP_API_URL}/lista_obra')
         .then((res) => {
           this.obras = res.data
           console.log(this.obras)

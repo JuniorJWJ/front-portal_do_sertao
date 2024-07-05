@@ -48,7 +48,7 @@ export default {
   methods: {
     getObra(id) {
       axios
-        .get(`http://localhost:3000/obra/${id}`)
+        .get(`${process.env.VUE_APP_API_URL}/obra/${id}`)
         .then((res) => {
           this.obra = res.data.obra[0]
           // console.log(this.obra);
@@ -62,7 +62,7 @@ export default {
     },
     getAutor(id) {
       axios
-        .get(`http://localhost:3000/autor/${id}`)
+        .get(`${process.env.VUE_APP_API_URL}/autor/${id}`)
         .then((res) => {
           this.autor = res.data.autor
           // console.log(this.autor[0].nome)
@@ -74,7 +74,7 @@ export default {
     },
     getGeneroLiterario(id) {
       axios
-        .get(`http://localhost:3000/genero_literario/${id}`)
+        .get(`${process.env.VUE_APP_API_URL}/genero_literario/${id}`)
         .then((res) => {
           this.genero_literario = res.data.generoLiterario
           // console.log(this.genero_literario)

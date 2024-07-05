@@ -58,7 +58,7 @@ export default {
   methods: {
     getAutores() {
       axios
-        .get('http://localhost:3000/lista_autor_adm')
+        .get('${process.env.VUE_APP_API_URL}/lista_autor_adm')
         .then((res) => {
           this.autores = res.data
         })
@@ -68,7 +68,7 @@ export default {
     },
     deleteAutores(id) {
       axios
-        .delete(`http://localhost:3000/autor/delete/${id}`)
+        .delete(`${process.env.VUE_APP_API_URL}/autor/delete/${id}`)
         .then(() => {
           this.getAutores()
         })
@@ -78,7 +78,7 @@ export default {
     },
     approvAutores(id) {
       axios
-        .patch(`http://localhost:3000/autor/approv/${id}`)
+        .patch(`${process.env.VUE_APP_API_URL}/autor/approv/${id}`)
         .then(() => {
           this.getAutores()
         })

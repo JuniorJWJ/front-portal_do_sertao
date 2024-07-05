@@ -135,7 +135,7 @@ export default {
       formData.append('select_genero_literario', this.select_genero_literario)
       console.log(formData)
       try {
-        await axios.post('http://localhost:3000/create_obra', formData)
+        await axios.post('${process.env.VUE_APP_API_URL}/create_obra', formData)
         this.$router.push({ name: 'MinhasObrasView' })
       } catch (err) {
         console.log(err)
@@ -143,7 +143,7 @@ export default {
     },
     getAutores(userId) {
       axios
-        .get(`http://localhost:3000/autor/${userId}`)
+        .get(`${process.env.VUE_APP_API_URL}/autor/${userId}`)
         .then((res) => {
           this.autores = res.data
           this.idAutor = (this.autores.autor[0].id)
@@ -154,7 +154,7 @@ export default {
     },
     getGenerosLiterarios() {
       axios
-        .get(`http://localhost:3000/lista_generos_literarios`)
+        .get(`${process.env.VUE_APP_API_URL}/lista_generos_literarios`)
         .then((res) => {
           this.GenerosLiterarios = res.data
           console.log(this.GenerosLiterarios)

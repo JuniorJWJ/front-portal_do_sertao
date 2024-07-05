@@ -51,7 +51,7 @@ export default {
   methods: {
     getObras() {
       axios
-        .get(`http://localhost:3000/lista_obra/autor/${this.userId}`)
+        .get(`${process.env.VUE_APP_API_URL}/lista_obra/autor/${this.userId}`)
         .then((res) => {
           this.obras = res.data
         })
@@ -62,7 +62,7 @@ export default {
     deleteObras(id) {
       console.log('id dentro de deleteobras: ' + id)
       axios
-        .delete(`http://localhost:3000/obra/delete/${id}`)
+        .delete(`${process.env.VUE_APP_API_URL}/obra/delete/${id}`)
         .then(() => {
           this.getObras()
         })

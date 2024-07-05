@@ -36,7 +36,7 @@ export default {
     getProfile(userId) {
       // console.log("dentro do get profile",userId)
       axios
-        .get(`http://localhost:3000/autor/${userId}`)
+        .get(`${process.env.VUE_APP_API_URL}/autor/${userId}`)
         .then((res) => {
           this.autor = res.data.autor[0]
           this.userName = this.autor.nome

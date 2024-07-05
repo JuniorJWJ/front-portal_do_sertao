@@ -56,7 +56,7 @@ export default {
   methods: {
     getObras() {
       axios
-        .get('http://localhost:3000/lista_obra')
+        .get('${process.env.VUE_APP_API_URL}/lista_obra')
         .then((res) => {
           this.obras = res.data
           console.log('opa')
@@ -69,7 +69,7 @@ export default {
     },
     getObrasFiltroGenero(id) {
       axios
-        .get(`http://localhost:3000/lista_obra/genero/${id}`)
+        .get(`${process.env.VUE_APP_API_URL}/lista_obra/genero/${id}`)
         .then((res) => {
           this.obras = res.data
           console.log('procurei no banco')
@@ -84,7 +84,7 @@ export default {
     //...
     getGenerosLiterarios() {
       axios
-        .get(`http://localhost:3000/lista_generos_literarios`)
+        .get(`${process.env.VUE_APP_API_URL}/lista_generos_literarios`)
         .then((res) => {
           this.GenerosLiterarios = res.data
           // console.log(this.GenerosLiterarios)

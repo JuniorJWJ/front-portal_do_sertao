@@ -53,7 +53,7 @@ export default {
   methods: {
     getAutores() {
       axios
-        .get('http://localhost:3000/lista_autor')
+        .get('${process.env.VUE_APP_API_URL}/lista_autor')
         .then((res) => {
           this.autores = res.data
         })
@@ -63,7 +63,7 @@ export default {
     },
     getAutorFiltroCidade(id) {
       axios
-        .get(`http://localhost:3000/lista_autor/cidade/${id}`)
+        .get(`${process.env.VUE_APP_API_URL}/lista_autor/cidade/${id}`)
         .then((res) => {
           this.autores = res.data
         })
@@ -74,7 +74,7 @@ export default {
     //...
     getCidades() {
       axios
-        .get(`http://localhost:3000/lista_cidade`)
+        .get(`${process.env.VUE_APP_API_URL}/lista_cidade`)
         .then((res) => {
           this.Cidade = res.data
           // console.log(this.GenerosLiterarios)

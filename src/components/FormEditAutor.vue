@@ -132,7 +132,7 @@ export default {
       }
       try {
         await axios.put(
-          `http://localhost:3000/autor/update/${this.id}`,
+          `${process.env.VUE_APP_API_URL}/autor/update/${this.id}`,
           formData
         )
         this.$router.push({ name: 'AutorEditList' })
@@ -142,7 +142,7 @@ export default {
     },
     getAutor(id) {
       axios
-        .get(`http://localhost:3000/autor/${id}`)
+        .get(`${process.env.VUE_APP_API_URL}/autor/${id}`)
         .then((res) => {
           this.autor = res.data.autor[0]
           console.log(this.autor)
@@ -154,7 +154,7 @@ export default {
     },
     getCidades() {
       axios
-        .get(`http://localhost:3000/lista_cidade`)
+        .get(`${process.env.VUE_APP_API_URL}/lista_cidade`)
         .then((res) => {
           this.cidades = res.data
         })

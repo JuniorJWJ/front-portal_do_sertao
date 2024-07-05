@@ -147,7 +147,7 @@ export default {
       formData.append('genero', this.genero)
       console.log(formData)
       try {
-        await axios.post('http://localhost:3000/create_autor', formData)
+        await axios.post('${process.env.VUE_APP_API_URL}/create_autor', formData)
         this.$router.push({ name: 'HomeView' })
       } catch (err) {
         console.log(err)
@@ -166,13 +166,13 @@ export default {
         id_cidade: this.select_cidade,
         genero: this.genero,
         endereco_foto: this.file
-          ? `http://localhost:3000/images/${this.file.name}`
+          ? `${process.env.VUE_APP_API_URL}/images/${this.file.name}`
           : '',
       }
       console.log(data)
       const dataJson = JSON.stringify(data)
       // const res =
-      await fetch(`http://localhost:3000/create_autor`, {
+      await fetch(`${process.env.VUE_APP_API_URL}/create_autor`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         //credentials: "include",
@@ -188,7 +188,7 @@ export default {
     },
     getCidades() {
       axios
-        .get(`http://localhost:3000/lista_cidade`)
+        .get(`${process.env.VUE_APP_API_URL}/lista_cidade`)
         .then((res) => {
           this.cidades = res.data
         })
