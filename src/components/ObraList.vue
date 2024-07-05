@@ -61,7 +61,7 @@ export default {
           this.obras = res.data
           console.log('opa')
           // this.obrasBegin = res.data;
-          // console.log(this.obras);
+          console.log(this.obras);
         })
         .catch((error) => {
           console.log(error)
