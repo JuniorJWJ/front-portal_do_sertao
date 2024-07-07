@@ -109,7 +109,7 @@ export default {
     },
     getObras() {
       axios
-        .get('${process.env.VUE_APP_API_URL}/lista_obra')
+        .get(`${process.env.VUE_APP_API_URL}/lista_obra`)
         .then((res) => {
           this.obras = res.data
           console.log(this.obras)

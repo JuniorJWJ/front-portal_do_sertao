@@ -53,7 +53,7 @@ export default {
   methods: {
     getAutores() {
       axios
-        .get('${process.env.VUE_APP_API_URL}/lista_autor')
+        .get(`${process.env.VUE_APP_API_URL}/lista_autor`)
         .then((res) => {
           this.autores = res.data
         })

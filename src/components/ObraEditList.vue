@@ -61,7 +61,7 @@ export default {
   methods: {
     getObras() {
       axios
-        .get('${process.env.VUE_APP_API_URL}/lista_obra_adm')
+        .get(`${process.env.VUE_APP_API_URL}/lista_obra_adm`)
         .then((res) => {
           this.obras = res.data
         })

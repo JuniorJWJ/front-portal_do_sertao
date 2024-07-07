@@ -147,7 +147,7 @@ export default {
       formData.append('genero', this.genero)
       console.log(formData)
       try {
-        await axios.post('${process.env.VUE_APP_API_URL}/create_autor', formData)
+        await axios.post(`${process.env.VUE_APP_API_URL}/create_autor`, formData)
         this.$router.push({ name: 'HomeView' })
       } catch (err) {
         console.log(err)

@@ -56,7 +56,7 @@ export default {
         password: this.password,
       }
       const dataJson = JSON.stringify(data)
-      const res = await fetch('${process.env.VUE_APP_API_URL}/autor/log', {
+      const res = await fetch(`${process.env.VUE_APP_API_URL}/autor/log`, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         //credentials: "include",
