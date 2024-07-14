@@ -5,7 +5,7 @@ import router from './router'
 
 // Vue.use(BootstrapVue)
 // Vue.use(IconsPlugin)
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap/dist/js/bootstrap.js";
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.js'
 
 createApp(App).use(router).mount('#app')

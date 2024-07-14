@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <h2 class="titulo">Cadastrar Obra</h2>
@@ -16,13 +15,12 @@
           class="form-control"
           v-model="nome"
         />
-<!-- {{ select_autor }} -->
+        <!-- {{ select_autor }} -->
         <!-- <input type="hidden" 
        name="select_autor"
        id="select_autor"
        v-model="select_autor"
        :value="idAutor"> -->
-
 
         <!-- <label for="select_autor">Autor</label>
         <select
@@ -146,7 +144,7 @@ export default {
         .get(`${process.env.VUE_APP_API_URL}/autor/${userId}`)
         .then((res) => {
           this.autores = res.data
-          this.idAutor = (this.autores.autor[0].id)
+          this.idAutor = this.autores.autor[0].id
         })
         .catch((error) => {
           console.log(error)

@@ -3,5 +3,5 @@
 //   transpileDependencies: true
 // })
 module.exports = {
-  transpileDependencies: ['*']
+  transpileDependencies: ['*'],
 }

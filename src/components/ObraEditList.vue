@@ -19,9 +19,9 @@
             <a :href="item.endereco_pdf" target="_blank">
               <button class="btn botaoacessarobra">
                 <span>Acessar Obra</span>
-                <i ></i>
+                <i></i>
               </button>
-            </a> 
+            </a>
           </td>
           <td>
             <button @click="editObras(item.id)" class="btn btn buttonedit">

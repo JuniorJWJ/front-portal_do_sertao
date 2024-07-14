@@ -4,15 +4,25 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">ID</th>
-          <th class="nomeobratabela" scope="col">Nome</th>
+          <!-- <th scope="col">ID</th> -->
+          <th scope="col">Nome</th>
+          <th class="nomeobratabela" scope="col">Link Obra</th>
           <th scope="col">Opções</th>
+          <th scope="col">Status</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="item in obras.obra" :key="item.id">
-          <th scope="row">{{ item.id }}</th>
           <td class="nomeobratabela">{{ item.nome }}</td>
+          <td class="endereco_pdf">
+            <a :href="item.endereco_pdf" target="_blank">
+              <button class="btn botaoacessarobra">
+                <span>Acessar Obra</span>
+                <i></i>
+              </button>
+            </a>
+          </td>
+          <!-- <th scope="row">{{ item.id }}</th> -->
           <td>
             <button @click="editObras(item.id)" class="btn btn buttonedit">
               Editar
@@ -20,6 +30,9 @@
             <button @click="deleteObras(item.id)" class="btn btn buttondelet">
               Excluir
             </button>
+          </td>
+          <td>
+            {{ item.aprovado === 1 ? 'Aprovada' : 'Pendente' }}
           </td>
         </tr>
       </tbody>
@@ -101,5 +114,18 @@ button {
 .corpo {
   height: 100%;
   padding-bottom: 40px;
+}
+.botaoacessarobra {
+  background-color: #343a40;
+  border-radius: 10px;
+  border: none;
+  font-size: 15px;
+  color: #f2f2f2;
+  text-transform: capitalize;
+  cursor: pointer;
+  transition: all ease 0.5s;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 4px;
 }
 </style>

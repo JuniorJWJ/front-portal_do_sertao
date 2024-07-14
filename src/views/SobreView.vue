@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <NavbarNav /> -->
-    
+
     <SobreComponent />
   </div>
 </template>

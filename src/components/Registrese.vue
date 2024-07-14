@@ -36,7 +36,7 @@ export default {
     <main class="main">
       <section class="hero">
         <div class="hero-content">
-          <h2 class="hero-title">Bem-vindo ao Portal do Sertão {{ apiURL }}</h2>
+          <h2 class="hero-title">Bem-vindo ao Portal do Sertão</h2>
           <p class="hero-description">
             Uma plataforma para descobrir e compartilhar informações sobre a
             cultura do sertão.
@@ -61,7 +61,7 @@ export default {
   data() {
     return {
       activeNavItem: '', // Certifique-se de definir o valor adequado para a rota ativa
-      apiURL: process.env.VUE_APP_API_URL
+      apiURL: process.env.VUE_APP_API_URL,
     }
   },
 }
