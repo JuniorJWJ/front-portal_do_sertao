@@ -16,6 +16,7 @@
             v-model="email"
             class="form-control"
           />
+          <span v-if="errors.email" class="text-danger">{{ errors.email }}</span>
 
           <label for="password">Senha</label>
           <input
@@ -25,6 +26,7 @@
             v-model="password"
             class="form-control"
           />
+          <span v-if="errors.password" class="text-danger">{{ errors.password }}</span>
 
           <label for="confirmpassword">Confirmar senha</label>
           <input
@@ -34,6 +36,7 @@
             v-model="confirmpassword"
             class="form-control"
           />
+          <span v-if="errors.confirmpassword" class="text-danger">{{ errors.confirmpassword }}</span>
 
           <label for="nome">Nome</label>
           <input
@@ -43,6 +46,7 @@
             v-model="nome"
             class="form-control"
           />
+          <span v-if="errors.nome" class="text-danger">{{ errors.nome }}</span>
 
           <label for="Profissão">Profissão</label>
           <input
@@ -52,8 +56,9 @@
             v-model="profissao"
             class="form-control"
           />
+          <span v-if="errors.profissao" class="text-danger">{{ errors.profissao }}</span>
 
-          <label for="Email">Biografia</label>
+          <label for="Biografia">Biografia</label>
           <textarea
             id="biografia"
             name="biografia"
@@ -63,6 +68,7 @@
             v-model="biografia"
           >
           </textarea>
+          <span v-if="errors.biografia" class="text-danger">{{ errors.biografia }}</span>
 
           <label for="select_cidade">Cidade</label>
           <select
@@ -79,6 +85,7 @@
               {{ nomecidade.nome }}
             </option>
           </select>
+          <span v-if="errors.select_cidade" class="text-danger">{{ errors.select_cidade }}</span>
 
           <label for="genero">Gênero</label>
           <select
@@ -92,6 +99,7 @@
             <option>Feminino</option>
             <option>Prefiro não informar</option>
           </select>
+          <span v-if="errors.genero" class="text-danger">{{ errors.genero }}</span>
 
           <input
             type="file"
@@ -99,7 +107,10 @@
             @change="onSelect"
             class="form-control"
             id="customFile"
+            accept="image/jpeg, image/pjpeg, image/png"
           />
+          <span v-if="errors.file" class="text-danger">{{ errors.file }}</span>
+
           <button type="submit" class="btn btn-success">Salvar</button>
         </div>
       </fieldset>
@@ -121,21 +132,70 @@ export default {
       profissao: '',
       biografia: '',
       email: '',
+      password: '',
+      confirmpassword: '',
       select_cidade: '',
       genero: '',
       file: '',
       message: '',
+      errors: {},
     }
   },
   methods: {
     async onSelect() {
       const file = this.$refs.file.files[0]
-      this.file = file
-      console.log(this.file.name)
+      const acceptedTypes = ['image/jpeg', 'image/pjpeg', 'image/png']
+      
+      if (file && !acceptedTypes.includes(file.type)) {
+        this.errors.file = 'Somente arquivos JPEG e PNG são permitidos.'
+        this.file = ''
+      } else {
+        this.errors.file = ''
+        this.file = file
+      }
+    },
+    validateForm() {
+      this.errors = {}
+
+      if (!this.email) {
+        this.errors.email = 'Email é obrigatório.'
+      }
+      if (!this.password) {
+        this.errors.password = 'Senha é obrigatória.'
+      }
+      if (!this.confirmpassword) {
+        this.errors.confirmpassword = 'Confirmação de senha é obrigatória.'
+      } else if (this.password !== this.confirmpassword) {
+        this.errors.confirmpassword = 'As senhas não coincidem.'
+      }
+      if (!this.nome) {
+        this.errors.nome = 'Nome é obrigatório.'
+      }
+      if (!this.profissao) {
+        this.errors.profissao = 'Profissão é obrigatória.'
+      }
+      if (!this.biografia) {
+        this.errors.biografia = 'Biografia é obrigatória.'
+      }
+      if (!this.select_cidade) {
+        this.errors.select_cidade = 'Cidade é obrigatória.'
+      }
+      if (!this.genero) {
+        this.errors.genero = 'Gênero é obrigatório.'
+      }
+      if (!this.file) {
+        this.errors.file = 'Foto é obrigatória.'
+      }
+
+      return Object.keys(this.errors).length === 0
     },
     async onSubmit(e) {
-      console.log('oi')
       e.preventDefault()
+
+      if (!this.validateForm()) {
+        return
+      }
+
       const formData = new FormData()
       formData.append('file', this.file)
       formData.append('nome', this.nome)
@@ -145,12 +205,13 @@ export default {
       formData.append('password', this.password)
       formData.append('id_cidade', this.select_cidade)
       formData.append('genero', this.genero)
-      console.log(formData)
+
       try {
         await axios.post(
           `${process.env.VUE_APP_API_URL}/create_autor`,
           formData
         )
+        this.$toast.success('Seus dados foram recebidos, aguarde a aprovação de seu registro no sistema')
         this.$router.push({ name: 'HomeView' })
       } catch (err) {
         console.log(err)
@@ -229,5 +290,8 @@ button {
 }
 #customFile {
   margin-top: 12px;
+}
+.text-danger {
+  color: red;
 }
 </style>
