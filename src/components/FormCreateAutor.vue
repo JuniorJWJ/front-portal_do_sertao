@@ -211,7 +211,6 @@ export default {
           `${process.env.VUE_APP_API_URL}/create_autor`,
           formData
         )
-        this.$toast.success('Seus dados foram recebidos, aguarde a aprovação de seu registro no sistema')
         this.$router.push({ name: 'HomeView' })
       } catch (err) {
         console.log(err)
