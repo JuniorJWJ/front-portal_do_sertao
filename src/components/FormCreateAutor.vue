@@ -115,6 +115,9 @@
         </div>
       </fieldset>
     </form>
+    <div v-if="showMessage" class="notification">
+      {{ notificationMessage }}
+    </div>
   </div>
 </template>
 
@@ -139,6 +142,8 @@ export default {
       file: '',
       message: '',
       errors: {},
+      showMessage: false,
+      notificationMessage: '',
     }
   },
   methods: {
@@ -211,7 +216,12 @@ export default {
           `${process.env.VUE_APP_API_URL}/create_autor`,
           formData
         )
-        this.$router.push({ name: 'HomeView' })
+        this.notificationMessage = 'Seus dados foram recebidos, aguarde a aprovação de seu registro no sistema'
+        this.showMessage = true
+        setTimeout(() => {
+          this.showMessage = false
+          this.$router.push({ name: 'HomeView' })
+        }, 5000) // Oculta a notificação após 5 segundos
       } catch (err) {
         console.log(err)
       }
@@ -292,5 +302,13 @@ button {
 }
 .text-danger {
   color: red;
+}
+.notification {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #28a745;
+  background-color: #d4edda;
+  color: #155724;
+  border-radius: 5px;
 }
 </style>

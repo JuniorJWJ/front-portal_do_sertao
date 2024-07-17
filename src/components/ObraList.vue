@@ -27,7 +27,11 @@
           v-model="searchQuery"
         />
       </div>
+      <div v-if="resultQuery.length === 0" class="no-results">
+        Nenhuma obra encontrada.
+      </div>
       <article
+        v-else
         class="container"
         v-for="r of resultQuery"
         :key="r.id"
@@ -39,18 +43,17 @@
     </section>
   </div>
 </template>
+
 <script>
 import axios from 'axios'
 export default {
   name: 'ObraList',
   data() {
     return {
-      obras: [],
-      obrasBegin: [],
+      obras: { obra: [] }, // Inicializando obras.obra como array vazio
       searchQuery: null,
-      obra: '',
       activeFilterOption: '',
-      GenerosLiterarios: [],
+      GenerosLiterarios: { generoLiterario: [] }, // Inicializando GenerosLiterarios como objeto com array vazio
     }
   },
   methods: {
@@ -58,9 +61,8 @@ export default {
       axios
         .get(`${process.env.VUE_APP_API_URL}/lista_obra`)
         .then((res) => {
-          this.obras = res.data
+          this.obras = res.data || { obra: [] } // Garantindo que obras seja um objeto com a propriedade obra
           console.log('opa')
-          // this.obrasBegin = res.data;
           console.log(this.obras)
         })
         .catch((error) => {
@@ -71,23 +73,20 @@ export default {
       axios
         .get(`${process.env.VUE_APP_API_URL}/lista_obra/genero/${id}`)
         .then((res) => {
-          this.obras = res.data
+          this.obras = res.data || { obra: [] } // Garantindo que obras seja um objeto com a propriedade obra
           console.log('procurei no banco')
           console.log(this.obras.length)
-          // this.obrasBegin = res.data;
-          // console.log(this.obras);
         })
         .catch((error) => {
           console.log(error)
+          this.obras = []
         })
     },
-    //...
     getGenerosLiterarios() {
       axios
         .get(`${process.env.VUE_APP_API_URL}/lista_generos_literarios`)
         .then((res) => {
-          this.GenerosLiterarios = res.data
-          // console.log(this.GenerosLiterarios)
+          this.GenerosLiterarios = res.data || { generoLiterario: [] } // Garantindo que GenerosLiterarios seja um objeto com array vazio
         })
         .catch((error) => {
           console.log(error)
@@ -108,12 +107,12 @@ export default {
     },
   },
   mounted() {
-    this.getObras(), this.getGenerosLiterarios()
+    this.getObras()
+    this.getGenerosLiterarios()
   },
   computed: {
     resultQuery() {
-      if (this.searchQuery) {
-        //console.log(this.obras.obra)
+      if (this.searchQuery && this.obras.obra) {
         return this.obras.obra.filter((item) => {
           return this.searchQuery
             .toLowerCase()
@@ -121,7 +120,7 @@ export default {
             .every((v) => item.nome.toLowerCase().includes(v))
         })
       } else {
-        return this.obras.obra
+        return this.obras.obra || [] // Garantindo que seja um array
       }
     },
   },
@@ -192,5 +191,11 @@ ul li {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   border-bottom: 1px solid #ccc;
+}
+.no-results {
+  font-size: 18px;
+  color: #666;
+  text-align: center;
+  margin-top: 20px;
 }
 </style>

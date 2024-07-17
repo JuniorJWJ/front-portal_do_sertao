@@ -22,7 +22,11 @@
           placeholder="Digite o nome do Autor..."
         />
       </div>
+      <div v-if="resultQuery.length === 0" class="no-results">
+        Nenhum autor encontrado.
+      </div>
       <article
+        v-else
         class="container"
         v-for="r of resultQuery"
         :key="r.id"
@@ -37,17 +41,17 @@
     </section>
   </div>
 </template>
+
 <script>
 import axios from 'axios'
 export default {
   name: 'AutorList',
   data() {
     return {
-      autores: [],
+      autores: { autor: [] }, // Inicializando autores.autor como array vazio
       searchQuery: null,
-      autor: '',
-      Cidade: [],
       activeFilterOption: '',
+      Cidade: { cidade: [] }, // Inicializando Cidade.cidade como array vazio
     }
   },
   methods: {
@@ -55,32 +59,33 @@ export default {
       axios
         .get(`${process.env.VUE_APP_API_URL}/lista_autor`)
         .then((res) => {
-          this.autores = res.data
+          this.autores = res.data || { autor: [] } // Garantindo que autores seja um objeto com a propriedade autor
         })
         .catch((error) => {
           console.log(error)
+          this.autores = { autor: [] } // Garantindo que autores seja um objeto com a propriedade autor
         })
     },
     getAutorFiltroCidade(id) {
       axios
         .get(`${process.env.VUE_APP_API_URL}/lista_autor/cidade/${id}`)
         .then((res) => {
-          this.autores = res.data
+          this.autores = res.data || { autor: [] } // Garantindo que autores seja um objeto com a propriedade autor
         })
         .catch((error) => {
           console.log(error)
+          this.autores = { autor: [] } // Garantindo que autores seja um objeto com a propriedade autor
         })
     },
-    //...
     getCidades() {
       axios
         .get(`${process.env.VUE_APP_API_URL}/lista_cidade`)
         .then((res) => {
-          this.Cidade = res.data
-          // console.log(this.GenerosLiterarios)
+          this.Cidade = res.data || { cidade: [] } // Garantindo que Cidade seja um objeto com array vazio
         })
         .catch((error) => {
           console.log(error)
+          this.Cidade = { cidade: [] } // Garantindo que Cidade seja um objeto com array vazio
         })
     },
     show_autor(id) {
@@ -98,12 +103,12 @@ export default {
     },
   },
   mounted() {
-    this.getAutores(), this.getCidades()
+    this.getAutores()
+    this.getCidades()
   },
   computed: {
     resultQuery() {
-      if (this.searchQuery) {
-        console.log(this.autores.autor)
+      if (this.searchQuery && this.autores.autor) {
         return this.autores.autor.filter((item) => {
           return this.searchQuery
             .toLowerCase()
@@ -111,7 +116,7 @@ export default {
             .every((v) => item.nome.toLowerCase().includes(v))
         })
       } else {
-        return this.autores.autor
+        return this.autores.autor || [] // Garantindo que seja um array
       }
     },
   },
@@ -189,5 +194,11 @@ ul li {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   border-bottom: 1px solid #ccc;
+}
+.no-results {
+  font-size: 18px;
+  color: #666;
+  text-align: center;
+  margin-top: 20px;
 }
 </style>
