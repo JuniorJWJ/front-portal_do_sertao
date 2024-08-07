@@ -3,6 +3,7 @@
 		<h1>Dados dos Autores</h1>
 		<CityChart v-if="cityChartData" :chartData="cityChartData" />
 		<GenderChart v-if="genderChartData" :chartData="genderChartData" />
+		<ColorChart v-if="colorChartData" :chartData="colorChartData" />
 	</div>
 </template>
 
@@ -10,12 +11,14 @@
 import axios from 'axios'
 import CityChart from './CityChart.vue'
 import GenderChart from './GenderChart.vue'
+import ColorChart from './ColorChart.vue'
 
 export default {
 	name: 'DadosAutores',
 	components: {
 		CityChart,
 		GenderChart,
+		ColorChart,
 	},
 	data() {
 		return {
@@ -30,6 +33,7 @@ export default {
 		this.fetchData().then(() => {
 			this.processCityData()
 			this.processGenderData()
+			this.processColorData()
 		})
 	},
 	methods: {
@@ -69,47 +73,6 @@ export default {
 				this.autores = { autor: [] }
 			}
 		},
-		processCityData1() {
-			console.log(
-				'check:',
-				this.cidades.cidade.length,
-				this.autores.autor.length
-			)
-			if (!this.cidades.cidade.length || !this.autores.autor.length) return
-			console.log('chegou aqui')
-			const cityCounts = this.cidades.cidade.reduce((acc, cidade) => {
-				acc[cidade.id] = 0 // Use o ID da cidade como chave
-				return acc
-			}, {})
-			console.log('this.autores.autor', this.autores.autor)
-			this.autores.autor.forEach((autor) => {
-				if (cityCounts[autor.id_cidade] !== undefined) {
-					cityCounts[autor.id_cidade]++
-				}
-			})
-
-			const labels = this.cidade.cidades.map((cidade) => cidade.nome)
-			const data = labels.map(
-				(nome) =>
-					cityCounts[this.cidades.find((cidade) => cidade.nome === nome)?.id] ||
-					0
-			)
-
-			this.cityChartData = {
-				labels: labels,
-				datasets: [
-					{
-						label: 'Número de Autores por Cidade',
-						data: data,
-						backgroundColor: 'rgba(75, 192, 192, 0.2)',
-						borderColor: 'rgba(75, 192, 192, 1)',
-						borderWidth: 1,
-					},
-				],
-			}
-
-			console.log('City Chart Data:', this.cityChartData)
-		},
 		processCityData() {
 			if (!this.autores || !this.autores.autor.length) return
 
@@ -120,14 +83,37 @@ export default {
 				return acc
 			}, {})
 
+			// Lista de 17 cores distintas
+			const colors = [
+				'rgba(255, 99, 132, 0.2)', // Red
+				'rgba(54, 162, 235, 0.2)', // Blue
+				'rgba(75, 192, 192, 0.2)', // Green
+				'rgba(255, 206, 86, 0.2)', // Yellow
+				'rgba(153, 102, 255, 0.2)', // Purple
+				'rgba(255, 159, 64, 0.2)', // Orange
+				'rgba(199, 199, 199, 0.2)', // Light Gray
+				'rgba(83, 102, 255, 0.2)', // Light Blue
+				'rgba(255, 107, 107, 0.2)', // Light Red
+				'rgba(162, 255, 162, 0.2)', // Light Green
+				'rgba(255, 255, 107, 0.2)', // Light Yellow
+				'rgba(102, 255, 255, 0.2)', // Light Cyan
+				'rgba(255, 102, 255, 0.2)', // Light Magenta
+				'rgba(255, 179, 102, 0.2)', // Light Orange
+				'rgba(102, 255, 179, 0.2)', // Light Olive
+				'rgba(179, 102, 255, 0.2)', // Light Purple
+				'rgba(102, 102, 255, 0.2)', // Light Blue (Variation)
+			]
+
 			this.cityChartData = {
 				labels: Object.keys(cityCounts),
 				datasets: [
 					{
 						label: 'Número de Autores por Cidade',
 						data: Object.values(cityCounts),
-						backgroundColor: 'rgba(75, 192, 192, 0.2)',
-						borderColor: 'rgba(75, 192, 192, 1)',
+						backgroundColor: colors.slice(0, Object.keys(cityCounts).length),
+						borderColor: colors
+							.slice(0, Object.keys(cityCounts).length)
+							.map((color) => color.replace('0.2', '1')),
 						borderWidth: 1,
 					},
 				],
@@ -135,6 +121,7 @@ export default {
 
 			console.log('City Chart Data:', this.cityChartData)
 		},
+
 		processGenderData() {
 			if (!this.autores || !this.autores.autor.length) return
 
@@ -158,6 +145,41 @@ export default {
 							'rgba(255, 99, 132, 1)',
 							'rgba(54, 162, 235, 1)',
 							'rgba(255, 206, 86, 1)',
+						],
+						borderWidth: 1,
+					},
+				],
+			}
+
+			//   console.log('Gender Chart Data:', this.genderChartData)
+		},
+		processColorData() {
+			if (!this.autores || !this.autores.autor.length) return
+
+			const colorCounts = this.autores.autor.reduce((acc, autor) => {
+				acc[autor.cor_de_pele] = (acc[autor.cor_de_pele] || 0) + 1
+				return acc
+			}, {})
+
+			this.colorChartData = {
+				labels: Object.keys(colorCounts),
+				datasets: [
+					{
+						label: 'Distribuição de Cor/raça dos Autores',
+						data: Object.values(colorCounts),
+						backgroundColor: [
+							'rgba(255, 99, 132, 0.2)', // Red
+							'rgba(54, 162, 235, 0.2)', // Blue
+							'rgba(75, 192, 192, 0.2)', // Green
+							'rgba(255, 159, 64, 0.2)', // Orange
+							'rgba(153, 102, 255, 0.2)', // Purple
+						],
+						borderColor: [
+							'rgba(255, 99, 132, 1)', // Red
+							'rgba(54, 162, 235, 1)', // Blue
+							'rgba(75, 192, 192, 1)', // Green
+							'rgba(255, 159, 64, 1)', // Orange
+							'rgba(153, 102, 255, 1)', // Purple
 						],
 						borderWidth: 1,
 					},
