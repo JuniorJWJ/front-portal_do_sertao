@@ -1,16 +1,16 @@
 <template>
-  <div>
-    <ObraShowComponent />
-  </div>
+	<div>
+		<ObraShowComponent />
+	</div>
 </template>
 
 <script>
 import ObraShowComponent from '../components/ObraShow.vue'
 
 export default {
-  name: 'ObraShow',
-  components: {
-    ObraShowComponent,
-  },
+	name: 'ObraShow',
+	components: {
+		ObraShowComponent,
+	},
 }
 </script>

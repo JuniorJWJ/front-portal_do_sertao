@@ -1,16 +1,16 @@
 <template>
-  <div>
-    <FormLogUser />
-  </div>
+	<div>
+		<FormLogUser />
+	</div>
 </template>
 
 <script>
 import FormLogUser from '../components/FormLogUser.vue'
 
 export default {
-  name: 'LogUserView',
-  components: {
-    FormLogUser,
-  },
+	name: 'LogUserView',
+	components: {
+		FormLogUser,
+	},
 }
 </script>

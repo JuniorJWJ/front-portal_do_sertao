@@ -1,16 +1,16 @@
 <template>
-  <div>
-    <Perfil />
-  </div>
+	<div>
+		<Perfil />
+	</div>
 </template>
 
 <script>
 import Perfil from '../components/Perfil.vue'
 
 export default {
-  name: 'AutorPerfilView',
-  components: {
-    Perfil,
-  },
+	name: 'AutorPerfilView',
+	components: {
+		Perfil,
+	},
 }
 </script>

@@ -1,18 +1,18 @@
 <template>
-  <div>
-    <!-- <NavbarNav /> -->
+	<div>
+		<!-- <NavbarNav /> -->
 
-    <SobreComponent />
-  </div>
+		<SobreComponent />
+	</div>
 </template>
 
 <script>
 //import NavbarNav from "../components/NavbarNav.vue"
 import SobreComponent from '../components/SobreComponent.vue'
 export default {
-  name: 'SobreView',
-  components: {
-    SobreComponent,
-  },
+	name: 'SobreView',
+	components: {
+		SobreComponent,
+	},
 }
 </script>
