@@ -65,7 +65,9 @@
 						id="genero"
 						class="form-select"
 					>
-						<option disabled value="" :selected="autor.genero">Selecione</option>
+						<option disabled value="" :selected="autor.genero">
+							Selecione
+						</option>
 						<option>Masculino</option>
 						<option>Feminino</option>
 						<option>Prefiro não informar</option>
@@ -78,7 +80,9 @@
 						id="cor_de_pele"
 						class="form-select"
 					>
-						<option disabled value="" :selected="autor.cor_de_pele">Selecione</option>
+						<option disabled value="" :selected="autor.cor_de_pele">
+							Selecione
+						</option>
 						<option>Branca</option>
 						<option>Preta</option>
 						<option>Parda</option>
@@ -130,7 +134,7 @@ export default {
 			email: '',
 			select_cidade: '',
 			select_genero: '',
-			select_cor_de_pele: '', 
+			select_cor_de_pele: '',
 			ImagePreview: '',
 			userId: null,
 			token: null,

@@ -146,10 +146,11 @@
 					<div id="agrupa_check_com_autorizacao">
 						<!-- <input type="checkbox" id="authorization" v-model="isAuthorized" /> -->
 						<span id="texto_termo">
-  Ao clicar no checkbox abaixo, declaro que li e aceito os
-  <router-link to="/termos_de_uso">termos de uso</router-link>
-  do site, que incluem a autorização para o uso de minha imagem em materiais de comunicação vinculados ao IFBA e outras plataformas.
-</span>
+							Ao clicar no checkbox abaixo, declaro que li e aceito os
+							<router-link to="/termos_de_uso">termos de uso</router-link>
+							do site, que incluem a autorização para o uso de minha imagem em
+							materiais de comunicação vinculados ao IFBA e outras plataformas.
+						</span>
 
 						<!-- <input type="checkbox" id="authorization" v-model="isAuthorized" /> -->
 					</div>
