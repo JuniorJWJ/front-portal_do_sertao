@@ -77,7 +77,8 @@ export default {
 				.get(`${process.env.VUE_APP_API_URL}/autor/${id}`)
 				.then((res) => {
 					this.autor = res.data
-					console.log(this.autor.autor[0].id_cidade)
+					// console.log(this.autor.autor[0])
+					// console.log(this.autor.autor[0].id_cidade)
 					this.getCidade(this.autor.autor[0].id_cidade)
 				})
 				.catch((error) => {
@@ -89,7 +90,7 @@ export default {
 				.get(`${process.env.VUE_APP_API_URL}/cidade/${id}`)
 				.then((res) => {
 					this.cidade = res.data.cidade
-					console.log(this.cidade[0].nome)
+					// console.log(this.cidade[0].nome)
 					this.autor.autor[0].id_cidade = this.cidade[0].nome
 				})
 				.catch((error) => {

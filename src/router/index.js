@@ -116,6 +116,15 @@ const routes = [
 		},
 	},
 	{
+		path: '/termos_de_uso',
+		name: 'TermosDeUso',
+		component: () =>
+			import(/* webpackChunkName: "UserView" */ '../views/TermosDeUso.vue'),
+		meta: {
+			title: 'Termos De Uso',
+		},
+	},
+	{
 		path: '/create_obra',
 		name: 'ObraCreate',
 		component: () =>

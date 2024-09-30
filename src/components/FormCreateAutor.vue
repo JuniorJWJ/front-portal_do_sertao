@@ -146,20 +146,15 @@
 					<div id="agrupa_check_com_autorizacao">
 						<!-- <input type="checkbox" id="authorization" v-model="isAuthorized" /> -->
 						<span id="texto_termo">
-							*Autorizo o uso de minha imagem em todo e qualquer material entre
-							imagens de vídeo, fotos e documentos, para ser utilizada no
-							referido projeto e também nas peças de comunicação que serão
-							veiculadas através dos canais de mídia do IFBA e outras
-							plataformas vinculadas ao IFBA Feira de Santana. A presente
-							autorização é concedida a título gratuito. Fica ainda autorizada,
-							de livre e espontânea vontade, para os mesmos fins, a cessão de
-							direitos da veiculação das imagens, não recebendo, para tanto,
-							qualquer tipo de remuneração.
-						</span>
+  Ao clicar no checkbox abaixo, declaro que li e aceito os
+  <router-link to="/termos_de_uso">termos de uso</router-link>
+  do site, que incluem a autorização para o uso de minha imagem em materiais de comunicação vinculados ao IFBA e outras plataformas.
+</span>
+
 						<!-- <input type="checkbox" id="authorization" v-model="isAuthorized" /> -->
 					</div>
 					<input type="checkbox" id="autorizacao" v-model="autorizacao" /><span>
-						Concordo com os termos acima</span
+						Declaro que li e aceito os termos de uso</span
 					>
 					<span v-if="errors.autorizacao" class="text-danger"
 						><br />{{ errors.autorizacao }}</span
