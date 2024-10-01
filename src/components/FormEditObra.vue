@@ -30,7 +30,8 @@
 							:value="autorselecionado.id"
 							:selected="autorselecionado.id == obra.id_autor"
 						>
-							{{ autorselecionado.id }} {{ autorselecionado.nome }}
+							<!-- {{ autorselecionado.id }} -->
+							{{ autorselecionado.nome }}
 						</option>
 					</select>
 					<label for="select_genero_literario">Gênero Literário:</label>

@@ -71,6 +71,11 @@
 				:class="[activeNavItem === '/sobre' ? 'activeItem' : '']"
 				>Sobre</router-link
 			>
+			<router-link
+				to="/dados_autores"
+				:class="[activeNavItem === '/dados_autores' ? 'activeItem' : '']"
+				>Gráficos</router-link
+			>
 		</nav>
 
 		<div v-if="!token">

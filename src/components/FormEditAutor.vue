@@ -73,12 +73,12 @@
 
 					<label for="cor_de_pele">Cor de pele</label>
 					<select
-						v-model="cor_de_pele"
+						v-model="autor.cor_de_pele"
 						name="cor_de_pele"
 						id="cor_de_pele"
 						class="form-select"
 					>
-						<option disabled value=""></option>
+						<option disabled value="" :selected="autor.cor_de_pele"></option>
 						<option>Branca</option>
 						<option>Preta</option>
 						<option>Parda</option>

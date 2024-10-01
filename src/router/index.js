@@ -79,7 +79,7 @@ const routes = [
 			import(/* webpackChunkName: "UserView" */ '../views/AutorEditView.vue'),
 		beforeEnter: navigationAdminRouteGuard,
 		meta: {
-			title: 'Auterar Autor',
+			title: 'Alterar Autor',
 		},
 	},
 	{
