@@ -58,14 +58,13 @@ export default {
 	name: 'SobreComponent',
 	data() {
 		return {
-			activeNavItem: '', // Certifique-se de definir o valor adequado para a rota ativa
+			activeNavItem: '',
 		}
 	},
 }
 </script>
 
 <style scoped>
-/* Estilos CSS para o componente About */
 .about {
 	display: flex;
 	flex-direction: column;

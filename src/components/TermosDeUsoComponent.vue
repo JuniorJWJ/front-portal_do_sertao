@@ -37,6 +37,7 @@
 			sugestões, fortalecendo, assim, a troca de experiências literárias e
 			culturais.
 		</p>
+
 		<h2>3. Da responsabilidade pelo material disponibilizado pelos atores</h2>
 		<p>
 			3.1 Declaro que o conteúdo por mim disponibilizado é inédito e que sou o/a
@@ -110,22 +111,39 @@
 			recebendo, para tanto, qualquer tipo de remuneração.
 		</p>
 
-		<h2>5. Da aceitação dos termos de uso</h2>
+		<h2>5. Termo de Cessão de Direitos</h2>
+		<p>
+			5.1 O presente termo refere-se à cessão gratuita, por tempo indeterminado, dos direitos de uso da imagem e do material literário disponibilizado no Portal Literário do Sertão, seja em formato digital ou impresso.
+		</p>
+		<p>
+			5.2 As imagens, vídeos e obras literárias cedidas poderão ser utilizadas em campanhas de divulgação do projeto, em plataformas vinculadas ao IFBA e em eventos culturais e educativos relacionados ao projeto.
+		</p>
+		<p>
+			5.3 A cessão dos direitos aqui estipulada é concedida a título gratuito, não gerando nenhum tipo de remuneração ao cedente. O uso do material respeitará a legislação vigente, especialmente as leis de direitos autorais.
+		</p>
+		<p>
+			5.4 O cedente declara ser o legítimo titular dos direitos autorais sobre as obras cedidas, assumindo total responsabilidade em caso de eventual reclamação por violação de direitos autorais por terceiros.
+		</p>
+		<p>
+			5.5 O cedente pode revogar esta cessão a qualquer momento, mediante solicitação formal, desde que a revogação não comprometa o uso de materiais já publicados.
+		</p>
+
+		<h2>6. Da aceitação dos termos de uso</h2>
 		<p>
 			Ao utilizar o site Portal Literário do Sertão, declaro que li, entendi e
 			estou de acordo com todas as cláusulas presentes nestes Termos de Uso.
 		</p>
 
-
 	</div>
 </template>
+
 
 <script>
 export default {
 	name: 'TermosDeUsoComponent',
 	data() {
 		return {
-			activeNavItem: '', // Certifique-se de definir o valor adequado para a rota ativa
+			activeNavItem: '', 
 		}
 	},
 	methods: {

@@ -60,7 +60,7 @@ export default {
 	name: 'HomePage',
 	data() {
 		return {
-			activeNavItem: '', // Certifique-se de definir o valor adequado para a rota ativa
+			activeNavItem: '', 
 			apiURL: process.env.VUE_APP_API_URL,
 		}
 	},
@@ -68,7 +68,6 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos CSS para o componente Home */
 .home {
 	display: flex;
 	flex-direction: column;
