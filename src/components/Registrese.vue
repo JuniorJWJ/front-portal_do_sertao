@@ -36,7 +36,7 @@ export default {
 		<main class="main">
 			<section class="hero">
 				<div class="hero-content">
-					<h2 class="hero-title">Bem-vindo ao Portal do Sertão</h2>
+					<h2 class="hero-title">Bem-vindo ao Portal Literário do Sertão</h2>
 					<p class="hero-description">
 						Uma plataforma para descobrir e compartilhar informações sobre a
 						cultura do sertão.

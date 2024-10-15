@@ -87,7 +87,7 @@
 		<div v-if="token">
 			<router-link class="login" to="/log_user" @click="deslogUser">
 				<i class="bi-box-arrow-right"></i>
-				<span>Logoff</span>
+				<span>Sair</span>
 			</router-link>
 		</div>
 	</header>
@@ -147,12 +147,20 @@ header {
 	margin-bottom: 30px;
 	max-width: 1280px;
 }
+nav {
+    display: flex;
+    justify-content: space-between; /* Alinha os itens com espaçamento */
+    align-items: center; /* Alinha os itens verticalmente ao centro */
+    flex-wrap: nowrap; /* Impede a quebra de linha */
+    width: 100%;
+}
 nav a {
-	color: #a2691a;
-	font-size: 25px;
-	font-weight: 500;
-	text-decoration: none;
-	margin-left: 20px;
+    color: #a2691a;
+    font-size: 25px;
+    font-weight: 500;
+    text-decoration: none;
+    margin-left: 20px;
+    white-space: nowrap; /* Garante que o texto não quebre */
 }
 .activeItem,
 nav a:hover {
@@ -163,6 +171,7 @@ nav a:hover {
 	width: 100px;
 }
 .login {
+    display: flex;
 	background-color: #a2691a;
 	border-radius: 10px;
 	border: none;
