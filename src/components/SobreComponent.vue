@@ -3,7 +3,7 @@
 		<main class="main">
 			<div class="about-content">
 				<h2 class="about-title">
-					Portal Literário do Sertão: Uma Janela para a Expressão Cultural Local
+					Portal Literário do Sertão: uma Janela para a Expressão Cultural Local
 				</h2>
 				<p class="about-description">
 					O Portal Literário do Sertão surge como uma iniciativa inovadora para
@@ -11,8 +11,7 @@
 					região nordestina. Através de uma plataforma online, o portal oferece
 					aos autores residentes no <a href="https://www.portaldosertao.ba.gov.br" target="_blank">
 						Portal do Sertão
-					</a>
-					Portal do Sertão um espaço virtual gratuito
+					</a> um espaço virtual gratuito
 					para divulgar suas obras, conectar-se com outros escritores e
 					leitores, além de contribuir para o enriquecimento do panorama cultural
 					regional.
@@ -35,7 +34,7 @@
 					comunidade através de um Website.
 				</p>
 				<p class="about-description">
-					Com o intuito de valorizar as obras locais, na primeira etapa, foi
+						Com o intuito de valorizar as obras locais, na primeira etapa, foi
 					desenvolvido um sistema que pudesse armazenar e disponibilizar obras
 					literárias de autores da região. No âmbito do Trabalho de Conclusão do
 					Curso, intitulado Portal Literário do Sertão: especificação, análise e
@@ -103,6 +102,8 @@ export default {
 	color: #666;
 	font-size: 18px;
 	margin-bottom: 20px;
+	text-align: justify;
+	text-indent: 20px;
 }
 
 .footer {
