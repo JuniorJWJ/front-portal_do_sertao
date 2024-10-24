@@ -84,7 +84,7 @@ export default {
 				})
 		},
 		editObras(id) {
-			this.$router.push({ name: 'ObraEditView', params: { id: id } })
+			this.$router.push({ name: 'ObraEditByOwnerView', params: { id: id } })
 		},
 	},
 }

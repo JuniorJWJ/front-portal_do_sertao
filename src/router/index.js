@@ -186,6 +186,18 @@ const routes = [
 		},
 	},
 	{
+		path: '/edit_obra_autor/:id',
+		name: 'ObraEditByOwnerView',
+		component: () =>
+			import(
+				/* webpackChunkName: "UserView" */ '../views/ObraEditByOwnerView.vue'
+			),
+		beforeEnter: navigationAdminRouteGuard,
+		meta: {
+			title: 'Alterar Obra',
+		},
+	},
+	{
 		path: '/dados_autores',
 		name: 'DadosAutores',
 		component: () =>

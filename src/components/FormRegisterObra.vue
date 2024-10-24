@@ -15,29 +15,6 @@
 					class="form-control"
 					v-model="nome"
 				/>
-				<!-- {{ select_autor }} -->
-				<!-- <input type="hidden" 
-       name="select_autor"
-       id="select_autor"
-       v-model="select_autor"
-       :value="idAutor"> -->
-
-				<!-- <label for="select_autor">Autor</label>
-        <select
-          name="select_autor"
-          id="select_autor"
-          v-model="select_autor"
-          class="form-select"
-        >
-          <option
-            v-for="nomeautor in autores.autor"
-            :key="nomeautor.nome"
-            :selected="nomeautor.id == select_autor.id"
-            :value="nomeautor.id"
-          >
-            {{ nomeautor.nome }}
-          </option>
-        </select> -->
 
 				<label for="select_genero_literario">Gênero Literário</label>
 				<select
@@ -55,28 +32,50 @@
 					</option>
 				</select>
 
-				<label for="input-file"
-					>Caso queira disponibilizar, insira aqui o PDF da Obra completa .
-					Autorizo a veiculação do(s) material(is) encaminhado(s) para uso na
-					plataforma digital do projeto “Portal da Literatura”, do IFBA Feira de
-					Santana. Autorizo, também, o uso de minha imagem em todo e qualquer
-					material entre imagens de vídeo, fotos e documentos, para ser
-					utilizada no referido projeto e também nas peças de comunicação que
-					serão veiculadas através dos canais de mídia do IFBA e outras
-					plataformas vinculadas ao projeto. A presente autorização é concedida
-					a título gratuito. Fica ainda autorizada, de livre e espontânea
-					vontade, para os mesmos fins, a cessão de direitos da veiculação das
-					imagens, não recebendo, para tanto, qualquer tipo de
-					remuneração.</label
-				>
+				<!-- Campo para PDF -->
+				<label for="customFile">Arquivo PDF:</label>
 				<input
-					name="input-file"
 					type="file"
 					ref="file"
 					@change="onSelect"
 					class="form-control"
 					id="customFile"
+					accept="application/pdf"
 				/>
+
+				<!-- Campo para Áudio -->
+				<label for="audioFile">Arquivo de Áudio:</label>
+				<input
+					type="file"
+					ref="audioFile"
+					@change="onAudioSelect"
+					class="form-control"
+					id="audioFile"
+					accept="audio/*"
+				/>
+
+				<!-- Link para vídeo -->
+				<label for="endereco_video">Insira o link do vídeo do Youtube:</label>
+				<input
+					type="text"
+					id="endereco_video"
+					name="endereco_video"
+					class="form-control"
+					v-model="endereco_video"
+				/>
+
+				<!-- Autorização -->
+				<div id="agrupa_check_com_autorizacao">
+					<span id="texto_termo">
+						Ao clicar no checkbox abaixo, declaro que li e aceito os
+						<router-link to="/termos_de_uso">termos de uso</router-link> do
+						site, que incluem a autorização para o uso de minha imagem em
+						materiais de comunicação vinculados ao IFBA e outras plataformas.
+					</span>
+				</div>
+				<input type="checkbox" id="autorizacao" v-model="autorizacao" /><span
+					>Declaro que li e aceito os termos de uso</span
+				>
 
 				<button type="submit" class="btn btn-success">Salvar</button>
 			</div>
@@ -94,11 +93,7 @@ export default {
 		const token = localStorage.getItem('token')
 		if (token) {
 			const decodedToken = jwtDecode(token)
-			console.log(decodedToken.id)
 			this.userId = decodedToken.id
-			// this.decodedToken = decodedToken;  // Adicionado o atributo decodedToken ao data
-			// this.id = decodedToken.id
-			// console.log(this.id)
 		}
 
 		this.getGenerosLiterarios(), this.getAutores(this.userId)
@@ -112,8 +107,9 @@ export default {
 			select_autor: '',
 			select_genero_literario: '',
 			file: '',
-			decodedToken: null,
-			adm: null,
+			audioFile: '',
+			endereco_video: '',
+			autorizacao: false, // Adicionando a verificação de autorização
 			userId: null,
 			idAutor: null,
 		}
@@ -122,16 +118,43 @@ export default {
 		async onSelect() {
 			const file = this.$refs.file.files[0]
 			this.file = file
-			console.log(this.file.name)
+		},
+		async onAudioSelect() {
+			const audioFile = this.$refs.audioFile.files[0]
+			this.audioFile = audioFile
 		},
 		async onSubmit(e) {
 			e.preventDefault()
+
+			// Verificação dos campos obrigatórios, incluindo autorização
+			const requiredFields = [
+				{ field: this.nome, message: 'Por favor, preencha o nome da obra.' },
+				{
+					field: this.select_genero_literario,
+					message: 'Por favor, selecione o gênero literário.',
+				},
+				{ field: this.file, message: 'Por favor, adicione o arquivo PDF.' },
+				{
+					field: this.autorizacao,
+					message: 'Você precisa aceitar os termos de uso para continuar.',
+				},
+			]
+
+			for (let { field, message } of requiredFields) {
+				if (!field) {
+					alert(message)
+					return
+				}
+			}
+
 			const formData = new FormData()
 			formData.append('file', this.file)
+			formData.append('audioFile', this.audioFile)
+			formData.append('endereco_video', this.endereco_video)
 			formData.append('nome', this.nome)
 			formData.append('select_autor', this.idAutor)
 			formData.append('select_genero_literario', this.select_genero_literario)
-			console.log(formData)
+
 			try {
 				await axios.post(`${process.env.VUE_APP_API_URL}/create_obra`, formData)
 				this.$router.push({ name: 'MinhasObrasView' })
@@ -155,7 +178,6 @@ export default {
 				.get(`${process.env.VUE_APP_API_URL}/lista_generos_literarios`)
 				.then((res) => {
 					this.GenerosLiterarios = res.data
-					console.log(this.GenerosLiterarios)
 				})
 				.catch((error) => {
 					console.log(error)

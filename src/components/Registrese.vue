@@ -60,7 +60,7 @@ export default {
 	name: 'HomePage',
 	data() {
 		return {
-			activeNavItem: '', 
+			activeNavItem: '',
 			apiURL: process.env.VUE_APP_API_URL,
 		}
 	},

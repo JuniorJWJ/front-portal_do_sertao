@@ -17,22 +17,12 @@
 						v-model="obra.nome"
 					/>
 
-					<label for="select_autor">Autor:</label>
-					<select
+					<input
+						type="hidden"
+						:value="obra.id_autor"
 						name="select_autor"
 						id="select_autor"
-						v-model="obra.id_autor"
-						class="form-select"
-					>
-						<option
-							v-for="autorselecionado in autores.autor"
-							:key="autorselecionado.nome"
-							:value="autorselecionado.id"
-							:selected="autorselecionado.id == obra.id_autor"
-						>
-							{{ autorselecionado.nome }}
-						</option>
-					</select>
+					/>
 
 					<label for="select_genero_literario">Gênero Literário:</label>
 					<select
@@ -52,13 +42,13 @@
 					</select>
 
 					<!-- Campo para PDF -->
-					<label for="pdfFile">Arquivo PDF:</label>
+					<label for="customFile">Arquivo PDF:</label>
 					<input
 						type="file"
-						ref="pdfFile"
-						@change="onSelectPDF"
+						ref="file"
+						@change="onSelect"
 						class="form-control"
-						id="pdfFile"
+						id="customFile"
 						accept="application/pdf"
 					/>
 
@@ -67,14 +57,14 @@
 					<input
 						type="file"
 						ref="audioFile"
-						@change="onSelectAudio"
+						@change="onAudioSelect"
 						class="form-control"
 						id="audioFile"
 						accept="audio/*"
 					/>
 
 					<!-- Link para vídeo -->
-					<label for="endereco_video">Link do vídeo (YouTube):</label>
+					<label for="endereco_video">Insira o link do vídeo do Youtube:</label>
 					<input
 						type="text"
 						id="endereco_video"
@@ -112,38 +102,43 @@ export default {
 	data() {
 		return {
 			id: this.$route.params.id,
-			obra: [],
-			autores: [],
+			obra: {
+				nome: '',
+				id_autor: '',
+				id_genero_literario: '',
+				endereco_video: '',
+				autorizacao: false, // Para autorização
+			},
 			GenerosLiterarios: [],
-			file: null,
-			audioFile: null,
+			file: null, // Para armazenar o arquivo PDF
+			audioFile: null, // Para armazenar o arquivo de áudio
 		}
 	},
 	methods: {
-		async onSelectPDF() {
-			const file = this.$refs.pdfFile.files[0]
-			this.obra.pdfFile = file
+		// Seleciona o arquivo PDF
+		async onSelect() {
+			const file = this.$refs.file.files[0]
+			this.file = file
 		},
-		async onSelectAudio() {
+
+		// Seleciona o arquivo de áudio
+		async onAudioSelect() {
 			const audioFile = this.$refs.audioFile.files[0]
-			this.obra.audioFile = audioFile
+			this.audioFile = audioFile
 		},
+
+		// Atualiza a obra
 		async updateObra(e) {
 			e.preventDefault()
-
-			// Verificação de campos obrigatórios
-			if (!this.obra.autorizacao) {
-				alert('Você precisa aceitar os termos de uso.')
-				return
-			}
-
 			const formData = new FormData()
-			formData.append('pdfFile', this.obra.pdfFile)
-			formData.append('audioFile', this.obra.audioFile)
+
+			formData.append('file', this.file) // PDF
+			formData.append('audioFile', this.audioFile) // Áudio
 			formData.append('endereco_video', this.obra.endereco_video)
 			formData.append('nome', this.obra.nome)
 			formData.append('select_autor', this.obra.id_autor)
 			formData.append('select_genero_literario', this.obra.id_genero_literario)
+			formData.append('autorizacao', this.obra.autorizacao) // Autorização
 
 			try {
 				await axios.put(
@@ -155,6 +150,8 @@ export default {
 				console.log(err)
 			}
 		},
+
+		// Carrega as informações da obra
 		getObra(id) {
 			axios
 				.get(`${process.env.VUE_APP_API_URL}/obra/${id}`)
@@ -165,16 +162,8 @@ export default {
 					console.log(error)
 				})
 		},
-		getAutores() {
-			axios
-				.get(`${process.env.VUE_APP_API_URL}/lista_autor`)
-				.then((res) => {
-					this.autores = res.data
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-		},
+
+		// Carrega os gêneros literários
 		getGenerosLiterarios() {
 			axios
 				.get(`${process.env.VUE_APP_API_URL}/lista_generos_literarios`)
@@ -187,9 +176,8 @@ export default {
 		},
 	},
 	mounted() {
-		this.getObra(this.$route.params.id),
-			this.getAutores(),
-			this.getGenerosLiterarios()
+		this.getObra(this.$route.params.id)
+		this.getGenerosLiterarios()
 	},
 }
 </script>
