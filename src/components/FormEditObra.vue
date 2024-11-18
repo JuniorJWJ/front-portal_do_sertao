@@ -144,13 +144,14 @@ export default {
 			formData.append('nome', this.obra.nome)
 			formData.append('select_autor', this.obra.id_autor)
 			formData.append('select_genero_literario', this.obra.id_genero_literario)
+			console.log("formdata: " + formData)
 
 			try {
 				await axios.put(
 					`${process.env.VUE_APP_API_URL}/obra/update/${this.id}`,
 					formData
 				)
-				this.$router.push({ name: 'ObraEditList' })
+				this.$router.push({ name: 'MinhasObrasView' })
 			} catch (err) {
 				console.log(err)
 			}
