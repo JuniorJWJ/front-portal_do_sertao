@@ -139,7 +139,7 @@ export default {
 			formData.append('select_autor', this.obra.id_autor)
 			formData.append('select_genero_literario', this.obra.id_genero_literario)
 			formData.append('autorizacao', this.obra.autorizacao) // Autorização
-			console.log("formData: " + formData)
+			console.log('formData: ' + formData)
 			try {
 				await axios.put(
 					`${process.env.VUE_APP_API_URL}/obra/update/${this.id}`,
