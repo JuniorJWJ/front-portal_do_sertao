@@ -203,7 +203,7 @@ export default {
 			const errors = {}
 
 			if (!this.autor.nome) errors.nome = 'Nome é obrigatório.'
-			if (!this.autor.email) errors.email = 'Email é obrigatório.'
+			if (!this.autor.email) errors.email = 'E-mail é obrigatório.'
 
 			this.errors = errors
 			return Object.keys(errors).length === 0

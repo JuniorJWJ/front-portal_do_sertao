@@ -83,7 +83,7 @@ export default {
 				])
 			} catch (error) {
 				console.log(error)
-				this.errorMessage = 'Nao foi possivel carregar este autor.'
+				this.errorMessage = 'Não foi possível carregar este autor.'
 			} finally {
 				this.loading = false
 			}

@@ -63,7 +63,7 @@
 			</label>
 
 			<label class="field" for="audioFile">
-				<span>Arquivo de áudio (opcional)</span>
+				<span>Arquivo de Áudio (opcional)</span>
 				<input
 					id="audioFile"
 					ref="audioFile"

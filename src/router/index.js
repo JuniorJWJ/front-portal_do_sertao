@@ -220,7 +220,7 @@ const router = createRouter({
 
 router.beforeEach((to) => {
 	document.title = to.meta?.title
-		? `${to.meta.title} | Portal do Sertao`
-		: 'Portal do Sertao'
+		? `${to.meta.title} | Portal do Sertão`
+		: 'Portal do Sertão'
 })
 export default router

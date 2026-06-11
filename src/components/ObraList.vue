@@ -4,7 +4,7 @@
 			<div>
 				<p class="eyebrow">Biblioteca</p>
 				<h1 id="obras-title" class="page-title">Obras</h1>
-				<p class="muted">Filtre por genero literario ou pesquise pelo titulo.</p>
+				<p class="muted">Filtre por gênero literário ou pesquise pelo título.</p>
 			</div>
 			<label class="search-field" for="obra-search">
 				<span>Buscar obra</span>
@@ -19,8 +19,8 @@
 		</div>
 
 		<div class="directory-layout">
-			<aside class="filter-panel" aria-label="Filtro por genero literario">
-				<h2>Generos</h2>
+			<aside class="filter-panel" aria-label="Filtro por gênero literário">
+				<h2>Gêneros</h2>
 				<button
 					type="button"
 					class="filter-option"
@@ -105,7 +105,7 @@ export default {
 			} catch (error) {
 				console.log(error)
 				this.obras = { obra: [] }
-				this.errorMessage = 'Nao foi possivel carregar as obras.'
+				this.errorMessage = 'Não foi possível carregar as obras.'
 			} finally {
 				this.loading = false
 			}
@@ -120,7 +120,7 @@ export default {
 			} catch (error) {
 				console.log(error)
 				this.obras = { obra: [] }
-				this.errorMessage = 'Nenhuma obra encontrada para este genero.'
+				this.errorMessage = 'Nenhuma obra encontrada para este gênero.'
 			} finally {
 				this.loading = false
 			}

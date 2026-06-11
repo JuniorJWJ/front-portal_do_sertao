@@ -1,7 +1,7 @@
 <template>
 	<header class="site-header">
-		<router-link class="brand" to="/" aria-label="Portal do Sertao - Home">
-			<img src="../assets/logo-4.png" alt="Portal do Sertao" />
+		<router-link class="brand" to="/" aria-label="Portal do Sertão - Home">
+			<img src="../assets/logo-4.png" alt="Portal do Sertão" />
 		</router-link>
 
 		<button
@@ -21,7 +21,7 @@
 			id="main-navigation"
 			class="main-nav"
 			:class="{ open: menuOpen }"
-			aria-label="Navegacao principal"
+			aria-label="Navegação principal"
 		>
 			<router-link
 				v-for="item in visibleNavItems"
@@ -53,7 +53,7 @@ const publicItems = [
 	{ to: '/list_obra', label: 'Obras' },
 	{ to: '/list_autor', label: 'Autores' },
 	{ to: '/sobre', label: 'Sobre' },
-	{ to: '/dados_autores', label: 'Graficos' },
+	{ to: '/dados_autores', label: 'Gráficos' },
 ]
 
 const adminItems = [

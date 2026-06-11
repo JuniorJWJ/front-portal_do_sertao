@@ -286,7 +286,7 @@ export default {
 			const errors = {}
 			const { form } = this
 
-			if (!form.email) errors.email = 'Email é obrigatório.'
+			if (!form.email) errors.email = 'E-mail é obrigatório.'
 			if (!form.password) errors.password = 'Senha é obrigatória.'
 			if (!form.confirmpassword) {
 				errors.confirmpassword = 'Confirmação de senha é obrigatória.'

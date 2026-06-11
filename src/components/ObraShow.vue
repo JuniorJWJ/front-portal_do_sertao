@@ -33,22 +33,22 @@
 					<strong>{{ autorNome }}</strong>
 				</article>
 				<article>
-					<span>Genero literario</span>
+					<span>Gênero literário</span>
 					<strong>{{ generoNome }}</strong>
 				</article>
 			</div>
 
 			<article v-if="obra.endereco_audio" class="media-section">
-				<h2>Audio da obra</h2>
+				<h2>Áudio da obra</h2>
 				<audio controls :src="obra.endereco_audio"></audio>
 			</article>
 
 			<article v-if="obra.endereco_video" class="media-section">
-				<h2>Video da obra</h2>
+				<h2>Vídeo da obra</h2>
 				<div class="video-container">
 					<iframe
 						:src="embedYouTubeURL(obra.endereco_video)"
-						title="Video da obra"
+						title="Vídeo da obra"
 						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
 						allowfullscreen
 					></iframe>
@@ -94,7 +94,7 @@ export default {
 				])
 			} catch (error) {
 				console.log(error)
-				this.errorMessage = 'Nao foi possivel carregar esta obra.'
+				this.errorMessage = 'Não foi possível carregar esta obra.'
 			} finally {
 				this.loading = false
 			}

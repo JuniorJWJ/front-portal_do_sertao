@@ -2,7 +2,7 @@
 	<section class="page-surface directory-page" aria-labelledby="autores-title">
 		<div class="directory-header">
 			<div>
-				<p class="eyebrow">Catalogo</p>
+				<p class="eyebrow">Catálogo</p>
 				<h1 id="autores-title" class="page-title">Autores</h1>
 				<p class="muted">Explore autores aprovados por cidade ou nome.</p>
 			</div>
@@ -110,7 +110,7 @@ export default {
 			} catch (error) {
 				console.log(error)
 				this.autores = { autor: [] }
-				this.errorMessage = 'Nao foi possivel carregar os autores.'
+				this.errorMessage = 'Não foi possível carregar os autores.'
 			} finally {
 				this.loading = false
 			}
