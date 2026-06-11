@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FormCreateObra from '../components/FormCreateObra.vue'
+import FormCreateObra from '../components/organisms/FormCreateObra.vue'
 
 export default {
 	name: 'ObraCreate',

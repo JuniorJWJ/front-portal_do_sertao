@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FormEditAutor from '../components/FormEditAutor.vue'
+import FormEditAutor from '../components/organisms/FormEditAutor.vue'
 
 export default {
 	name: 'AutorEditView',

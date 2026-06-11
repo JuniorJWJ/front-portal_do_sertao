@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import SobreComponent from '../components/SobreComponent.vue'
+import SobreComponent from '../components/organisms/SobreComponent.vue'
 export default {
 	name: 'SobreView',
 	components: {

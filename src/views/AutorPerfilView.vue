@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Perfil from '../components/Perfil.vue'
+import Perfil from '../components/organisms/Perfil.vue'
 
 export default {
 	name: 'AutorPerfilView',

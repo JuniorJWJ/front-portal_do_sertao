@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import MinhasObras from '../components/MinhasObras.vue'
+import MinhasObras from '../components/organisms/MinhasObras.vue'
 
 export default {
 	name: 'MinhasObrasView',

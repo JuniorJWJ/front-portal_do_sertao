@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FormRegisterObra from '../components/FormRegisterObra.vue'
+import FormRegisterObra from '../components/organisms/FormRegisterObra.vue'
 
 export default {
 	name: 'ObraRegisterView',

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import DadosAutores from '../components/DadosAutores.vue'
+import DadosAutores from '../components/organisms/DadosAutores.vue'
 
 export default {
 	name: 'DadosAutoresView',

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ObraShowComponent from '../components/ObraShow.vue'
+import ObraShowComponent from '../components/organisms/ObraShow.vue'
 
 export default {
 	name: 'ObraShow',

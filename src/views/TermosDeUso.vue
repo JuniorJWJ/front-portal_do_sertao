@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import TermosDeUsoComponent from '../components/TermosDeUsoComponent.vue'
+import TermosDeUsoComponent from '../components/organisms/TermosDeUsoComponent.vue'
 export default {
 	name: 'TermosDeUsoView',
 	components: {

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import AutorList from '../components/AutorList.vue'
+import AutorList from '../components/organisms/AutorList.vue'
 
 export default {
 	name: 'AutorView',

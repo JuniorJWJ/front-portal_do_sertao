@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import UserComponent from '../components/UserComponent.vue'
+import UserComponent from '../components/organisms/UserComponent.vue'
 
 export default {
 	name: 'UserView',

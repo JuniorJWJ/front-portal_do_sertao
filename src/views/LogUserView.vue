@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FormLogUser from '../components/FormLogUser.vue'
+import FormLogUser from '../components/organisms/FormLogUser.vue'
 
 export default {
 	name: 'LogUserView',

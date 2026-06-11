@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FormCreateAutor from '../components/FormCreateAutor.vue'
+import FormCreateAutor from '../components/organisms/FormCreateAutor.vue'
 
 export default {
 	name: 'AutorCreate',

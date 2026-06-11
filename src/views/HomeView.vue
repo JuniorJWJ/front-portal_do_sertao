@@ -9,11 +9,11 @@
 </template>
 
 <script>
-import HeroSection from '../components/home/HeroSection.vue'
-import AboutSection from '../components/home/AboutSection.vue'
-import HowItWorksSection from '../components/home/HowItWorksSection.vue'
-import FeaturedWorksSection from '../components/home/FeaturedWorksSection.vue'
-import FeaturedAuthorsSection from '../components/home/FeaturedAuthorsSection.vue'
+import HeroSection from '../components/organisms/home/HeroSection.vue'
+import AboutSection from '../components/organisms/home/AboutSection.vue'
+import HowItWorksSection from '../components/organisms/home/HowItWorksSection.vue'
+import FeaturedWorksSection from '../components/organisms/home/FeaturedWorksSection.vue'
+import FeaturedAuthorsSection from '../components/organisms/home/FeaturedAuthorsSection.vue'
 
 export default {
 	name: 'HomeView',

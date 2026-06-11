@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ObraList from '../components/ObraList.vue'
+import ObraList from '../components/organisms/ObraList.vue'
 
 export default {
 	name: 'ObraView',

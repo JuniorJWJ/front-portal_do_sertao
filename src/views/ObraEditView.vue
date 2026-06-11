@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FormEditObra from '../components/FormEditObra.vue'
+import FormEditObra from '../components/organisms/FormEditObra.vue'
 
 export default {
 	name: 'ObraEditView',

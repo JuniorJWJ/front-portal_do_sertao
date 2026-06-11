@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ObraComponent from '../components/ObraEditList.vue'
+import ObraComponent from '../components/organisms/ObraEditList.vue'
 
 export default {
 	name: 'ObraEditList',

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FormEditPerfil from '../components/FormEditPerfil.vue'
+import FormEditPerfil from '../components/organisms/FormEditPerfil.vue'
 
 export default {
 	name: 'AutorEditPerfilView',
