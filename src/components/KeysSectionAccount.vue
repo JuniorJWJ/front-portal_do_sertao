@@ -3,7 +3,11 @@
 		<h2>Autores em Destaque</h2>
 		<p>Conheça alguns autores cadastrados no Portal Literário do Sertão.</p>
 		<div class="author-cards">
-			<article v-for="author in displayedAuthors" :key="author.id" class="author-card">
+			<article
+				v-for="author in displayedAuthors"
+				:key="author.id"
+				class="author-card"
+			>
 				<img :src="author.endereco_foto" alt="Foto do Autor" />
 				<h3>{{ author.nome }}</h3>
 				<button @click="show_autor(author.id)">Ver Mais</button>
@@ -16,7 +20,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 
 export default {
 	name: 'HighlightAuthors',
@@ -25,7 +29,7 @@ export default {
 			authors: [], // Lista completa de autores
 			displayedAuthors: [], // Autores exibidos na tela (limitados)
 			authorsLimit: 5, // Limite de autores por vez
-		};
+		}
 	},
 	methods: {
 		getAutores() {
@@ -33,33 +37,33 @@ export default {
 			axios
 				.get(`${process.env.VUE_APP_API_URL}/lista_autor`)
 				.then((res) => {
-					this.authors = res.data || []; // Garantindo que seja um array de autores
-					console.log(this.authors.autor);
-					this.displayedAuthors = this.authors.autor.slice(0, this.authorsLimit); // Exibindo os primeiros 5 autores
+					this.authors = res.data || [] // Garantindo que seja um array de autores
+					console.log(this.authors.autor)
+					this.displayedAuthors = this.authors.autor.slice(0, this.authorsLimit) // Exibindo os primeiros 5 autores
 				})
 				.catch((error) => {
-					console.error(error);
-					this.authors = [];
-					this.displayedAuthors = [];
-				});
+					console.error(error)
+					this.authors = []
+					this.displayedAuthors = []
+				})
 		},
 		loadMore() {
 			// Carrega mais autores
 			const nextAuthors = this.authors.slice(
 				this.displayedAuthors.length,
 				this.displayedAuthors.length + this.authorsLimit
-			);
-			this.displayedAuthors.push(...nextAuthors); // Adiciona os novos autores à lista exibida
+			)
+			this.displayedAuthors.push(...nextAuthors) // Adiciona os novos autores à lista exibida
 		},
 		show_autor(id) {
 			// Redireciona para a página do autor
-			this.$router.push({ name: 'AutorShow', params: { id: id } });
+			this.$router.push({ name: 'AutorShow', params: { id: id } })
 		},
 	},
 	mounted() {
-		this.getAutores(); // Carrega a lista de autores ao montar o componente
+		this.getAutores() // Carrega a lista de autores ao montar o componente
 	},
-};
+}
 </script>
 
 <style scoped>

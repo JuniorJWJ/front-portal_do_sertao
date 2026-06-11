@@ -70,8 +70,15 @@ export default {
 				})
 		},
 		deleteObras(id) {
+			const token = localStorage.getItem('token')
+			console.log('token: ' + token)
+			console.log('id dentro de deleteobras: ' + id)
 			axios
-				.delete(`${process.env.VUE_APP_API_URL}/obra/delete/${id}`)
+				.delete(`${process.env.VUE_APP_API_URL}/obra/delete/${id}`, {
+					headers: {
+						authorization: `Bearer ${token}`,
+					},
+				})
 				.then(() => {
 					this.getObras()
 				})
@@ -83,8 +90,14 @@ export default {
 			this.$router.push({ name: 'ObraEditView', params: { id: id } })
 		},
 		approvObras(id) {
+			const token = localStorage.getItem('token')
+			console.log('token: ' + token)
+			console.log('id dentro de deleteobras: ' + id)
 			axios
-				.patch(`${process.env.VUE_APP_API_URL}/obra/approv/${id}`)
+				.patch(`${process.env.VUE_APP_API_URL}/obra/approv/${id}`,{
+					headers: {
+						authorization: `Bearer ${token}`,
+					},})
 				.then(() => {
 					this.getObras()
 				})

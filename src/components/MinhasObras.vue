@@ -73,9 +73,15 @@ export default {
 				})
 		},
 		deleteObras(id) {
+			const token = localStorage.getItem('token')
+			console.log('token: ' + token)
 			console.log('id dentro de deleteobras: ' + id)
 			axios
-				.delete(`${process.env.VUE_APP_API_URL}/obra/delete/${id}`)
+				.delete(`${process.env.VUE_APP_API_URL}/obra/delete/${id}`, {
+					headers: {
+						authorization: `Bearer ${token}`,
+					},
+				})
 				.then(() => {
 					this.getObras()
 				})

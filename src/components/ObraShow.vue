@@ -1,121 +1,111 @@
 <template>
-	<div class="container">
-		<article>
-			<span>Nome da Obra</span>
-			<h5>{{ obra.nome }}</h5>
-		</article>
-
-		<article>
-			<span>Autor</span>
-			<h5>{{ obra.id_autor }}</h5>
-		</article>
-
-		<article>
-			<span>Gênero literário</span>
-			<h5>{{ obra.id_genero_literario }}</h5>
-		</article>
-
-		<article v-if="obra.endereco_audio">
-			<span>Áudio da Obra</span>
-			<audio controls :src="obra.endereco_audio"></audio>
-		</article>
-
-		<article v-if="obra.endereco_video">
-			<span>Vídeo da Obra</span>
-			<div class="video-container">
-				<iframe
-					:src="embedYouTubeURL(obra.endereco_video)"
-					frameborder="0"
-					allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-					allowfullscreen
-				></iframe>
-			</div>
-		</article>
-
-		<article v-if="obra.endereco_pdf">
-			<span>Visualizar Obra</span>
-			<div class="pdf-container">
-				<iframe
-					:src="obra.endereco_pdf"
-					frameborder="0"
-					width="100%"
-					height="600px"
-				></iframe>
-			</div>
-		</article>
-		<div class="action">
-			<a @click="goBack()">
-				<button>
-					<i class="bi-chevron-left"></i>
-					<span>Voltar</span>
-				</button>
-			</a>
-
-			<a :href="obra.endereco_pdf" target="_blank">
-				<button>
-					<span>Acessar Obra</span>
-					<i class="bi-chevron-right"></i>
-				</button>
-			</a>
+	<section class="page-surface detail-page" aria-labelledby="obra-title">
+		<div v-if="loading" class="status-box">Carregando obra...</div>
+		<div v-else-if="errorMessage" class="status-box" role="alert">
+			{{ errorMessage }}
 		</div>
-	</div>
+		<template v-else>
+			<header class="detail-header">
+				<div>
+					<p class="eyebrow">Obra</p>
+					<h1 id="obra-title" class="page-title">{{ obra.nome }}</h1>
+					<p class="muted">{{ autorNome }} · {{ generoNome }}</p>
+				</div>
+				<div class="actions">
+					<button type="button" class="ui-button secondary" @click="goBack">
+						Voltar
+					</button>
+					<a
+						v-if="obra.endereco_pdf"
+						class="ui-button"
+						:href="obra.endereco_pdf"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Acessar obra
+					</a>
+				</div>
+			</header>
+
+			<div class="meta-grid">
+				<article>
+					<span>Autor</span>
+					<strong>{{ autorNome }}</strong>
+				</article>
+				<article>
+					<span>Genero literario</span>
+					<strong>{{ generoNome }}</strong>
+				</article>
+			</div>
+
+			<article v-if="obra.endereco_audio" class="media-section">
+				<h2>Audio da obra</h2>
+				<audio controls :src="obra.endereco_audio"></audio>
+			</article>
+
+			<article v-if="obra.endereco_video" class="media-section">
+				<h2>Video da obra</h2>
+				<div class="video-container">
+					<iframe
+						:src="embedYouTubeURL(obra.endereco_video)"
+						title="Video da obra"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+						allowfullscreen
+					></iframe>
+				</div>
+			</article>
+
+			<article v-if="obra.endereco_pdf" class="media-section">
+				<h2>Visualizar obra</h2>
+				<div class="pdf-container">
+					<iframe :src="obra.endereco_pdf" title="PDF da obra"></iframe>
+				</div>
+			</article>
+		</template>
+	</section>
 </template>
 
 <script>
-import axios from 'axios'
+import { api } from '../services/api'
 
 export default {
-	name: 'AutorShow',
+	name: 'ObraShow',
 	data() {
 		return {
 			id: this.$route.params.id,
-			obra: [],
-			id_autor: '',
-			nome: '',
-			endereco_pdf: '',
-			endereco_audio: '',
-			genero_literario: '',
+			obra: {},
+			autorNome: '',
+			generoNome: '',
+			loading: true,
+			errorMessage: '',
 		}
 	},
 	methods: {
-		getObra(id) {
-			axios
-				.get(`${process.env.VUE_APP_API_URL}/obra/${id}`)
-				.then((res) => {
-					this.obra = res.data.obra[0]
-					console.log('this.obra:', this.obra)
-					this.getAutor(this.obra.id_autor)
-					// console.log(this.obra.id_genero_literario);
-					this.getGeneroLiterario(this.obra.id_genero_literario)
-				})
-				.catch((error) => {
-					console.log(error)
-				})
+		async getObra(id) {
+			this.loading = true
+			this.errorMessage = ''
+
+			try {
+				const res = await api.get(`/obra/${id}`)
+				this.obra = res.data.obra[0]
+				await Promise.all([
+					this.getAutor(this.obra.id_autor),
+					this.getGeneroLiterario(this.obra.id_genero_literario),
+				])
+			} catch (error) {
+				console.log(error)
+				this.errorMessage = 'Nao foi possivel carregar esta obra.'
+			} finally {
+				this.loading = false
+			}
 		},
-		getAutor(id) {
-			axios
-				.get(`${process.env.VUE_APP_API_URL}/autor/${id}`)
-				.then((res) => {
-					this.autor = res.data.autor
-					// console.log(this.autor[0].nome)
-					this.obra.id_autor = this.autor[0].nome
-				})
-				.catch((error) => {
-					console.log(error)
-				})
+		async getAutor(id) {
+			const res = await api.get(`/autor/${id}`)
+			this.autorNome = res.data.autor[0].nome
 		},
-		getGeneroLiterario(id) {
-			axios
-				.get(`${process.env.VUE_APP_API_URL}/genero_literario/${id}`)
-				.then((res) => {
-					this.genero_literario = res.data.generoLiterario
-					// console.log(this.genero_literario)
-					// console.log(this.genero_literario[0].nome)
-					this.obra.id_genero_literario = this.genero_literario[0].nome
-				})
-				.catch((error) => {
-					console.log(error)
-				})
+		async getGeneroLiterario(id) {
+			const res = await api.get(`/genero_literario/${id}`)
+			this.generoNome = res.data.generoLiterario[0].nome
 		},
 		goBack() {
 			window.history.back()
@@ -129,7 +119,7 @@ export default {
 					ampersandPosition
 				)}`
 			}
-			return `https://www.youtube.com/embed/${videoId}`
+			return `https://www.youtube.com/embed/${videoId || ''}`
 		},
 	},
 	created() {
@@ -139,89 +129,106 @@ export default {
 </script>
 
 <style scoped>
-img {
-	width: 60px;
-	height: 60px;
+.detail-page {
+	display: grid;
+	gap: var(--space-5);
 }
-.container {
-	background-color: #fafafa;
-	box-shadow: 3px 2px 7px rgba(0, 0, 0, 0.15);
-	border: 1px solid #d2d2d2;
-	border-radius: 16px;
-	font-size: 22px;
-	color: #3b3b3b;
-	text-transform: capitalize;
-	padding: 0;
-	width: 600px;
-}
-.container article {
+
+.detail-header {
 	display: flex;
-	align-items: center;
 	justify-content: space-between;
-	align-items: center;
-	border-bottom: 1px solid #d2d2d2a1;
-	padding: 10px 20px;
+	gap: var(--space-4);
+	align-items: start;
 }
-.container article h5 {
-	font-weight: 500;
+
+.eyebrow {
+	margin: 0 0 var(--space-2);
+	color: var(--color-primary);
+	font-size: 0.78rem;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
 }
-.container a {
-	text-decoration: none;
-}
-.action {
+
+.actions {
 	display: flex;
-	justify-content: center;
-	gap: 10px;
+	gap: var(--space-2);
+	flex-wrap: wrap;
 }
-.container button {
-	background-color: #a2691a;
-	border-radius: 10px;
-	border: none;
-	font-size: 22px;
-	color: #f2f2f2;
-	text-transform: capitalize;
-	padding: 5px 10px;
-	margin: 10px 0;
-	cursor: pointer;
-	transition: all ease 0.5s;
-	display: flex;
-	align-items: center;
-	gap: 5px;
+
+.meta-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+	gap: var(--space-3);
 }
-.container button:hover {
-	background-color: #c9872c;
+
+.meta-grid article,
+.media-section {
+	padding: var(--space-4);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-surface);
 }
+
+.meta-grid span {
+	display: block;
+	margin-bottom: var(--space-1);
+	color: var(--color-muted);
+	font-size: 0.85rem;
+	font-weight: 800;
+	text-transform: uppercase;
+}
+
+.media-section h2 {
+	margin: 0 0 var(--space-3);
+	font-size: 1rem;
+}
+
+audio {
+	width: 100%;
+}
+
 .video-container {
 	position: relative;
 	width: 100%;
-	height: 0;
-	padding-bottom: 56.25%; /* 16:9 aspect ratio */
-	border: 2px solid #d2d2d2;
-	border-radius: 10px;
-	background-color: #f9f9f9;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	margin-top: 20px;
+	aspect-ratio: 16 / 9;
+	overflow: hidden;
+	border-radius: var(--radius-md);
+	background: var(--color-surface-muted);
 }
-.video-container iframe {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	border: none;
-}
-.pdf-container {
-	position: relative;
-	width: 100%;
-	border: 2px solid #d2d2d2;
-	border-radius: 10px;
-	background-color: #f9f9f9;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	margin-top: 20px;
-}
+
+.video-container iframe,
 .pdf-container iframe {
 	width: 100%;
-	height: 600px;
-	border: none;
+	border: 0;
+}
+
+.video-container iframe {
+	position: absolute;
+	inset: 0;
+	height: 100%;
+}
+
+.pdf-container {
+	overflow: hidden;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-surface-muted);
+}
+
+.pdf-container iframe {
+	display: block;
+	height: min(72vh, 720px);
+}
+
+@media (max-width: 720px) {
+	.detail-header {
+		flex-direction: column;
+	}
+
+	.actions,
+	.actions .ui-button {
+		width: 100%;
+	}
 }
 </style>

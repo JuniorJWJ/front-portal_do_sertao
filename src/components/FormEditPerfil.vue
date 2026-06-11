@@ -165,9 +165,16 @@ export default {
 				console.log(pair[0] + ', ' + pair[1])
 			}
 			try {
+				const token = localStorage.getItem('token')
+				console.log('token: ' + token)
 				await axios.put(
 					`${process.env.VUE_APP_API_URL}/autor/update/${this.userId}`,
-					formData
+					formData,
+					{
+						headers: {
+							authorization: `Bearer ${token}`,
+						},
+					}
 				)
 				this.$router.push({ name: 'AutorPerfilView' })
 			} catch (err) {

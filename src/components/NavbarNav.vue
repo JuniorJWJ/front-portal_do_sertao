@@ -1,195 +1,252 @@
 <template>
-	<header>
-		<div>
-			<a class="logo" href="#"><img src="../assets/logo-4.png" alt="" /></a>
-		</div>
+	<header class="site-header">
+		<router-link class="brand" to="/" aria-label="Portal do Sertao - Home">
+			<img src="../assets/logo-4.png" alt="Portal do Sertao" />
+		</router-link>
 
-		<nav @click="setActiveNav()">
-			<router-link to="/" :class="[activeNavItem == '/' ? 'activeItem' : '']"
-				>Home</router-link
-			>
+		<button
+			class="menu-toggle"
+			type="button"
+			:aria-expanded="menuOpen"
+			aria-controls="main-navigation"
+			@click="menuOpen = !menuOpen"
+		>
+			<span></span>
+			<span></span>
+			<span></span>
+			<span class="sr-only">Abrir menu</span>
+		</button>
+
+		<nav
+			id="main-navigation"
+			class="main-nav"
+			:class="{ open: menuOpen }"
+			aria-label="Navegacao principal"
+		>
 			<router-link
-				to="/list_obra"
-				:class="[activeNavItem === '/list_obra' ? 'activeItem' : '']"
-				>Obras</router-link
+				v-for="item in visibleNavItems"
+				:key="item.to"
+				:to="item.to"
+				@click="closeMenu"
 			>
+				{{ item.label }}
+			</router-link>
+
 			<router-link
-				to="/list_autor"
-				:class="[activeNavItem === '/list_autor' ? 'activeItem' : '']"
-				>Autores</router-link
+				v-if="!token"
+				class="login"
+				to="/log_user"
+				@click="closeMenu"
 			>
-			<router-link
-				v-show="token && adm"
-				to="/edit_autor_list"
-				:class="[activeNavItem === '/edit_autor_list' ? 'activeItem' : '']"
-				>Editar Autor</router-link
-			>
-			<router-link
-				v-show="token && adm"
-				to="/create_obra"
-				:class="[activeNavItem === '/create_obra' ? 'activeItem' : '']"
-				>Criar Obra</router-link
-			>
-			<router-link
-				v-show="token && adm"
-				to="/create_autor"
-				:class="[activeNavItem === '/create_autor' ? 'activeItem' : '']"
-				>Criar Autor</router-link
-			>
-			<router-link
-				v-show="token && adm"
-				to="/edit_obra_list"
-				:class="[activeNavItem === '/edit_obra_list' ? 'activeItem' : '']"
-				>Editar Obra</router-link
-			>
-			<router-link
-				v-show="token && !adm"
-				to="/minhas_obras"
-				:class="[activeNavItem === '/edit_obra_list' ? 'activeItem' : '']"
-				>Minhas Obras</router-link
-			>
-			<router-link
-				v-show="token && !adm"
-				to="/perfil"
-				:class="[activeNavItem === '/perfil' ? 'activeItem' : '']"
-				>Perfil</router-link
-			>
-			<router-link
-				v-show="token && !adm"
-				to="/edit_perfil"
-				:class="[activeNavItem === '/edit_obra_list' ? 'activeItem' : '']"
-				>Editar Perfil</router-link
-			>
-			<router-link
-				v-show="token && !adm"
-				to="/register_obra"
-				:class="[activeNavItem === '/register_obra' ? 'activeItem' : '']"
-				>Registrar Obra</router-link
-			>
-			<router-link
-				to="/sobre"
-				:class="[activeNavItem === '/sobre' ? 'activeItem' : '']"
-				>Sobre</router-link
-			>
-			<router-link
-				to="/dados_autores"
-				:class="[activeNavItem === '/dados_autores' ? 'activeItem' : '']"
-				>Gráficos</router-link
-			>
+				Login
+			</router-link>
+			<button v-else class="login" type="button" @click="deslogUser">Sair</button>
 		</nav>
-
-		<div v-if="!token">
-			<router-link class="login" to="/log_user">
-				<i class="bi-person-circle"></i>
-				<span>Login</span>
-			</router-link>
-		</div>
-		<div v-if="token">
-			<router-link class="login" to="/log_user" @click="deslogUser">
-				<i class="bi-box-arrow-right"></i>
-				<span>Sair</span>
-			</router-link>
-		</div>
 	</header>
 </template>
 
 <script>
-import jwtDecode from 'jwt-decode'
+import { getCurrentUser, getToken, logout } from '../services/auth'
+
+const publicItems = [
+	{ to: '/', label: 'Home' },
+	{ to: '/list_obra', label: 'Obras' },
+	{ to: '/list_autor', label: 'Autores' },
+	{ to: '/sobre', label: 'Sobre' },
+	{ to: '/dados_autores', label: 'Graficos' },
+]
+
+const adminItems = [
+	{ to: '/edit_autor_list', label: 'Editar Autor' },
+	{ to: '/create_obra', label: 'Criar Obra' },
+	{ to: '/create_autor', label: 'Criar Autor' },
+	{ to: '/edit_obra_list', label: 'Editar Obra' },
+]
+
+const authorItems = [
+	{ to: '/minhas_obras', label: 'Minhas Obras' },
+	{ to: '/perfil', label: 'Perfil' },
+	{ to: '/edit_perfil', label: 'Editar Perfil' },
+	{ to: '/register_obra', label: 'Registrar Obra' },
+]
 
 export default {
 	name: 'NavbarNav',
-	mounted() {
-		if (!this.isReloaded) {
-			this.isReloaded = true
-			const token = localStorage.getItem('token')
-			if (token) {
-				const decodedToken = jwtDecode(token)
-				console.log(decodedToken.id)
-				this.userId = decodedToken.id
-				this.decodedToken = decodedToken // Adicionado o atributo decodedToken ao data
-				this.adm = decodedToken.adm
-				console.log(this.adm)
-			}
+	data() {
+		const currentUser = getCurrentUser()
+
+		return {
+			token: getToken(),
+			adm: currentUser?.adm === 1,
+			menuOpen: false,
 		}
 	},
-	data() {
-		return {
-			token: localStorage.getItem('token'),
-			activeNavItem: '/',
-			decodedToken: null,
-			adm: null,
-		}
+	computed: {
+		visibleNavItems() {
+			if (!this.token) {
+				return publicItems
+			}
+
+			return this.adm
+				? [...publicItems, ...adminItems]
+				: [...publicItems, ...authorItems]
+		},
 	},
 	methods: {
-		async deslogUser() {
-			localStorage.clear()
-			location.reload()
-			this.$router.push({ name: 'LogUserView' })
+		deslogUser() {
+			logout()
+			this.closeMenu()
+			this.$router.push({ name: 'LogUserView' }).then(() => {
+				location.reload()
+			})
 		},
-		setActiveNav() {
-			this.activeNavItem = this.$route.path
+		closeMenu() {
+			this.menuOpen = false
 		},
 	},
 }
 </script>
+
 <style scoped>
-header {
-	background-image: #f2f2f2;
-	color: #3b3b3b;
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	width: min(100%, var(--container));
+	margin: 0 auto var(--space-5);
+	padding: var(--space-3) var(--space-5);
 	display: flex;
-	flex-wrap: nowrap;
-	justify-content: space-between;
 	align-items: center;
-	width: 100%;
-	padding: 10px 50px;
-	border-bottom: 1px solid #d2d2d28e;
-	box-shadow: 1px 5px 15px rgba(0, 0, 0, 0.05);
-	margin-bottom: 30px;
-	max-width: 1280px;
+	justify-content: space-between;
+	gap: var(--space-4);
+	background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+	backdrop-filter: blur(14px);
+	border: 1px solid var(--color-border);
+	border-top: 0;
+	border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+	box-shadow: var(--shadow-sm);
 }
-nav {
+
+.brand {
 	display: flex;
-	justify-content: space-between; /* Alinha os itens com espaçamento */
-	align-items: center; /* Alinha os itens verticalmente ao centro */
-	flex-wrap: nowrap; /* Impede a quebra de linha */
-	width: 100%;
+	align-items: center;
+	flex: 0 0 auto;
 }
-nav a {
-	color: #a2691a;
-	font-size: 25px;
-	font-weight: 500;
-	text-decoration: none;
-	margin-left: 20px;
-	white-space: nowrap; /* Garante que o texto não quebre */
+
+.brand img {
+	width: 86px;
+	height: auto;
+	display: block;
 }
-.activeItem,
-nav a:hover {
-	border-bottom: 2px solid #a2691a;
-	padding-bottom: 5px;
+
+.main-nav {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: var(--space-2);
+	flex-wrap: wrap;
 }
-.logo img {
-	width: 100px;
-}
+
+.main-nav a,
 .login {
-	display: flex;
-	background-color: #a2691a;
-	border-radius: 10px;
-	border: none;
-	font-size: 22px;
-	color: #f2f2f2;
-	text-transform: capitalize;
-	padding: 5px 10px;
-	margin: 10px 0;
-	cursor: pointer;
-	transition: all ease 0.5s;
+	display: inline-flex;
+	align-items: center;
+	min-height: 38px;
+	padding: 0.5rem 0.72rem;
+	border-radius: var(--radius-sm);
+	color: var(--color-muted);
+	font-size: 0.95rem;
+	font-weight: 700;
 	text-decoration: none;
+	white-space: nowrap;
+	transition:
+		background-color 160ms ease,
+		color 160ms ease,
+		transform 160ms ease;
+}
+
+.main-nav a:hover,
+.main-nav a.router-link-active {
+	background: var(--color-primary-soft);
+	color: var(--color-primary-strong);
+}
+
+.login {
+	border: 0;
+	background: var(--color-primary);
+	color: #fff;
+	cursor: pointer;
 }
 
 .login:hover {
-	background-color: #c9872c;
+	background: var(--color-primary-strong);
+	color: #fff;
+	transform: translateY(-1px);
 }
-.login i {
-	color: #f2f2f2;
-	margin-right: 5px;
+
+.menu-toggle {
+	display: none;
+	width: 42px;
+	height: 42px;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+	background: var(--color-surface);
+	cursor: pointer;
+	padding: 0.55rem;
+}
+
+.menu-toggle span:not(.sr-only) {
+	display: block;
+	height: 2px;
+	margin: 5px 0;
+	background: var(--color-text);
+	border-radius: 999px;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+@media (max-width: 960px) {
+	.site-header {
+		margin-bottom: var(--space-3);
+		border-radius: 0;
+		padding: var(--space-3);
+	}
+
+	.menu-toggle {
+		display: block;
+	}
+
+	.main-nav {
+		display: none;
+		position: absolute;
+		inset: calc(100% - 1px) var(--space-3) auto;
+		padding: var(--space-3);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		background: var(--color-surface);
+		box-shadow: var(--shadow-md);
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.main-nav.open {
+		display: flex;
+	}
+
+	.main-nav a,
+	.login {
+		width: 100%;
+		justify-content: flex-start;
+	}
 }
 </style>

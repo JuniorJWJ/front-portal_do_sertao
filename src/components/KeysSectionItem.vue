@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 
 export default {
 	name: 'ObrasSection',
@@ -27,7 +27,7 @@ export default {
 			obras: [], // Lista completa de obras
 			displayedObras: [], // Obras exibidas na tela (limitadas)
 			obraLimit: 5, // Limite de obras por vez
-		};
+		}
 	},
 	methods: {
 		getObras() {
@@ -36,29 +36,29 @@ export default {
 				.get(`${process.env.VUE_APP_API_URL}/lista_obra`)
 				.then((res) => {
 					// Verifica se a resposta é um array de obras
-					this.obras = res.data || [];
+					this.obras = res.data || []
 					// Exibe as primeiras 5 obras
-					this.displayedObras = this.obras.obra.slice(0, this.obraLimit);
+					this.displayedObras = this.obras.obra.slice(0, this.obraLimit)
 				})
 				.catch((error) => {
-					console.error(error);
-					this.obras = [];
-					this.displayedObras = [];
-				});
+					console.error(error)
+					this.obras = []
+					this.displayedObras = []
+				})
 		},
 		loadMore() {
 			// Carrega mais obras
 			const nextObras = this.obras.slice(
 				this.displayedObras.length,
 				this.displayedObras.length + this.obraLimit
-			);
-			this.displayedObras.push(...nextObras); // Adiciona as novas obras à lista exibida
+			)
+			this.displayedObras.push(...nextObras) // Adiciona as novas obras à lista exibida
 		},
 	},
 	mounted() {
-		this.getObras(); // Carrega a lista de obras ao montar o componente
+		this.getObras() // Carrega a lista de obras ao montar o componente
 	},
-};
+}
 </script>
 
 <style scoped>

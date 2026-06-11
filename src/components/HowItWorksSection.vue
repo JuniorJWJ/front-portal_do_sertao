@@ -6,7 +6,7 @@
 				<i class="icon">📝</i>
 				<p>Cadastre-se como Autor</p>
 			</div>
-      <div class="step">
+			<div class="step">
 				<i class="icon">👩‍🏫</i>
 				<p>Aguarde a Validação</p>
 			</div>
@@ -25,7 +25,6 @@
 		</div>
 	</section>
 </template>
-
 
 <script>
 export default {

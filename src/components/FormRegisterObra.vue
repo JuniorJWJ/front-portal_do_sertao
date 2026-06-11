@@ -156,7 +156,17 @@ export default {
 			formData.append('select_genero_literario', this.select_genero_literario)
 
 			try {
-				await axios.post(`${process.env.VUE_APP_API_URL}/create_obra`, formData)
+				const token = localStorage.getItem('token')
+				console.log('token: ' + token)
+				await axios.post(
+					`${process.env.VUE_APP_API_URL}/create_obra`,
+					formData,
+					{
+						headers: {
+							authorization: `Bearer ${token}`,
+						},
+					}
+				)
 				this.$router.push({ name: 'MinhasObrasView' })
 			} catch (err) {
 				console.log(err)

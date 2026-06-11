@@ -1,9 +1,11 @@
 <template>
-	<main>
+	<div class="app-shell">
 		<NavbarNav />
-		<router-view />
+		<main class="app-content" id="conteudo-principal">
+			<router-view />
+		</main>
 		<FooterFoot />
-	</main>
+	</div>
 </template>
 
 <script>
@@ -19,15 +21,4 @@ export default {
 }
 </script>
 
-<style>
-main {
-	font-family: 'Roboto', sans-serif;
-	color: #2c3e50;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	height: 100vh;
-	overflow-x: hidden;
-}
-</style>
+<style></style>

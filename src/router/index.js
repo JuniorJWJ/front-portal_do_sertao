@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LogUserView from '../views/LogUserView.vue'
+import { getToken } from '../services/auth'
+
 const navigationAdminRouteGuard = (to) => {
-	const bearerToken = localStorage.getItem('token')
+	const bearerToken = getToken()
 	if (!bearerToken && to.name !== 'LogUserView') {
 		return { name: 'LogUserView' }
 	}
@@ -11,7 +12,8 @@ const routes = [
 	{
 		path: '/log_user',
 		name: 'LogUserView',
-		component: LogUserView,
+		component: () =>
+			import(/* webpackChunkName: "AuthView" */ '../views/LogUserView.vue'),
 		meta: {
 			title: 'Login',
 		},
@@ -20,7 +22,7 @@ const routes = [
 		path: '/create_autor',
 		name: 'AutorCreate',
 		component: () =>
-			import(/* webpackChunkName: "UserView" */ '../views/AutorCreate.vue'),
+			import(/* webpackChunkName: "AutorCreate" */ '../views/AutorCreate.vue'),
 		beforeEnter: navigationAdminRouteGuard,
 		meta: {
 			title: 'Registrar Autor',
@@ -31,7 +33,7 @@ const routes = [
 		name: 'AutorRegisterView',
 		component: () =>
 			import(
-				/* webpackChunkName: "UserView" */ '../views/AutorRegisterView.vue'
+				/* webpackChunkName: "AutorRegister" */ '../views/AutorRegisterView.vue'
 			),
 		meta: {
 			title: 'Registre-se',
@@ -76,7 +78,7 @@ const routes = [
 		path: '/edit_autor/:id',
 		name: 'AutorEditView',
 		component: () =>
-			import(/* webpackChunkName: "UserView" */ '../views/AutorEditView.vue'),
+			import(/* webpackChunkName: "AutorEdit" */ '../views/AutorEditView.vue'),
 		beforeEnter: navigationAdminRouteGuard,
 		meta: {
 			title: 'Alterar Autor',
@@ -87,7 +89,7 @@ const routes = [
 		name: 'AutorEditPerfilView',
 		component: () =>
 			import(
-				/* webpackChunkName: "UserView" */ '../views/AutorEditPerfilView.vue'
+				/* webpackChunkName: "AutorEditPerfil" */ '../views/AutorEditPerfilView.vue'
 			),
 		beforeEnter: navigationAdminRouteGuard,
 	},
@@ -101,7 +103,7 @@ const routes = [
 		path: '/',
 		name: 'HomeView',
 		component: () =>
-			import(/* webpackChunkName: "UserView" */ '../views/HomeView.vue'),
+			import(/* webpackChunkName: "HomeView" */ '../views/HomeView.vue'),
 		meta: {
 			title: 'Home',
 		},
@@ -110,7 +112,7 @@ const routes = [
 		path: '/sobre',
 		name: 'SobreView',
 		component: () =>
-			import(/* webpackChunkName: "UserView" */ '../views/SobreView.vue'),
+			import(/* webpackChunkName: "SobreView" */ '../views/SobreView.vue'),
 		meta: {
 			title: 'Sobre',
 		},
@@ -119,7 +121,7 @@ const routes = [
 		path: '/termos_de_uso',
 		name: 'TermosDeUso',
 		component: () =>
-			import(/* webpackChunkName: "UserView" */ '../views/TermosDeUso.vue'),
+			import(/* webpackChunkName: "TermosDeUso" */ '../views/TermosDeUso.vue'),
 		meta: {
 			title: 'Termos De Uso',
 		},
@@ -128,7 +130,7 @@ const routes = [
 		path: '/create_obra',
 		name: 'ObraCreate',
 		component: () =>
-			import(/* webpackChunkName: "UserView" */ '../views/ObraCreate.vue'),
+			import(/* webpackChunkName: "ObraCreate" */ '../views/ObraCreate.vue'),
 		beforeEnter: navigationAdminRouteGuard,
 		meta: {
 			title: 'Registrar Obra',
@@ -139,7 +141,7 @@ const routes = [
 		name: 'ObraRegisterView',
 		component: () =>
 			import(
-				/* webpackChunkName: "UserView" */ '../views/ObraRegisterView.vue'
+				/* webpackChunkName: "ObraRegister" */ '../views/ObraRegisterView.vue'
 			),
 		beforeEnter: navigationAdminRouteGuard,
 	},
@@ -147,7 +149,7 @@ const routes = [
 		path: '/list_obra',
 		name: 'ObraView',
 		component: () =>
-			import(/* webpackChunkName: "UserView" */ '../views/ObraView.vue'),
+			import(/* webpackChunkName: "ObraView" */ '../views/ObraView.vue'),
 		meta: {
 			title: 'Obras',
 		},
@@ -156,14 +158,14 @@ const routes = [
 		path: '/minhas_obras',
 		name: 'MinhasObrasView',
 		component: () =>
-			import(/* webpackChunkName: "UserView" */ '../views/MinhasObrasView.vue'),
+			import(/* webpackChunkName: "MinhasObras" */ '../views/MinhasObrasView.vue'),
 		beforeEnter: navigationAdminRouteGuard,
 	},
 	{
 		path: '/show_obra/:id',
 		name: 'ObraShow',
 		component: () =>
-			import(/* webpackChunkName: "UserView" */ '../views/ObraShow.vue'),
+			import(/* webpackChunkName: "ObraShow" */ '../views/ObraShow.vue'),
 	},
 	{
 		path: '/edit_obra_list',
@@ -179,7 +181,7 @@ const routes = [
 		path: '/edit_obra/:id',
 		name: 'ObraEditView',
 		component: () =>
-			import(/* webpackChunkName: "UserView" */ '../views/ObraEditView.vue'),
+			import(/* webpackChunkName: "ObraEdit" */ '../views/ObraEditView.vue'),
 		beforeEnter: navigationAdminRouteGuard,
 		meta: {
 			title: 'Alterar Obra',
@@ -190,7 +192,7 @@ const routes = [
 		name: 'ObraEditByOwnerView',
 		component: () =>
 			import(
-				/* webpackChunkName: "UserView" */ '../views/ObraEditByOwnerView.vue'
+				/* webpackChunkName: "ObraEditByOwner" */ '../views/ObraEditByOwnerView.vue'
 			),
 		beforeEnter: navigationAdminRouteGuard,
 		meta: {
@@ -202,7 +204,7 @@ const routes = [
 		name: 'DadosAutores',
 		component: () =>
 			import(
-				/* webpackChunkName: "UserView" */ '../views/DadosAutoresView.vue'
+				/* webpackChunkName: "DadosAutores" */ '../views/DadosAutoresView.vue'
 			),
 		// beforeEnter: navigationAdminRouteGuard,
 		meta: {
@@ -217,6 +219,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to) => {
-	document.title = to.meta?.title ?? 'Default Title'
+	document.title = to.meta?.title
+		? `${to.meta.title} | Portal do Sertao`
+		: 'Portal do Sertao'
 })
 export default router

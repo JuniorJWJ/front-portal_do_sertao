@@ -1,109 +1,154 @@
 <template>
-	<div id="mainObra">
-		<div id="barraLateralObra">
-			<ul>
-				<li
-					v-for="nomegeneroliterario in GenerosLiterarios.generoLiterario"
-					:key="nomegeneroliterario.nome"
-					:value="nomegeneroliterario.id"
-					@click="toggleFilterOption(nomegeneroliterario.id)"
-					:class="[
-						activeFilterOption === nomegeneroliterario.id ? 'activeOption' : '',
-					]"
-				>
-					{{ nomegeneroliterario.nome }}
-					<i
-						v-show="activeFilterOption === nomegeneroliterario.id"
-						class="bi-check"
-					></i>
-				</li>
-			</ul>
-		</div>
-		<section id="listaObraMain">
-			<div id="pesquisaObra">
+	<section class="page-surface directory-page" aria-labelledby="obras-title">
+		<div class="directory-header">
+			<div>
+				<p class="eyebrow">Biblioteca</p>
+				<h1 id="obras-title" class="page-title">Obras</h1>
+				<p class="muted">Filtre por genero literario ou pesquise pelo titulo.</p>
+			</div>
+			<label class="search-field" for="obra-search">
+				<span>Buscar obra</span>
 				<input
-					placeholder="Pesquisar obra"
-					class="form-control inputsearch"
+					id="obra-search"
 					v-model="searchQuery"
+					class="form-control"
+					type="search"
+					placeholder="Pesquisar obra"
 				/>
+			</label>
+		</div>
+
+		<div class="directory-layout">
+			<aside class="filter-panel" aria-label="Filtro por genero literario">
+				<h2>Generos</h2>
+				<button
+					type="button"
+					class="filter-option"
+					:class="{ active: activeFilterOption === '' }"
+					@click="clearFilter"
+				>
+					Todos
+				</button>
+				<button
+					v-for="genero in GenerosLiterarios.generoLiterario"
+					:key="genero.id"
+					type="button"
+					class="filter-option"
+					:class="{ active: activeFilterOption === genero.id }"
+					@click="toggleFilterOption(genero.id)"
+				>
+					{{ genero.nome }}
+				</button>
+			</aside>
+
+			<div class="results-panel" aria-live="polite">
+				<div v-if="loading" class="results-grid">
+					<div v-for="item in 6" :key="item" class="work-card skeleton-card">
+						<span class="line skeleton"></span>
+						<span class="short-line skeleton"></span>
+					</div>
+				</div>
+
+				<div v-else-if="errorMessage" class="status-box" role="alert">
+					{{ errorMessage }}
+					<button type="button" class="ui-button secondary" @click="getObras">
+						Tentar novamente
+					</button>
+				</div>
+
+				<div v-else-if="resultQuery.length === 0" class="status-box">
+					Nenhuma obra encontrada.
+				</div>
+
+				<div v-else class="results-grid">
+					<button
+						v-for="obra in resultQuery"
+						:key="obra.id"
+						type="button"
+						class="work-card"
+						@click="show_obra(obra.id)"
+					>
+						<span>
+							<strong>{{ obra.nome }}</strong>
+							<small>Ver detalhes da obra</small>
+						</span>
+					</button>
+				</div>
 			</div>
-			<div v-if="resultQuery.length === 0" class="no-results">
-				Nenhuma obra encontrada.
-			</div>
-			<article
-				v-else
-				class="container"
-				v-for="r of resultQuery"
-				:key="r.id"
-				@click="show_obra(r.id)"
-			>
-				{{ r.nome }}
-				<i class="bi-chevron-right"></i>
-			</article>
-		</section>
-	</div>
+		</div>
+	</section>
 </template>
 
 <script>
-import axios from 'axios'
+import { api } from '../services/api'
+
 export default {
 	name: 'ObraList',
 	data() {
 		return {
-			obras: { obra: [] }, // Inicializando obras.obra como array vazio
-			searchQuery: null,
+			obras: { obra: [] },
+			searchQuery: '',
 			activeFilterOption: '',
-			GenerosLiterarios: { generoLiterario: [] }, // Inicializando GenerosLiterarios como objeto com array vazio
+			GenerosLiterarios: { generoLiterario: [] },
+			loading: true,
+			errorMessage: '',
 		}
 	},
 	methods: {
-		getObras() {
-			axios
-				.get(`${process.env.VUE_APP_API_URL}/lista_obra`)
-				.then((res) => {
-					this.obras = res.data || { obra: [] } // Garantindo que obras seja um objeto com a propriedade obra
-					console.log('opa')
-					console.log(this.obras)
-				})
-				.catch((error) => {
-					console.log(error)
-				})
+		async getObras() {
+			this.loading = true
+			this.errorMessage = ''
+
+			try {
+				const res = await api.get('/lista_obra')
+				this.obras = res.data || { obra: [] }
+			} catch (error) {
+				console.log(error)
+				this.obras = { obra: [] }
+				this.errorMessage = 'Nao foi possivel carregar as obras.'
+			} finally {
+				this.loading = false
+			}
 		},
-		getObrasFiltroGenero(id) {
-			axios
-				.get(`${process.env.VUE_APP_API_URL}/lista_obra/genero/${id}`)
-				.then((res) => {
-					this.obras = res.data || { obra: [] } // Garantindo que obras seja um objeto com a propriedade obra
-					console.log('procurei no banco')
-					console.log(this.obras.length)
-				})
-				.catch((error) => {
-					console.log(error)
-					this.obras = []
-				})
+		async getObrasFiltroGenero(id) {
+			this.loading = true
+			this.errorMessage = ''
+
+			try {
+				const res = await api.get(`/lista_obra/genero/${id}`)
+				this.obras = res.data || { obra: [] }
+			} catch (error) {
+				console.log(error)
+				this.obras = { obra: [] }
+				this.errorMessage = 'Nenhuma obra encontrada para este genero.'
+			} finally {
+				this.loading = false
+			}
 		},
-		getGenerosLiterarios() {
-			axios
-				.get(`${process.env.VUE_APP_API_URL}/lista_generos_literarios`)
-				.then((res) => {
-					this.GenerosLiterarios = res.data || { generoLiterario: [] } // Garantindo que GenerosLiterarios seja um objeto com array vazio
-				})
-				.catch((error) => {
-					console.log(error)
-				})
+		async getGenerosLiterarios() {
+			try {
+				const res = await api.get('/lista_generos_literarios')
+				this.GenerosLiterarios = res.data || { generoLiterario: [] }
+			} catch (error) {
+				console.log(error)
+				this.GenerosLiterarios = { generoLiterario: [] }
+			}
 		},
 		show_obra(id) {
-			this.$router.push({ name: 'ObraShow', params: { id: id } })
+			this.$router.push({ name: 'ObraShow', params: { id } })
+		},
+		clearFilter() {
+			this.activeFilterOption = ''
+			this.getObras()
 		},
 		toggleFilterOption(itemId) {
 			if (this.activeFilterOption === itemId) {
-				this.activeFilterOption = ''
-				this.getObras()
+				this.clearFilter()
 				return
 			}
 
-			this.getObrasFiltroGenero(itemId)
 			this.activeFilterOption = itemId
+			this.getObrasFiltroGenero(itemId)
 		},
 	},
 	mounted() {
@@ -112,90 +157,189 @@ export default {
 	},
 	computed: {
 		resultQuery() {
-			if (this.searchQuery && this.obras.obra) {
-				return this.obras.obra.filter((item) => {
-					return this.searchQuery
-						.toLowerCase()
-						.split(' ')
-						.every((v) => item.nome.toLowerCase().includes(v))
-				})
-			} else {
-				return this.obras.obra || [] // Garantindo que seja um array
+			const obras = this.obras.obra || []
+			const query = this.searchQuery.trim().toLowerCase()
+
+			if (!query) {
+				return obras
 			}
+
+			return obras.filter((item) =>
+				query.split(' ').every((value) => item.nome.toLowerCase().includes(value))
+			)
 		},
 	},
 }
 </script>
 
 <style scoped>
-#barraLateralObra {
-	display: flex;
-	text-align: left;
-	outline: none;
-	font-size: 22px;
-}
-#barraLateralObra ul li:hover,
-.activeOption {
-	background-color: #dad8d8;
-}
-#mainObra {
-	display: flex;
-}
-#listaObraMain {
+.directory-page {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
+	gap: var(--space-6);
 }
-.container {
-	background-color: #a2691a;
-	box-shadow: 3px 2px 7px rgba(0, 0, 0, 0.15);
-	border: 1px solid #d2d2d2;
-	border-radius: 16px;
-	font-size: 22px;
-	color: #f2f2f2;
+
+.directory-header {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+	gap: var(--space-5);
+	align-items: end;
+}
+
+.eyebrow {
+	margin: 0 0 var(--space-2);
+	color: var(--color-primary);
+	font-size: 0.78rem;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+
+.search-field {
+	display: grid;
+	gap: var(--space-2);
+	color: var(--color-muted);
+	font-weight: 700;
+}
+
+.directory-layout {
+	display: grid;
+	grid-template-columns: 260px minmax(0, 1fr);
+	gap: var(--space-5);
+	align-items: start;
+}
+
+.filter-panel {
+	position: sticky;
+	top: 112px;
+	display: grid;
+	gap: var(--space-2);
+	padding: var(--space-3);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-surface-muted);
+}
+
+.filter-panel h2 {
+	margin: 0 0 var(--space-2);
+	font-size: 0.9rem;
+	color: var(--color-muted);
+	text-transform: uppercase;
+}
+
+.filter-option {
 	width: 100%;
-	padding: 10px 15px;
-	text-transform: capitalize;
+	min-height: 40px;
+	padding: 0.55rem 0.7rem;
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: var(--color-text);
+	text-align: left;
 	cursor: pointer;
-	transition: all ease 0.5s;
+}
+
+.filter-option:hover,
+.filter-option.active {
+	background: var(--color-surface);
+	color: var(--color-primary-strong);
+	box-shadow: var(--shadow-sm);
+}
+
+.results-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+	gap: var(--space-3);
+}
+
+.work-card {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	width: 100%;
+	min-height: 110px;
+	padding: var(--space-4);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-surface);
+	color: var(--color-text);
+	text-align: left;
+	box-shadow: var(--shadow-sm);
+	cursor: pointer;
+	transition:
+		transform 160ms ease,
+		border-color 160ms ease,
+		box-shadow 160ms ease;
 }
-.container:hover {
-	background-color: #c9872c;
+
+.work-card::after {
+	content: "Abrir";
+	color: var(--color-primary);
+	font-size: 0.8rem;
+	font-weight: 800;
 }
-ul li {
-	list-style-type: none;
+
+.work-card:hover {
+	transform: translateY(-2px);
+	border-color: color-mix(in srgb, var(--color-primary) 45%, var(--color-border));
+	box-shadow: var(--shadow-md);
 }
-.inputsearch {
-	border-radius: 8px;
-	width: 740px;
+
+.work-card strong,
+.work-card small {
+	display: block;
 }
-img {
-	width: 40px;
+
+.work-card small {
+	margin-top: var(--space-2);
+	color: var(--color-muted);
 }
-ul li {
-	margin-right: 30px;
-	width: 300px;
-	padding: 10px;
-	border-top: 1px solid #ccc;
-	border-left: 1px solid #ccc;
-	border-right: 1px solid #ccc;
+
+.line,
+.short-line {
+	display: block;
+	height: 16px;
+	border-radius: 999px;
 }
-#barraLateralObra ul li:first-child {
-	border-top-left-radius: 10px;
-	border-top-right-radius: 10px;
+
+.line {
+	width: 70%;
 }
-#barraLateralObra ul li:last-child {
-	border-bottom-left-radius: 10px;
-	border-bottom-right-radius: 10px;
-	border-bottom: 1px solid #ccc;
+
+.short-line {
+	width: 42%;
 }
-.no-results {
-	font-size: 18px;
-	color: #666;
-	text-align: center;
-	margin-top: 20px;
+
+.skeleton-card {
+	display: grid;
+	align-content: center;
+	gap: var(--space-3);
+	cursor: default;
+}
+
+.skeleton-card::after {
+	content: "";
+}
+
+@media (max-width: 820px) {
+	.directory-header,
+	.directory-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.filter-panel {
+		position: static;
+		display: flex;
+		overflow-x: auto;
+	}
+
+	.filter-panel h2 {
+		display: none;
+	}
+
+	.filter-option {
+		flex: 0 0 auto;
+		width: auto;
+	}
 }
 </style>

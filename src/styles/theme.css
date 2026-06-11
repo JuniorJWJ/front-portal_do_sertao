@@ -1,0 +1,215 @@
+:root {
+	--color-bg: #f7f5f0;
+	--color-surface: #ffffff;
+	--color-surface-muted: #f1eee7;
+	--color-text: #211f1c;
+	--color-muted: #686057;
+	--color-border: #ded8cd;
+	--color-primary: #8a4f1d;
+	--color-primary-strong: #6f3f16;
+	--color-primary-soft: #f2dfc6;
+	--color-danger: #b42318;
+	--color-success: #0f7b49;
+	--shadow-sm: 0 1px 2px rgba(22, 20, 18, 0.08);
+	--shadow-md: 0 14px 34px rgba(57, 42, 28, 0.12);
+	--radius-sm: 8px;
+	--radius-md: 12px;
+	--radius-lg: 18px;
+	--container: 1180px;
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.5rem;
+	--space-6: 2rem;
+	--space-7: 3rem;
+	--font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+		"Segoe UI", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--color-bg: #15130f;
+		--color-surface: #211f1a;
+		--color-surface-muted: #2d2922;
+		--color-text: #f7f2ea;
+		--color-muted: #c1b7a7;
+		--color-border: #484034;
+		--color-primary: #d59853;
+		--color-primary-strong: #f0b768;
+		--color-primary-soft: #3f2d1b;
+		--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+		--shadow-md: 0 18px 40px rgba(0, 0, 0, 0.34);
+	}
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	color-scheme: light dark;
+	scroll-behavior: smooth;
+}
+
+body {
+	margin: 0;
+	background:
+		linear-gradient(180deg, rgba(138, 79, 29, 0.08), transparent 320px),
+		var(--color-bg);
+	color: var(--color-text);
+	font-family: var(--font-sans);
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+}
+
+a {
+	color: var(--color-primary);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+	outline: 3px solid color-mix(in srgb, var(--color-primary) 45%, transparent);
+	outline-offset: 3px;
+}
+
+.app-shell {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+}
+
+.app-content {
+	width: min(100%, var(--container));
+	margin: 0 auto;
+	padding: var(--space-5);
+	flex: 1;
+}
+
+.page-surface {
+	width: 100%;
+	background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-lg);
+	box-shadow: var(--shadow-md);
+	padding: clamp(1rem, 3vw, 2rem);
+}
+
+.page-title,
+.titulo {
+	margin: 0 0 var(--space-5);
+	color: var(--color-text);
+	font-size: clamp(1.65rem, 3vw, 2.35rem);
+	font-weight: 750;
+	letter-spacing: 0;
+}
+
+.muted {
+	color: var(--color-muted);
+}
+
+.ui-button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: var(--space-2);
+	min-height: 42px;
+	padding: 0.62rem 1rem;
+	border: 1px solid transparent;
+	border-radius: var(--radius-sm);
+	background: var(--color-primary);
+	color: #fff;
+	font-weight: 700;
+	text-decoration: none;
+	cursor: pointer;
+	transition:
+		transform 160ms ease,
+		background-color 160ms ease,
+		box-shadow 160ms ease;
+}
+
+.ui-button:hover {
+	background: var(--color-primary-strong);
+	color: #fff;
+	transform: translateY(-1px);
+	box-shadow: var(--shadow-sm);
+}
+
+.ui-button.secondary {
+	background: var(--color-surface);
+	border-color: var(--color-border);
+	color: var(--color-text);
+}
+
+.ui-input,
+.form-control,
+.form-select {
+	min-height: 44px;
+	border-color: var(--color-border);
+	border-radius: var(--radius-sm);
+	background-color: var(--color-surface);
+	color: var(--color-text);
+}
+
+.form-control:focus,
+.form-select:focus {
+	border-color: var(--color-primary);
+	box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.status-box {
+	width: 100%;
+	padding: var(--space-5);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-surface);
+	color: var(--color-muted);
+	text-align: center;
+}
+
+.skeleton {
+	position: relative;
+	overflow: hidden;
+	background: var(--color-surface-muted);
+}
+
+.skeleton::after {
+	position: absolute;
+	inset: 0;
+	content: "";
+	transform: translateX(-100%);
+	background: linear-gradient(
+		90deg,
+		transparent,
+		color-mix(in srgb, var(--color-surface) 70%, transparent),
+		transparent
+	);
+	animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+@media (max-width: 720px) {
+	.app-content {
+		padding: var(--space-3);
+	}
+
+	.page-surface {
+		border-radius: var(--radius-md);
+	}
+}
