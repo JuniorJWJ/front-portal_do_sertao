@@ -8,25 +8,31 @@
 			poesias e muito mais.
 		</p>
 		<ul class="features">
-			<li>
-				<span class="icon" aria-hidden="true">📚</span>
-				<p>Descubra Obras Regionais</p>
-			</li>
-			<li>
-				<span class="icon" aria-hidden="true">✍️</span>
-				<p>Cadastre-se como Autor</p>
-			</li>
-			<li>
-				<span class="icon" aria-hidden="true">🌍</span>
-				<p>Valorize a Cultura Local</p>
+			<li v-for="feature in features" :key="feature.label">
+				<span class="icon">
+					<AppIcon :name="feature.icon" :size="26" />
+				</span>
+				<p>{{ feature.label }}</p>
 			</li>
 		</ul>
 	</section>
 </template>
 
 <script>
+import AppIcon from '../ui/AppIcon.vue'
+
 export default {
 	name: 'AboutSection',
+	components: { AppIcon },
+	data() {
+		return {
+			features: [
+				{ icon: 'book-open', label: 'Descubra Obras Regionais' },
+				{ icon: 'feather', label: 'Cadastre-se como Autor' },
+				{ icon: 'globe', label: 'Valorize a Cultura Local' },
+			],
+		}
+	},
 }
 </script>
 
@@ -76,7 +82,13 @@ export default {
 }
 
 .icon {
-	display: block;
-	font-size: 2.2rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 52px;
+	height: 52px;
+	border-radius: 999px;
+	background: var(--color-primary-soft);
+	color: var(--color-primary);
 }
 </style>

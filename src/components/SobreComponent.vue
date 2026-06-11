@@ -65,6 +65,7 @@ export default {
 <style scoped>
 .about {
 	display: grid;
+	grid-template-columns: minmax(0, 1fr);
 	justify-items: center;
 }
 

@@ -30,6 +30,7 @@ export default {
 <style scoped>
 .home {
 	display: grid;
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--space-5);
 }
 </style>

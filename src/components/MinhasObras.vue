@@ -71,15 +71,19 @@
 				</tbody>
 			</table>
 		</div>
+
+		<ConfirmDialog ref="confirm" />
 	</section>
 </template>
 
 <script>
 import { getCurrentUser } from '../services/auth'
 import { api, getAuthConfig } from '../services/api'
+import ConfirmDialog from './ui/ConfirmDialog.vue'
 
 export default {
 	name: 'MinhasObras',
+	components: { ConfirmDialog },
 	data() {
 		return {
 			obras: [],
@@ -105,9 +109,10 @@ export default {
 			}
 		},
 		async deleteObra(obra) {
-			const confirmed = window.confirm(
-				`Excluir a obra "${obra.nome}"? Essa ação não pode ser desfeita.`
-			)
+			const confirmed = await this.$refs.confirm.ask({
+				title: 'Excluir obra',
+				message: `Excluir a obra "${obra.nome}"? Essa ação não pode ser desfeita.`,
+			})
 			if (!confirmed) return
 
 			this.feedback = ''

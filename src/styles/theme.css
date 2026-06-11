@@ -187,20 +187,70 @@ textarea:focus-visible,
 	color: var(--color-text);
 }
 
+/* Campos de formulário — independentes de frameworks externos */
 .ui-input,
 .form-control,
 .form-select {
+	display: block;
+	width: 100%;
 	min-height: 44px;
-	border-color: var(--color-border);
+	padding: 0.55rem 0.8rem;
+	border: 1px solid var(--color-border);
 	border-radius: var(--radius-sm);
 	background-color: var(--color-surface);
 	color: var(--color-text);
+	font: inherit;
+	transition:
+		border-color 160ms ease,
+		box-shadow 160ms ease;
+}
+
+textarea.form-control {
+	min-height: 96px;
+	resize: vertical;
+}
+
+.form-control::placeholder {
+	color: var(--color-muted);
+	opacity: 0.75;
+}
+
+.form-control:disabled,
+.form-select:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.form-control[type='file'] {
+	padding: 0;
+	cursor: pointer;
+}
+
+.form-control[type='file']::file-selector-button {
+	margin-right: var(--space-3);
+	padding: 0.62rem 1rem;
+	border: 0;
+	border-right: 1px solid var(--color-border);
+	background: var(--color-surface-muted);
+	color: var(--color-text);
+	font: inherit;
+	font-weight: 700;
+	cursor: pointer;
+	transition: background-color 160ms ease;
+}
+
+.form-control[type='file']::file-selector-button:hover {
+	background: var(--color-primary-soft);
 }
 
 .form-control:focus,
 .form-select:focus {
 	border-color: var(--color-primary);
 	box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+[aria-invalid='true'] {
+	border-color: color-mix(in srgb, var(--color-danger) 60%, var(--color-border));
 }
 
 .ui-button.danger {
@@ -220,6 +270,7 @@ textarea:focus-visible,
 /* ── Formulários padronizados ─────────────────────────────────────────── */
 .form-page {
 	display: grid;
+	grid-template-columns: minmax(0, 1fr);
 	justify-items: center;
 }
 
@@ -275,6 +326,7 @@ textarea:focus-visible,
 .table-wrapper {
 	width: 100%;
 	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius-md);
 	background: var(--color-surface);
@@ -370,6 +422,9 @@ textarea:focus-visible,
 
 .status-box {
 	width: 100%;
+	display: grid;
+	gap: var(--space-3);
+	justify-items: center;
 	padding: var(--space-5);
 	border: 1px solid var(--color-border);
 	border-radius: var(--radius-md);
@@ -411,5 +466,27 @@ textarea:focus-visible,
 
 	.page-surface {
 		border-radius: var(--radius-md);
+	}
+
+	.data-table th,
+	.data-table td {
+		padding: var(--space-2) var(--space-3);
+	}
+
+	.data-table {
+		font-size: 0.9rem;
+	}
+
+	/* Em telas estreitas, botões de ação ocupam a largura para
+	   facilitar o toque */
+	.form-card .ui-button[type='submit'] {
+		width: 100%;
+	}
+}
+
+/* Monitores muito largos: aumenta levemente a área útil */
+@media (min-width: 1600px) {
+	:root {
+		--container: 1320px;
 	}
 }

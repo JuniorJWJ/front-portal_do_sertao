@@ -97,6 +97,7 @@ export default {
 <style scoped>
 .profile {
 	display: grid;
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--space-5);
 }
 

@@ -108,6 +108,7 @@ export default {
 <style scoped>
 .login-page {
 	display: grid;
+	grid-template-columns: minmax(0, 1fr);
 	place-items: center;
 	min-height: 58vh;
 }

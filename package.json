@@ -9,10 +9,7 @@
 		"format": "prettier --write ."
 	},
 	"dependencies": {
-		"@popperjs/core": "^2.11.5",
 		"axios": "^1.6.2",
-		"bootstrap": "^5.2.0-beta1",
-		"bootstrap-vue-3": "^0.3.12",
 		"chart.js": "^4.4.3",
 		"core-js": "^3.8.3",
 		"dotenv": "^16.4.5",

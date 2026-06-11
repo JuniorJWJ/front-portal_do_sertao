@@ -1,8 +1,10 @@
 <template>
-	<div>
+	<article class="chart-card">
 		<h2>Distribuição de Gênero dos Autores</h2>
-		<Pie :data="chartData" />
-	</div>
+		<div class="chart-area">
+			<Pie :data="chartData" :options="options" />
+		</div>
+	</article>
 </template>
 
 <script>
@@ -13,11 +15,10 @@ import {
 	Tooltip,
 	Legend,
 	ArcElement,
-	CategoryScale,
-	LinearScale,
 } from 'chart.js'
+import { chartOptions } from '../services/chartTheme'
 
-ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale, LinearScale)
+ChartJS.register(Title, Tooltip, Legend, ArcElement)
 
 export default {
 	name: 'GenderChart',
@@ -30,12 +31,12 @@ export default {
 			required: true,
 		},
 	},
-	watch: {
-		chartData(newData) {
-			if (!newData.labels || !newData.datasets) {
-				console.error('Gender chartData is not correctly structured:', newData)
-			}
-		},
+	data() {
+		return {
+			options: chartOptions(),
+		}
 	},
 }
 </script>
+
+<style scoped src="../styles/chart-card.css"></style>

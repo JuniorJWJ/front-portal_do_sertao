@@ -1,8 +1,10 @@
 <template>
-	<div>
+	<article class="chart-card chart-card--wide">
 		<h2>Autores por Cidade</h2>
-		<Bar :data="chartData" />
-	</div>
+		<div class="chart-area">
+			<Bar :data="chartData" :options="options" />
+		</div>
+	</article>
 </template>
 
 <script>
@@ -16,6 +18,7 @@ import {
 	CategoryScale,
 	LinearScale,
 } from 'chart.js'
+import { barChartOptions } from '../services/chartTheme'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
@@ -30,12 +33,12 @@ export default {
 			required: true,
 		},
 	},
-	watch: {
-		chartData(newData) {
-			if (!newData.labels || !newData.datasets) {
-				console.error('City chartData is not correctly structured:', newData)
-			}
-		},
+	data() {
+		return {
+			options: barChartOptions(),
+		}
 	},
 }
 </script>
+
+<style scoped src="../styles/chart-card.css"></style>

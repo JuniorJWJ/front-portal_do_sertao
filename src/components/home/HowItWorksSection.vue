@@ -4,7 +4,9 @@
 		<ol class="steps">
 			<li v-for="(step, index) in steps" :key="step.label">
 				<span class="step-number" aria-hidden="true">{{ index + 1 }}</span>
-				<span class="icon" aria-hidden="true">{{ step.icon }}</span>
+				<span class="icon">
+					<AppIcon :name="step.icon" :size="24" />
+				</span>
 				<p>{{ step.label }}</p>
 			</li>
 		</ol>
@@ -12,16 +14,19 @@
 </template>
 
 <script>
+import AppIcon from '../ui/AppIcon.vue'
+
 export default {
 	name: 'HowItWorksSection',
+	components: { AppIcon },
 	data() {
 		return {
 			steps: [
-				{ icon: '📝', label: 'Cadastre-se como Autor' },
-				{ icon: '👩‍🏫', label: 'Aguarde a Validação do Cadastro' },
-				{ icon: '📤', label: 'Envie Suas Obras Literárias' },
-				{ icon: '✅', label: 'Aguarde a Aprovação da Obra' },
-				{ icon: '📚', label: 'Compartilhe Sua Produção com o Mundo' },
+				{ icon: 'feather', label: 'Cadastre-se como Autor' },
+				{ icon: 'user-check', label: 'Aguarde a Validação do Cadastro' },
+				{ icon: 'upload', label: 'Envie Suas Obras Literárias' },
+				{ icon: 'check-circle', label: 'Aguarde a Aprovação da Obra' },
+				{ icon: 'share-2', label: 'Compartilhe Sua Produção com o Mundo' },
 			],
 		}
 	},
@@ -81,8 +86,14 @@ export default {
 }
 
 .icon {
-	display: block;
-	font-size: 2rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 46px;
+	height: 46px;
+	border-radius: 999px;
+	background: var(--color-primary-soft);
+	color: var(--color-primary);
 }
 
 .steps p {

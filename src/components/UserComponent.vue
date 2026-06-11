@@ -15,7 +15,9 @@
 				:to="link.to"
 				class="quick-link"
 			>
-				<span class="icon" aria-hidden="true">{{ link.icon }}</span>
+				<span class="icon">
+					<AppIcon :name="link.icon" :size="22" />
+				</span>
 				<strong>{{ link.label }}</strong>
 				<small>{{ link.description }}</small>
 			</router-link>
@@ -26,23 +28,24 @@
 <script>
 import { getCurrentUser, isAdmin } from '../services/auth'
 import { api } from '../services/api'
+import AppIcon from './ui/AppIcon.vue'
 
 const authorLinks = [
 	{
 		to: '/minhas_obras',
-		icon: '📚',
+		icon: 'book-open',
 		label: 'Minhas obras',
 		description: 'Acompanhe o status das suas obras',
 	},
 	{
 		to: '/register_obra',
-		icon: '📤',
+		icon: 'upload',
 		label: 'Cadastrar obra',
 		description: 'Envie uma nova obra para aprovação',
 	},
 	{
 		to: '/perfil',
-		icon: '👤',
+		icon: 'user',
 		label: 'Meu perfil',
 		description: 'Veja e edite seus dados',
 	},
@@ -51,25 +54,25 @@ const authorLinks = [
 const adminLinks = [
 	{
 		to: '/edit_autor_list',
-		icon: '👥',
+		icon: 'users',
 		label: 'Gerenciar autores',
 		description: 'Aprove, edite ou exclua autores',
 	},
 	{
 		to: '/edit_obra_list',
-		icon: '📚',
+		icon: 'book-open',
 		label: 'Gerenciar obras',
 		description: 'Aprove, edite ou exclua obras',
 	},
 	{
 		to: '/create_obra',
-		icon: '📤',
+		icon: 'upload',
 		label: 'Cadastrar obra',
 		description: 'Cadastre uma obra para um autor',
 	},
 	{
 		to: '/dados_autores',
-		icon: '📈',
+		icon: 'bar-chart',
 		label: 'Gráficos',
 		description: 'Dados demográficos dos autores',
 	},
@@ -77,6 +80,7 @@ const adminLinks = [
 
 export default {
 	name: 'UserComponent',
+	components: { AppIcon },
 	data() {
 		return {
 			userName: '',
@@ -109,6 +113,7 @@ export default {
 <style scoped>
 .welcome {
 	display: grid;
+	grid-template-columns: minmax(0, 1fr);
 	gap: var(--space-6);
 }
 
@@ -141,7 +146,15 @@ export default {
 }
 
 .quick-link .icon {
-	font-size: 1.6rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 42px;
+	height: 42px;
+	border-radius: var(--radius-sm);
+	background: var(--color-primary-soft);
+	color: var(--color-primary);
+	margin-bottom: var(--space-2);
 }
 
 .quick-link small {

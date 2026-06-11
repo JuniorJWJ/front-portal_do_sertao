@@ -80,14 +80,18 @@
 				</tbody>
 			</table>
 		</div>
+
+		<ConfirmDialog ref="confirm" />
 	</section>
 </template>
 
 <script>
 import { api, getAuthConfig } from '../services/api'
+import ConfirmDialog from './ui/ConfirmDialog.vue'
 
 export default {
 	name: 'AutorEditList',
+	components: { ConfirmDialog },
 	data() {
 		return {
 			autores: [],
@@ -112,9 +116,10 @@ export default {
 			}
 		},
 		async deleteAutor(autor) {
-			const confirmed = window.confirm(
-				`Excluir o autor "${autor.nome}"? Essa ação não pode ser desfeita.`
-			)
+			const confirmed = await this.$refs.confirm.ask({
+				title: 'Excluir autor',
+				message: `Excluir o autor "${autor.nome}"? Essa ação não pode ser desfeita.`,
+			})
 			if (!confirmed) return
 
 			this.feedback = ''
