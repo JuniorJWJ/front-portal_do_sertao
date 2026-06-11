@@ -9,13 +9,16 @@
 			/>
 			<label class="search-field" for="autor-search">
 				<span>Buscar autor</span>
-				<input
-					id="autor-search"
-					v-model="searchQuery"
-					class="form-control"
-					type="search"
-					placeholder="Digite o nome do autor"
-				/>
+				<span class="input-icon-wrap">
+					<AppIcon class="leading-icon" name="search" :size="18" />
+					<input
+						id="autor-search"
+						v-model="searchQuery"
+						class="form-control has-leading-icon"
+						type="search"
+						placeholder="Digite o nome do autor"
+					/>
+				</span>
 			</label>
 		</div>
 
@@ -87,11 +90,12 @@
 
 <script>
 import { api } from '../../services/api'
+import AppIcon from '../atoms/AppIcon.vue'
 import PageHeader from '../molecules/PageHeader.vue'
 
 export default {
 	name: 'AutorList',
-	components: { PageHeader },
+	components: { AppIcon, PageHeader },
 	data() {
 		return {
 			autores: { autor: [] },

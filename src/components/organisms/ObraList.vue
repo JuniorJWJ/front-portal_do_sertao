@@ -9,13 +9,16 @@
 			/>
 			<label class="search-field" for="obra-search">
 				<span>Buscar obra</span>
-				<input
-					id="obra-search"
-					v-model="searchQuery"
-					class="form-control"
-					type="search"
-					placeholder="Pesquisar obra"
-				/>
+				<span class="input-icon-wrap">
+					<AppIcon class="leading-icon" name="search" :size="18" />
+					<input
+						id="obra-search"
+						v-model="searchQuery"
+						class="form-control has-leading-icon"
+						type="search"
+						placeholder="Pesquisar obra"
+					/>
+				</span>
 			</label>
 		</div>
 
@@ -82,11 +85,12 @@
 
 <script>
 import { api } from '../../services/api'
+import AppIcon from '../atoms/AppIcon.vue'
 import PageHeader from '../molecules/PageHeader.vue'
 
 export default {
 	name: 'ObraList',
-	components: { PageHeader },
+	components: { AppIcon, PageHeader },
 	data() {
 		return {
 			obras: { obra: [] },

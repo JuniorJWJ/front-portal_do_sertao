@@ -12,58 +12,39 @@
 
 			<label class="field" for="email">
 				<span>Email</span>
-				<input
-					id="email"
-					v-model.trim="form.email"
-					type="email"
-					name="email"
-					class="form-control"
-					autocomplete="email"
-					:aria-invalid="Boolean(errors.email)"
-					aria-describedby="email-error"
-				/>
+				<span class="input-icon-wrap">
+					<AppIcon class="leading-icon" name="mail" :size="18" />
+					<input
+						id="email"
+						v-model.trim="form.email"
+						type="email"
+						name="email"
+						class="form-control has-leading-icon"
+						autocomplete="email"
+						:aria-invalid="Boolean(errors.email)"
+						aria-describedby="email-error"
+					/>
+				</span>
 				<p v-if="errors.email" id="email-error" class="field-error">
 					{{ errors.email }}
 				</p>
 			</label>
 
-			<label class="field" for="password">
-				<span>Senha</span>
-				<input
-					id="password"
-					v-model="form.password"
-					type="password"
-					name="password"
-					class="form-control"
-					autocomplete="new-password"
-					:aria-invalid="Boolean(errors.password)"
-					aria-describedby="password-error"
-				/>
-				<p v-if="errors.password" id="password-error" class="field-error">
-					{{ errors.password }}
-				</p>
-			</label>
+			<PasswordField
+				id="password"
+				v-model="form.password"
+				autocomplete="new-password"
+				:error="errors.password"
+			/>
 
-			<label class="field" for="confirmpassword">
-				<span>Confirmar senha</span>
-				<input
-					id="confirmpassword"
-					v-model="form.confirmpassword"
-					type="password"
-					name="confirmpassword"
-					class="form-control"
-					autocomplete="new-password"
-					:aria-invalid="Boolean(errors.confirmpassword)"
-					aria-describedby="confirmpassword-error"
-				/>
-				<p
-					v-if="errors.confirmpassword"
-					id="confirmpassword-error"
-					class="field-error"
-				>
-					{{ errors.confirmpassword }}
-				</p>
-			</label>
+			<PasswordField
+				id="confirmpassword"
+				v-model="form.confirmpassword"
+				label="Confirmar senha"
+				name="confirmpassword"
+				autocomplete="new-password"
+				:error="errors.confirmpassword"
+			/>
 
 			<label class="field" for="nome">
 				<span>Nome</span>
@@ -242,11 +223,14 @@
 
 <script>
 import { api } from '../../services/api'
+import AppIcon from '../atoms/AppIcon.vue'
+import PasswordField from '../molecules/PasswordField.vue'
 
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/pjpeg', 'image/png']
 
 export default {
 	name: 'FormCreateAutor',
+	components: { AppIcon, PasswordField },
 	data() {
 		return {
 			form: {

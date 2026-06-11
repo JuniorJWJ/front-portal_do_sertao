@@ -9,29 +9,25 @@
 
 			<label for="login">
 				<span>Email</span>
-				<input
-					id="login"
-					v-model.trim="email"
-					type="email"
-					name="email"
-					class="form-control"
-					autocomplete="email"
-					required
-				/>
+				<span class="input-icon-wrap">
+					<AppIcon class="leading-icon" name="mail" :size="18" />
+					<input
+						id="login"
+						v-model.trim="email"
+						type="email"
+						name="email"
+						class="form-control has-leading-icon"
+						autocomplete="email"
+						required
+					/>
+				</span>
 			</label>
 
-			<label for="password">
-				<span>Senha</span>
-				<input
-					id="password"
-					v-model="password"
-					type="password"
-					name="password"
-					class="form-control"
-					autocomplete="current-password"
-					required
-				/>
-			</label>
+			<PasswordField
+				id="password"
+				v-model="password"
+				autocomplete="current-password"
+			/>
 
 			<p v-if="errorMessage" class="notice error" role="alert">
 				{{ errorMessage }}
@@ -47,9 +43,12 @@
 <script>
 import { getCurrentUser } from '../../services/auth'
 import { api } from '../../services/api'
+import AppIcon from '../atoms/AppIcon.vue'
+import PasswordField from '../molecules/PasswordField.vue'
 
 export default {
 	name: 'FormLogUser',
+	components: { AppIcon, PasswordField },
 	mounted() {
 		const currentUser = getCurrentUser()
 		if (currentUser) {

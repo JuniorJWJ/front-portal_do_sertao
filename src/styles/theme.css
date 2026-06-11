@@ -253,6 +253,60 @@ textarea.form-control {
 	border-color: color-mix(in srgb, var(--color-danger) 60%, var(--color-border));
 }
 
+/* Input com ícone à esquerda e/ou ação à direita (ex.: mostrar senha) */
+.input-icon-wrap {
+	position: relative;
+	display: block;
+}
+
+.input-icon-wrap .leading-icon {
+	position: absolute;
+	top: 50%;
+	left: 0.8rem;
+	transform: translateY(-50%);
+	color: var(--color-muted);
+	pointer-events: none;
+	transition: color 160ms ease;
+}
+
+.input-icon-wrap:focus-within .leading-icon {
+	color: var(--color-primary);
+}
+
+.input-icon-wrap .form-control.has-leading-icon {
+	padding-left: 2.5rem;
+}
+
+.input-icon-wrap .form-control.has-trailing-action {
+	padding-right: 2.9rem;
+}
+
+.trailing-action {
+	position: absolute;
+	top: 50%;
+	right: 0.35rem;
+	transform: translateY(-50%);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 34px;
+	padding: 0;
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: var(--color-muted);
+	cursor: pointer;
+	transition:
+		color 160ms ease,
+		background-color 160ms ease;
+}
+
+.trailing-action:hover {
+	color: var(--color-text);
+	background: var(--color-surface-muted);
+}
+
 .ui-button.danger {
 	background: var(--color-danger);
 }
@@ -285,7 +339,7 @@ textarea.form-control {
 	box-shadow: var(--shadow-md);
 }
 
-.form-card .field {
+.field {
 	display: grid;
 	gap: var(--space-2);
 	color: var(--color-muted);
