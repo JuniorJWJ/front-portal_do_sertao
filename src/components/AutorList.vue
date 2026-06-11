@@ -191,15 +191,6 @@ export default {
 	align-items: end;
 }
 
-.eyebrow {
-	margin: 0 0 var(--space-2);
-	color: var(--color-primary);
-	font-size: 0.78rem;
-	font-weight: 800;
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-}
-
 .search-field {
 	display: grid;
 	gap: var(--space-2);

@@ -1,190 +1,160 @@
 <template>
-	<div class="body">
-		<section id="main">
-			<div id="foto" v-for="item in autor.autor" :key="item.id">
-				<img :src="item.endereco_foto" />
+	<section class="page-surface profile" aria-labelledby="perfil-title">
+		<div v-if="loading" class="status-box">Carregando perfil...</div>
+		<div v-else-if="errorMessage" class="status-box" role="alert">
+			{{ errorMessage }}
+		</div>
+
+		<template v-else>
+			<header class="profile-header">
+				<img
+					:src="autor.endereco_foto"
+					:alt="`Foto de ${autor.nome}`"
+					loading="lazy"
+				/>
+				<div>
+					<p class="eyebrow">Minha conta</p>
+					<h1 id="perfil-title" class="page-title">{{ autor.nome }}</h1>
+					<p class="muted">{{ autor.profissao }} · {{ cidadeNome }}</p>
+				</div>
+				<router-link class="ui-button secondary" to="/edit_perfil">
+					Editar perfil
+				</router-link>
+			</header>
+
+			<div class="info-grid">
+				<article>
+					<span>Email</span>
+					<strong>{{ autor.email }}</strong>
+				</article>
+				<article>
+					<span>Cidade</span>
+					<strong>{{ cidadeNome }}</strong>
+				</article>
+				<article class="bio">
+					<span>Biografia</span>
+					<p>{{ autor.biografia }}</p>
+				</article>
 			</div>
-			<div class="content" v-for="item in autor.autor" :key="item.id">
-				<div>
-					<article>
-						<span>Nome</span>
-						<h5>{{ item.nome }}</h5>
-					</article>
-
-					<article>
-						<span>Profissão</span>
-						<h5>{{ item.profissao }}</h5>
-					</article>
-				</div>
-
-				<div>
-					<article>
-						<span>Email</span>
-						<h5>{{ item.email }}</h5>
-					</article>
-
-					<article>
-						<span>Cidade</span>
-						<h5>{{ item.id_cidade }}</h5>
-					</article>
-				</div>
-
-				<div>
-					<article>
-						<span>Biografia</span>
-						<h5>{{ item.biografia }}</h5>
-					</article>
-				</div>
-			</div>
-		</section>
-		<!-- <h2>Obras publicadas:</h2>
-    <div class="obrasContainer">
-      <div
-        class="container"
-        v-for="item in obras.obra"
-        :key="item.id"
-        @click="show_obra(item.id)"
-      >
-        <span>{{ item.nome }}</span>
-        <i class="bi-chevron-right"></i>
-      </div>
-    </div> -->
-	</div>
+		</template>
+	</section>
 </template>
 
 <script>
-import axios from 'axios'
-import jwtDecode from 'jwt-decode'
+import { getCurrentUser } from '../services/auth'
+import { api } from '../services/api'
 
 export default {
-	name: 'AutorShow',
-	mounted() {
-		const token = localStorage.getItem('token')
-		if (token) {
-			const decodedToken = jwtDecode(token)
-			this.userId = decodedToken.id
-		}
-		this.getAutor(this.userId), this.getObras()
-	},
+	name: 'PerfilAutor',
 	data() {
 		return {
-			// id: this.$route.params.id,
-			autor: [],
-			cidades: [],
-			obras: [],
-			nome: '',
-			profissao: '',
-			biografia: '',
-			email: '',
-			select_cidade: '',
-			select_genero: '',
-			userId: null,
-			token: null,
+			autor: {},
+			cidadeNome: '',
+			loading: true,
+			errorMessage: '',
 		}
 	},
 	methods: {
-		getAutor(id) {
-			axios
-				.get(`${process.env.VUE_APP_API_URL}/autor/${id}`)
-				.then((res) => {
-					this.autor = res.data
-					// console.log(this.autor.autor[0].id_cidade)
-					this.getCidade(this.autor.autor[0].id_cidade)
-				})
-				.catch((error) => {
-					console.log(error)
-				})
+		async getAutor(id) {
+			this.loading = true
+			this.errorMessage = ''
+
+			try {
+				const res = await api.get(`/autor/${id}`)
+				this.autor = res.data?.autor?.[0] || {}
+				if (this.autor.id_cidade) {
+					await this.getCidade(this.autor.id_cidade)
+				}
+			} catch (error) {
+				console.error(error)
+				this.errorMessage = 'Não foi possível carregar seu perfil.'
+			} finally {
+				this.loading = false
+			}
 		},
-		getCidade(id) {
-			axios
-				.get(`${process.env.VUE_APP_API_URL}/cidade/${id}`)
-				.then((res) => {
-					this.cidade = res.data.cidade
-					// console.log(this.cidade[0].nome)
-					this.autor.autor[0].id_cidade = this.cidade[0].nome
-				})
-				.catch((error) => {
-					console.log(error)
-				})
+		async getCidade(id) {
+			try {
+				const res = await api.get(`/cidade/${id}`)
+				this.cidadeNome = res.data?.cidade?.[0]?.nome || ''
+			} catch (error) {
+				console.error(error)
+			}
 		},
-		getObras() {
-			axios
-				.get(`${process.env.VUE_APP_API_URL}/lista_obra`)
-				.then((res) => {
-					this.obras = res.data
-					console.log(this.obras)
-					this.obras.obra = this.obras.obra.filter(
-						(item) => item.id_autor == this.id
-					)
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-		},
-		show_obra(id) {
-			this.$router.push({ name: 'ObraShow', params: { id: id } })
-		},
+	},
+	mounted() {
+		const currentUser = getCurrentUser()
+
+		if (!currentUser) {
+			this.$router.push({ name: 'LogUserView' })
+			return
+		}
+
+		this.getAutor(currentUser.id)
 	},
 }
 </script>
 
 <style scoped>
-.body {
-	text-align: left;
-}
-#main {
-	display: flex;
-	align-items: flex-start;
-	gap: 30px;
-	text-align: left;
-	margin-bottom: 30px;
-}
-#foto img {
-	width: 120px;
-	height: 120px;
-	border-radius: 50%;
-}
-.content {
-	display: flex;
-	flex-direction: row;
-	gap: 30px;
-}
-.content div {
-	display: flex;
-	flex-direction: column;
-	gap: 15px;
-}
-.content div article {
-	max-width: 300px;
-	word-wrap: break-word;
-}
-.obrasContainer {
+.profile {
 	display: grid;
-	grid-template-columns: auto auto;
-	gap: 15px;
+	gap: var(--space-5);
 }
-.container {
-	background-color: #fafafa;
-	box-shadow: 3px 2px 7px rgba(0, 0, 0, 0.15);
-	border: 1px solid #d2d2d2;
-	border-radius: 16px;
-	font-size: 22px;
-	color: #3b3b3b;
-	width: 100%;
-	padding: 10px 15px;
-	text-transform: capitalize;
-	cursor: pointer;
-	transition: all ease 0.5s;
+
+.profile-header {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
+	gap: var(--space-5);
+	flex-wrap: wrap;
 }
-.container:hover {
-	background-color: #a2691a;
-	color: #f2f2f2;
+
+.profile-header > div {
+	flex: 1;
+	min-width: 200px;
 }
-img {
-	width: 180px;
-	height: 180px;
+
+.profile-header img {
+	width: clamp(84px, 14vw, 132px);
+	height: clamp(84px, 14vw, 132px);
+	border-radius: 999px;
+	object-fit: cover;
+	box-shadow: var(--shadow-sm);
+}
+
+.info-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--space-3);
+}
+
+.info-grid article {
+	padding: var(--space-4);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-surface);
+	box-shadow: var(--shadow-sm);
+}
+
+.info-grid span {
+	display: block;
+	margin-bottom: var(--space-1);
+	color: var(--color-muted);
+	font-size: 0.85rem;
+	font-weight: 800;
+	text-transform: uppercase;
+}
+
+.bio {
+	grid-column: 1 / -1;
+}
+
+.bio p {
+	margin: 0;
+	line-height: 1.7;
+}
+
+@media (max-width: 720px) {
+	.info-grid {
+		grid-template-columns: 1fr;
+	}
 }
 </style>

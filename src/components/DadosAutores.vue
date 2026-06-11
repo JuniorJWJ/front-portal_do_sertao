@@ -1,14 +1,27 @@
 <template>
-	<div class="dados-autores">
-		<h1>Dados dos Autores</h1>
-		<CityChart v-if="cityChartData" :chartData="cityChartData" />
-		<GenderChart v-if="genderChartData" :chartData="genderChartData" />
-		<ColorChart v-if="colorChartData" :chartData="colorChartData" />
-	</div>
+	<section class="page-surface dados-autores" aria-labelledby="dados-title">
+		<div>
+			<p class="eyebrow">Estatísticas</p>
+			<h1 id="dados-title" class="page-title">Dados dos Autores</h1>
+			<p class="muted">
+				Distribuição demográfica dos autores cadastrados no portal.
+			</p>
+		</div>
+
+		<div v-if="loading" class="status-box">Carregando dados...</div>
+		<div v-else-if="errorMessage" class="status-box" role="alert">
+			{{ errorMessage }}
+		</div>
+		<template v-else>
+			<CityChart v-if="cityChartData" :chartData="cityChartData" />
+			<GenderChart v-if="genderChartData" :chartData="genderChartData" />
+			<ColorChart v-if="colorChartData" :chartData="colorChartData" />
+		</template>
+	</section>
 </template>
 
 <script>
-import axios from 'axios'
+import { api } from '../services/api'
 import CityChart from './CityChart.vue'
 import GenderChart from './GenderChart.vue'
 import ColorChart from './ColorChart.vue'
@@ -24,54 +37,30 @@ export default {
 		return {
 			cityChartData: null,
 			genderChartData: null,
+			colorChartData: null,
 			cidades: [],
 			cityNames: {},
 			autores: { autor: [] },
+			loading: true,
+			errorMessage: '',
 		}
 	},
 	mounted() {
-		this.fetchData().then(() => {
-			this.processCityData()
-			this.processGenderData()
-			this.processColorData()
-		})
+		this.fetchData()
 	},
 	methods: {
-		getCidades() {
-			axios
-				.get(`${process.env.VUE_APP_API_URL}/lista_cidade`)
-				.then((res) => {
-					// Acesso correto à lista de cidades
-					this.cidades = res.data.cidade
-					this.updateCityNames() // Atualiza o mapeamento de cidades
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-		},
-
-		updateCityNames() {
+		async getCidades() {
+			const res = await api.get('/lista_cidade')
+			this.cidades = res.data?.cidade || []
 			this.cityNames = this.cidades.reduce((acc, cidade) => {
-				console.log(
-					`ID da cidade: ${cidade.id}, Nome da cidade: ${cidade.nome}`
-				)
 				acc[cidade.id] = cidade.nome
 				return acc
 			}, {})
 		},
 
 		async getAutores() {
-			try {
-				const res = await axios.get(
-					`${process.env.VUE_APP_API_URL}/lista_autor`
-				)
-				console.log('Autores:', res.data) // Verifique o formato dos dados
-				this.autores = res.data || { autor: [] }
-				console.log(this.autores.autor.length)
-			} catch (error) {
-				console.error('Error fetching authors:', error)
-				this.autores = { autor: [] }
-			}
+			const res = await api.get('/lista_autor')
+			this.autores = res.data || { autor: [] }
 		},
 		processCityData() {
 			if (!this.autores || !this.autores.autor.length) return
@@ -118,8 +107,6 @@ export default {
 					},
 				],
 			}
-
-			console.log('City Chart Data:', this.cityChartData)
 		},
 
 		processGenderData() {
@@ -150,8 +137,6 @@ export default {
 					},
 				],
 			}
-
-			//   console.log('Gender Chart Data:', this.genderChartData)
 		},
 		processColorData() {
 			if (!this.autores || !this.autores.autor.length) return
@@ -185,12 +170,22 @@ export default {
 					},
 				],
 			}
-
-			//   console.log('Gender Chart Data:', this.genderChartData)
 		},
 		async fetchData() {
-			await this.getCidades()
-			await this.getAutores()
+			this.loading = true
+			this.errorMessage = ''
+
+			try {
+				await Promise.all([this.getCidades(), this.getAutores()])
+				this.processCityData()
+				this.processGenderData()
+				this.processColorData()
+			} catch (error) {
+				console.error(error)
+				this.errorMessage = 'Não foi possível carregar os dados dos autores.'
+			} finally {
+				this.loading = false
+			}
 		},
 	},
 }
@@ -198,11 +193,7 @@ export default {
 
 <style scoped>
 .dados-autores {
-	padding: 20px;
-}
-
-h1 {
-	text-align: center;
-	margin-bottom: 20px;
+	display: grid;
+	gap: var(--space-5);
 }
 </style>

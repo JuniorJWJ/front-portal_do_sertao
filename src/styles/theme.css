@@ -52,6 +52,20 @@ html {
 	scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
 body {
 	margin: 0;
 	background:
@@ -119,6 +133,27 @@ textarea:focus-visible,
 	color: var(--color-muted);
 }
 
+.eyebrow {
+	margin: 0 0 var(--space-2);
+	color: var(--color-primary);
+	font-size: 0.78rem;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
 .ui-button {
 	display: inline-flex;
 	align-items: center;
@@ -166,6 +201,171 @@ textarea:focus-visible,
 .form-select:focus {
 	border-color: var(--color-primary);
 	box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--color-primary) 20%, transparent);
+}
+
+.ui-button.danger {
+	background: var(--color-danger);
+}
+
+.ui-button.danger:hover {
+	background: color-mix(in srgb, var(--color-danger) 85%, black);
+}
+
+.ui-button[disabled] {
+	opacity: 0.72;
+	cursor: wait;
+	transform: none;
+}
+
+/* ── Formulários padronizados ─────────────────────────────────────────── */
+.form-page {
+	display: grid;
+	justify-items: center;
+}
+
+.form-card {
+	width: min(100%, 560px);
+	display: grid;
+	gap: var(--space-4);
+	padding: clamp(1.25rem, 4vw, 2rem);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-lg);
+	background: var(--color-surface);
+	box-shadow: var(--shadow-md);
+}
+
+.form-card .field {
+	display: grid;
+	gap: var(--space-2);
+	color: var(--color-muted);
+	font-weight: 700;
+}
+
+.field-error {
+	margin: 0;
+	color: var(--color-danger);
+	font-size: 0.85rem;
+	font-weight: 700;
+}
+
+.field-hint {
+	margin: 0;
+	color: var(--color-muted);
+	font-size: 0.85rem;
+	font-weight: 400;
+}
+
+.check-field {
+	display: flex;
+	align-items: flex-start;
+	gap: var(--space-2);
+	color: var(--color-text);
+	font-weight: 500;
+}
+
+.check-field input[type="checkbox"] {
+	width: 18px;
+	height: 18px;
+	margin-top: 2px;
+	accent-color: var(--color-primary);
+	flex: 0 0 auto;
+}
+
+/* ── Tabela de dados padronizada ──────────────────────────────────────── */
+.table-wrapper {
+	width: 100%;
+	overflow-x: auto;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-surface);
+	box-shadow: var(--shadow-sm);
+}
+
+.data-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.95rem;
+}
+
+.data-table th,
+.data-table td {
+	padding: var(--space-3) var(--space-4);
+	border-bottom: 1px solid var(--color-border);
+	text-align: left;
+	vertical-align: middle;
+}
+
+.data-table thead th {
+	color: var(--color-muted);
+	font-size: 0.8rem;
+	font-weight: 800;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	background: var(--color-surface-muted);
+}
+
+.data-table tbody tr:last-child th,
+.data-table tbody tr:last-child td {
+	border-bottom: 0;
+}
+
+.data-table tbody tr:hover {
+	background: color-mix(in srgb, var(--color-primary) 5%, transparent);
+}
+
+.table-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2);
+}
+
+.ui-button.small {
+	min-height: 34px;
+	padding: 0.35rem 0.7rem;
+	font-size: 0.85rem;
+}
+
+.badge {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-1);
+	padding: 0.25rem 0.6rem;
+	border-radius: 999px;
+	font-size: 0.8rem;
+	font-weight: 800;
+}
+
+.badge.success {
+	background: color-mix(in srgb, var(--color-success) 14%, transparent);
+	color: var(--color-success);
+}
+
+.badge.pending {
+	background: color-mix(in srgb, var(--color-primary) 14%, transparent);
+	color: var(--color-primary-strong);
+}
+
+/* ── Notices (feedback de ações) ──────────────────────────────────────── */
+.notice {
+	margin: 0;
+	padding: var(--space-3);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+	background: var(--color-surface-muted);
+	color: var(--color-text);
+	font-weight: 700;
+}
+
+.notice.error {
+	border-color: color-mix(in srgb, var(--color-danger) 35%, transparent);
+	background: color-mix(in srgb, var(--color-danger) 10%, transparent);
+	color: var(--color-danger);
+}
+
+.notice.success {
+	border-color: color-mix(in srgb, var(--color-success) 35%, transparent);
+	background: color-mix(in srgb, var(--color-success) 10%, transparent);
+	color: var(--color-success);
 }
 
 .status-box {

@@ -92,13 +92,24 @@ export default {
 				: [...publicItems, ...authorItems]
 		},
 	},
+	watch: {
+		// Reavalia o estado de autenticação a cada navegação,
+		// dispensando o location.reload() após login/logout.
+		$route() {
+			this.refreshAuth()
+			this.closeMenu()
+		},
+	},
 	methods: {
+		refreshAuth() {
+			const currentUser = getCurrentUser()
+			this.token = getToken()
+			this.adm = currentUser?.adm === 1
+		},
 		deslogUser() {
 			logout()
 			this.closeMenu()
-			this.$router.push({ name: 'LogUserView' }).then(() => {
-				location.reload()
-			})
+			this.$router.push({ name: 'LogUserView' })
 		},
 		closeMenu() {
 			this.menuOpen = false
@@ -201,18 +212,6 @@ export default {
 	margin: 5px 0;
 	background: var(--color-text);
 	border-radius: 999px;
-}
-
-.sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	white-space: nowrap;
-	border: 0;
 }
 
 @media (max-width: 960px) {

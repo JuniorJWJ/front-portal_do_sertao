@@ -1,6 +1,9 @@
 <template>
-	<div class="termos-de-uso">
-		<h1>TERMO DE USO DO SITE PORTAL DA LITERATURA DO SERTÃO</h1>
+	<section class="page-surface termos-de-uso" aria-labelledby="termos-title">
+		<p class="eyebrow">Documentação</p>
+		<h1 id="termos-title" class="page-title">
+			Termo de uso do site Portal da Literatura do Sertão
+		</h1>
 
 		<h2>1. Condições Gerais</h2>
 		<p>
@@ -144,66 +147,39 @@
 			Ao utilizar o site Portal Literário do Sertão, declaro que li, entendi e
 			estou de acordo com todas as cláusulas presentes nestes Termos de Uso.
 		</p>
-	</div>
+	</section>
 </template>
 
 <script>
 export default {
 	name: 'TermosDeUsoComponent',
-	data() {
-		return {
-			activeNavItem: '',
-		}
-	},
-	methods: {
-		confirmarAceitacao() {
-			if (this.aceitoTermos) {
-				alert('Você aceitou os termos de uso!')
-			} else {
-				alert('Por favor, leia e aceite os termos de uso.')
-			}
-		},
-	},
 }
 </script>
 
 <style scoped>
 .termos-de-uso {
-	padding: 20px;
 	max-width: 800px;
 	margin: 0 auto;
-	font-family: Arial, sans-serif;
 }
 
-.termo-confirmacao {
-	margin-top: 20px;
-}
-
-button {
-	background-color: #4caf50;
-	color: white;
-	border: none;
-	padding: 10px 20px;
-	cursor: pointer;
-	font-size: 16px;
-}
-
-button:disabled {
-	background-color: #ccc;
-}
-
-h1,
 h2 {
-	color: #333;
+	margin: var(--space-6) 0 var(--space-3);
+	font-size: 1.2rem;
+	font-weight: 800;
 }
 
 p {
+	color: var(--color-muted);
+	line-height: 1.8;
 	text-align: justify;
 }
 
 blockquote {
-	margin-left: 20px;
+	margin: var(--space-4) 0 var(--space-4) var(--space-5);
+	padding-left: var(--space-4);
+	border-left: 3px solid var(--color-primary);
 	font-style: italic;
-	color: #555;
+	color: var(--color-muted);
+	line-height: 1.7;
 }
 </style>

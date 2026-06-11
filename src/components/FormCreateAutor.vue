@@ -1,259 +1,314 @@
 <template>
-	<div>
-		<h2 class="titulo">Registrar autor</h2>
-		<form
-			class="form-group container"
-			@submit="onSubmit"
-			enctype="multipart/form-data"
-		>
-			<fieldset class="grupo">
-				<div class="campo">
-					<label for="Email">Email</label>
-					<input
-						type="email"
-						id="email"
-						name="email"
-						v-model="email"
-						class="form-control"
-					/>
-					<span v-if="errors.email" class="text-danger">{{
-						errors.email
-					}}</span>
+	<section class="form-page" aria-labelledby="create-autor-title">
+		<form class="form-card" novalidate @submit.prevent="onSubmit">
+			<div>
+				<p class="eyebrow">Cadastro</p>
+				<h1 id="create-autor-title" class="page-title">Registrar autor</h1>
+				<p class="muted">
+					Preencha seus dados. O cadastro passa por aprovação antes de ser
+					publicado.
+				</p>
+			</div>
 
-					<label for="password">Senha</label>
-					<input
-						type="password"
-						id="password"
-						name="password"
-						v-model="password"
-						class="form-control"
-					/>
-					<span v-if="errors.password" class="text-danger">{{
-						errors.password
-					}}</span>
+			<label class="field" for="email">
+				<span>Email</span>
+				<input
+					id="email"
+					v-model.trim="form.email"
+					type="email"
+					name="email"
+					class="form-control"
+					autocomplete="email"
+					:aria-invalid="Boolean(errors.email)"
+					aria-describedby="email-error"
+				/>
+				<p v-if="errors.email" id="email-error" class="field-error">
+					{{ errors.email }}
+				</p>
+			</label>
 
-					<label for="confirmpassword">Confirmar senha</label>
-					<input
-						type="password"
-						id="confirmpassword"
-						name="confirmpassword"
-						v-model="confirmpassword"
-						class="form-control"
-					/>
-					<span v-if="errors.confirmpassword" class="text-danger">{{
-						errors.confirmpassword
-					}}</span>
+			<label class="field" for="password">
+				<span>Senha</span>
+				<input
+					id="password"
+					v-model="form.password"
+					type="password"
+					name="password"
+					class="form-control"
+					autocomplete="new-password"
+					:aria-invalid="Boolean(errors.password)"
+					aria-describedby="password-error"
+				/>
+				<p v-if="errors.password" id="password-error" class="field-error">
+					{{ errors.password }}
+				</p>
+			</label>
 
-					<label for="nome">Nome</label>
-					<input
-						type="text"
-						id="nome"
-						name="nome"
-						v-model="nome"
-						class="form-control"
-					/>
-					<span v-if="errors.nome" class="text-danger">{{ errors.nome }}</span>
+			<label class="field" for="confirmpassword">
+				<span>Confirmar senha</span>
+				<input
+					id="confirmpassword"
+					v-model="form.confirmpassword"
+					type="password"
+					name="confirmpassword"
+					class="form-control"
+					autocomplete="new-password"
+					:aria-invalid="Boolean(errors.confirmpassword)"
+					aria-describedby="confirmpassword-error"
+				/>
+				<p
+					v-if="errors.confirmpassword"
+					id="confirmpassword-error"
+					class="field-error"
+				>
+					{{ errors.confirmpassword }}
+				</p>
+			</label>
 
-					<label for="Profissão">Profissão</label>
-					<input
-						type="text"
-						id="profissao"
-						name="profissao"
-						v-model="profissao"
-						class="form-control"
-					/>
-					<span v-if="errors.profissao" class="text-danger">{{
-						errors.profissao
-					}}</span>
+			<label class="field" for="nome">
+				<span>Nome</span>
+				<input
+					id="nome"
+					v-model.trim="form.nome"
+					type="text"
+					name="nome"
+					class="form-control"
+					autocomplete="name"
+					:aria-invalid="Boolean(errors.nome)"
+					aria-describedby="nome-error"
+				/>
+				<p v-if="errors.nome" id="nome-error" class="field-error">
+					{{ errors.nome }}
+				</p>
+			</label>
 
-					<label for="Biografia">Biografia</label>
-					<textarea
-						id="biografia"
-						name="biografia"
-						rows="4"
-						cols="50"
-						class="form-control"
-						v-model="biografia"
+			<label class="field" for="profissao">
+				<span>Profissão</span>
+				<input
+					id="profissao"
+					v-model.trim="form.profissao"
+					type="text"
+					name="profissao"
+					class="form-control"
+					:aria-invalid="Boolean(errors.profissao)"
+					aria-describedby="profissao-error"
+				/>
+				<p v-if="errors.profissao" id="profissao-error" class="field-error">
+					{{ errors.profissao }}
+				</p>
+			</label>
+
+			<label class="field" for="biografia">
+				<span>Biografia</span>
+				<textarea
+					id="biografia"
+					v-model.trim="form.biografia"
+					name="biografia"
+					rows="4"
+					class="form-control"
+					:aria-invalid="Boolean(errors.biografia)"
+					aria-describedby="biografia-error"
+				></textarea>
+				<p v-if="errors.biografia" id="biografia-error" class="field-error">
+					{{ errors.biografia }}
+				</p>
+			</label>
+
+			<label class="field" for="select_cidade">
+				<span>Cidade</span>
+				<select
+					id="select_cidade"
+					v-model="form.cidade"
+					name="select_cidade"
+					class="form-select"
+					:aria-invalid="Boolean(errors.cidade)"
+					aria-describedby="cidade-error"
+				>
+					<option disabled value="">Selecione a cidade</option>
+					<option
+						v-for="cidade in cidades"
+						:key="cidade.id"
+						:value="cidade.id"
 					>
-					</textarea>
-					<span v-if="errors.biografia" class="text-danger">{{
-						errors.biografia
-					}}</span>
+						{{ cidade.nome }}
+					</option>
+				</select>
+				<p v-if="errors.cidade" id="cidade-error" class="field-error">
+					{{ errors.cidade }}
+				</p>
+			</label>
 
-					<label for="select_cidade">Cidade</label>
-					<select
-						name="select_cidade"
-						id="select_cidade"
-						v-model="select_cidade"
-						class="form-select"
-					>
-						<option
-							v-for="nomecidade in cidades.cidade"
-							:key="nomecidade.nome"
-							:value="nomecidade.id"
-						>
-							{{ nomecidade.nome }}
-						</option>
-					</select>
-					<span v-if="errors.select_cidade" class="text-danger">{{
-						errors.select_cidade
-					}}</span>
+			<label class="field" for="genero">
+				<span>Gênero</span>
+				<select
+					id="genero"
+					v-model="form.genero"
+					name="genero"
+					class="form-select"
+					:aria-invalid="Boolean(errors.genero)"
+					aria-describedby="genero-error"
+				>
+					<option disabled value="">Selecione</option>
+					<option>Masculino</option>
+					<option>Feminino</option>
+					<option>Prefiro não informar</option>
+				</select>
+				<p v-if="errors.genero" id="genero-error" class="field-error">
+					{{ errors.genero }}
+				</p>
+			</label>
 
-					<label for="genero">Gênero</label>
-					<select
-						v-model="genero"
-						name="genero"
-						id="genero"
-						class="form-select"
-					>
-						<option disabled value=""></option>
-						<option>Masculino</option>
-						<option>Feminino</option>
-						<option>Prefiro não informar</option>
-					</select>
-					<span v-if="errors.genero" class="text-danger">{{
-						errors.genero
-					}}</span>
+			<label class="field" for="cor_de_pele">
+				<span>Cor/Raça</span>
+				<select
+					id="cor_de_pele"
+					v-model="form.cor_de_pele"
+					name="cor_de_pele"
+					class="form-select"
+					:aria-invalid="Boolean(errors.cor_de_pele)"
+					aria-describedby="cor-error"
+				>
+					<option disabled value="">Selecione</option>
+					<option>Branca</option>
+					<option>Preta</option>
+					<option>Parda</option>
+					<option>Amarela</option>
+					<option>Indígena</option>
+				</select>
+				<p v-if="errors.cor_de_pele" id="cor-error" class="field-error">
+					{{ errors.cor_de_pele }}
+				</p>
+			</label>
 
-					<label for="cor_de_pele">Cor de pele</label>
-					<select
-						v-model="cor_de_pele"
-						name="cor_de_pele"
-						id="cor_de_pele"
-						class="form-select"
-					>
-						<option disabled value=""></option>
-						<option>Branca</option>
-						<option>Preta</option>
-						<option>Parda</option>
-						<option>Amarela</option>
-						<option>Indígena</option>
-					</select>
-					<span v-if="errors.cor_de_pele" class="text-danger">{{
-						errors.cor_de_pele
-					}}</span>
+			<label class="field" for="foto">
+				<span>Foto de perfil</span>
+				<input
+					id="foto"
+					ref="file"
+					type="file"
+					class="form-control"
+					accept="image/jpeg, image/pjpeg, image/png"
+					:aria-invalid="Boolean(errors.file)"
+					aria-describedby="foto-error foto-hint"
+					@change="onSelect"
+				/>
+				<p id="foto-hint" class="field-hint">
+					Somente imagens JPEG ou PNG.
+				</p>
+				<p v-if="errors.file" id="foto-error" class="field-error">
+					{{ errors.file }}
+				</p>
+			</label>
 
+			<div class="field">
+				<p class="field-hint">
+					Ao marcar a opção abaixo, declaro que li e aceito os
+					<router-link to="/termos_de_uso">termos de uso</router-link>
+					do site, que incluem a autorização para o uso de minha imagem em
+					materiais de comunicação vinculados ao IFBA e outras plataformas.
+				</p>
+				<label class="check-field" for="autorizacao">
 					<input
-						type="file"
-						ref="file"
-						@change="onSelect"
-						class="form-control"
-						id="customFile"
-						accept="image/jpeg, image/pjpeg, image/png"
+						id="autorizacao"
+						v-model="form.autorizacao"
+						type="checkbox"
+						:aria-invalid="Boolean(errors.autorizacao)"
+						aria-describedby="autorizacao-error"
 					/>
-					<span v-if="errors.file" class="text-danger">{{ errors.file }}</span>
-					<br />
-					<div id="agrupa_check_com_autorizacao">
-						<!-- <input type="checkbox" id="authorization" v-model="isAuthorized" /> -->
-						<span id="texto_termo">
-							Ao clicar no checkbox abaixo, declaro que li e aceito os
-							<router-link to="/termos_de_uso">termos de uso</router-link>
-							do site, que incluem a autorização para o uso de minha imagem em
-							materiais de comunicação vinculados ao IFBA e outras plataformas.
-						</span>
+					<span>Declaro que li e aceito os termos de uso</span>
+				</label>
+				<p
+					v-if="errors.autorizacao"
+					id="autorizacao-error"
+					class="field-error"
+				>
+					{{ errors.autorizacao }}
+				</p>
+			</div>
 
-						<!-- <input type="checkbox" id="authorization" v-model="isAuthorized" /> -->
-					</div>
-					<input type="checkbox" id="autorizacao" v-model="autorizacao" /><span>
-						Declaro que li e aceito os termos de uso</span
-					>
-					<span v-if="errors.autorizacao" class="text-danger"
-						><br />{{ errors.autorizacao }}</span
-					>
+			<p v-if="submitError" class="notice error" role="alert">
+				{{ submitError }}
+			</p>
+			<p v-if="successMessage" class="notice success" role="status">
+				{{ successMessage }}
+			</p>
 
-					<button type="submit" class="btn btn-success">Salvar</button>
-				</div>
-			</fieldset>
+			<button type="submit" class="ui-button" :disabled="isSubmitting">
+				{{ isSubmitting ? 'Enviando...' : 'Salvar' }}
+			</button>
 		</form>
-		<div v-if="showMessage" class="notification">
-			{{ notificationMessage }}
-		</div>
-	</div>
+	</section>
 </template>
 
 <script>
-import axios from 'axios'
+import { api } from '../services/api'
+
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/pjpeg', 'image/png']
 
 export default {
-	name: 'FormEditAutor',
+	name: 'FormCreateAutor',
 	data() {
 		return {
-			id: this.$route.params.id,
-			autor: [],
+			form: {
+				email: '',
+				password: '',
+				confirmpassword: '',
+				nome: '',
+				profissao: '',
+				biografia: '',
+				cidade: '',
+				genero: '',
+				cor_de_pele: '',
+				autorizacao: false,
+			},
+			file: null,
 			cidades: [],
-			nome: '',
-			profissao: '',
-			biografia: '',
-			email: '',
-			password: '',
-			confirmpassword: '',
-			select_cidade: '',
-			genero: '',
-			cor_de_pele: '',
-			file: '',
-			message: '',
 			errors: {},
-			showMessage: false,
-			notificationMessage: '',
+			isSubmitting: false,
+			submitError: '',
+			successMessage: '',
 		}
 	},
 	methods: {
-		async onSelect() {
+		onSelect() {
 			const file = this.$refs.file.files[0]
-			const acceptedTypes = ['image/jpeg', 'image/pjpeg', 'image/png']
 
-			if (file && !acceptedTypes.includes(file.type)) {
-				this.errors.file = 'Somente arquivos JPEG e PNG são permitidos.'
-				this.file = ''
-			} else {
-				this.errors.file = ''
-				this.file = file
+			if (file && !ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+				this.errors = { ...this.errors, file: 'Somente arquivos JPEG e PNG são permitidos.' }
+				this.file = null
+				return
 			}
+
+			this.errors = { ...this.errors, file: '' }
+			this.file = file || null
 		},
 		validateForm() {
-			this.errors = {}
+			const errors = {}
+			const { form } = this
 
-			if (!this.email) {
-				this.errors.email = 'Email é obrigatório.'
+			if (!form.email) errors.email = 'Email é obrigatório.'
+			if (!form.password) errors.password = 'Senha é obrigatória.'
+			if (!form.confirmpassword) {
+				errors.confirmpassword = 'Confirmação de senha é obrigatória.'
+			} else if (form.password !== form.confirmpassword) {
+				errors.confirmpassword = 'As senhas não coincidem.'
 			}
-			if (!this.password) {
-				this.errors.password = 'Senha é obrigatória.'
-			}
-			if (!this.confirmpassword) {
-				this.errors.confirmpassword = 'Confirmação de senha é obrigatória.'
-			} else if (this.password !== this.confirmpassword) {
-				this.errors.confirmpassword = 'As senhas não coincidem.'
-			}
-			if (!this.nome) {
-				this.errors.nome = 'Nome é obrigatório.'
-			}
-			if (!this.profissao) {
-				this.errors.profissao = 'Profissão é obrigatória.'
-			}
-			if (!this.biografia) {
-				this.errors.biografia = 'Biografia é obrigatória.'
-			}
-			if (!this.select_cidade) {
-				this.errors.select_cidade = 'Cidade é obrigatória.'
-			}
-			if (!this.genero) {
-				this.errors.genero = 'Gênero é obrigatório.'
-			}
-			if (!this.file) {
-				this.errors.file = 'Foto é obrigatória.'
-			}
-			if (!this.cor_de_pele) {
-				this.errors.cor_de_pele = 'Cor/Raça é obrigatória.'
-			}
-			if (!this.autorizacao) {
-				this.errors.autorizacao =
-					'É necessário aceitar os termos para prosseguir.'
+			if (!form.nome) errors.nome = 'Nome é obrigatório.'
+			if (!form.profissao) errors.profissao = 'Profissão é obrigatória.'
+			if (!form.biografia) errors.biografia = 'Biografia é obrigatória.'
+			if (!form.cidade) errors.cidade = 'Cidade é obrigatória.'
+			if (!form.genero) errors.genero = 'Gênero é obrigatório.'
+			if (!form.cor_de_pele) errors.cor_de_pele = 'Cor/Raça é obrigatória.'
+			if (!this.file) errors.file = 'Foto é obrigatória.'
+			if (!form.autorizacao) {
+				errors.autorizacao = 'É necessário aceitar os termos para prosseguir.'
 			}
 
-			return Object.keys(this.errors).length === 0
+			this.errors = errors
+			return Object.keys(errors).length === 0
 		},
-		async onSubmit(e) {
-			e.preventDefault()
+		async onSubmit() {
+			this.submitError = ''
 
 			if (!this.validateForm()) {
 				return
@@ -261,74 +316,41 @@ export default {
 
 			const formData = new FormData()
 			formData.append('file', this.file)
-			formData.append('nome', this.nome)
-			formData.append('profissao', this.profissao)
-			formData.append('biografia', this.biografia)
-			formData.append('email', this.email)
-			formData.append('password', this.password)
-			formData.append('id_cidade', this.select_cidade)
-			formData.append('genero', this.genero)
-			formData.append('cor_de_pele', this.cor_de_pele)
+			formData.append('nome', this.form.nome)
+			formData.append('profissao', this.form.profissao)
+			formData.append('biografia', this.form.biografia)
+			formData.append('email', this.form.email)
+			formData.append('password', this.form.password)
+			formData.append('id_cidade', this.form.cidade)
+			formData.append('genero', this.form.genero)
+			formData.append('cor_de_pele', this.form.cor_de_pele)
+
+			this.isSubmitting = true
 
 			try {
-				await axios.post(
-					`${process.env.VUE_APP_API_URL}/create_autor`,
-					formData
-				)
-				this.notificationMessage =
-					'Seus dados foram recebidos, aguarde a aprovação de seu registro no sistema'
-				this.showMessage = true
+				await api.post('/create_autor', formData)
+				this.successMessage =
+					'Seus dados foram recebidos. Aguarde a aprovação do seu registro no sistema.'
 				setTimeout(() => {
-					this.showMessage = false
 					this.$router.push({ name: 'HomeView' })
-				}, 5000) // Oculta a notificação após 5 segundos
-			} catch (err) {
-				console.log(err)
+				}, 5000)
+			} catch (error) {
+				console.error(error)
+				this.submitError =
+					error.response?.data?.mensagem ||
+					'Não foi possível enviar o cadastro. Tente novamente.'
+			} finally {
+				this.isSubmitting = false
 			}
 		},
-		async createAutor(e) {
-			e.preventDefault()
-			console.log('enviou o form')
-			console.log(this.file)
-			//teste a seguir
-			const data = {
-				nome: this.nome,
-				profissao: this.profissao,
-				biografia: this.biografia,
-				email: this.email,
-				id_cidade: this.select_cidade,
-				genero: this.genero,
-				cor_de_pele: this.cor_de_pele,
-				endereco_foto: this.file
-					? `${process.env.VUE_APP_API_URL}/images/${this.file.name}`
-					: '',
+		async getCidades() {
+			try {
+				const res = await api.get('/lista_cidade')
+				this.cidades = res.data?.cidade || []
+			} catch (error) {
+				console.error(error)
+				this.cidades = []
 			}
-			console.log(data)
-			const dataJson = JSON.stringify(data)
-			// const res =
-			await fetch(`${process.env.VUE_APP_API_URL}/create_autor`, {
-				method: 'POST',
-				headers: { 'content-type': 'application/json' },
-				//credentials: "include",
-				// mode: 'no-cors',
-				body: dataJson,
-			})
-			// const tokenjwt = (await res.json()).token
-
-			// localStorage.setItem('token', tokenjwt);
-
-			this.$router.push({ name: 'AutorView' })
-			// console.log(tokenjwt)
-		},
-		getCidades() {
-			axios
-				.get(`${process.env.VUE_APP_API_URL}/lista_cidade`)
-				.then((res) => {
-					this.cidades = res.data
-				})
-				.catch((error) => {
-					console.log(error)
-				})
 		},
 	},
 	mounted() {
@@ -336,43 +358,3 @@ export default {
 	},
 }
 </script>
-
-<style scoped>
-.container {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-}
-img {
-	width: 60px;
-	height: 60px;
-}
-label {
-	text-align: left;
-	display: flex;
-	margin-top: 12px;
-}
-button {
-	margin-top: 12px;
-	width: 100%;
-	text-transform: uppercase;
-}
-#customFile {
-	margin-top: 12px;
-}
-.text-danger {
-	color: red;
-}
-.notification {
-	margin-top: 20px;
-	padding: 10px;
-	border: 1px solid #28a745;
-	background-color: #d4edda;
-	color: #155724;
-	border-radius: 5px;
-}
-#texto_termo {
-	color: gray;
-}
-</style>

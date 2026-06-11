@@ -1,30 +1,35 @@
 <template>
-	<div>
-		<!-- <NavbarNav /> -->
-		<Registrese />
+	<div class="home">
+		<HeroSection />
 		<AboutSection />
 		<HowItWorksSection />
-		<KeysSectionItem />
-		<KeysSectionAccount />
+		<FeaturedWorksSection />
+		<FeaturedAuthorsSection />
 	</div>
 </template>
 
 <script>
-//   import NavbarNav from "../components/NavbarNav.vue"
-import Registrese from '../components/Registrese.vue'
-import AboutSection from '../components/AboutSection.vue'
-import HowItWorksSection from '../components/HowItWorksSection.vue'
-import KeysSectionAccount from '../components/KeysSectionAccount.vue'
-import KeysSectionItem from '../components/KeysSectionItem.vue'
+import HeroSection from '../components/home/HeroSection.vue'
+import AboutSection from '../components/home/AboutSection.vue'
+import HowItWorksSection from '../components/home/HowItWorksSection.vue'
+import FeaturedWorksSection from '../components/home/FeaturedWorksSection.vue'
+import FeaturedAuthorsSection from '../components/home/FeaturedAuthorsSection.vue'
 
 export default {
 	name: 'HomeView',
 	components: {
-		Registrese,
+		HeroSection,
 		AboutSection,
 		HowItWorksSection,
-		KeysSectionItem,
-		KeysSectionAccount,
+		FeaturedWorksSection,
+		FeaturedAuthorsSection,
 	},
 }
 </script>
+
+<style scoped>
+.home {
+	display: grid;
+	gap: var(--space-5);
+}
+</style>

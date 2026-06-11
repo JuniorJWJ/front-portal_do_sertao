@@ -1,137 +1,153 @@
 <template>
-	<div class="corpo">
-		<h1 class="title">Obras</h1>
-		<table class="table">
-			<thead>
-				<tr>
-					<!-- <th scope="col">ID</th> -->
-					<th scope="col">Nome</th>
-					<th class="nomeobratabela" scope="col">Link Obra</th>
-					<th scope="col">Opções</th>
-					<th scope="col">Status</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr v-for="item in obras.obra" :key="item.id">
-					<td class="nomeobratabela">{{ item.nome }}</td>
-					<td class="endereco_pdf">
-						<a :href="item.endereco_pdf" target="_blank">
-							<button class="btn botaoacessarobra">
-								<span>Acessar Obra</span>
-								<i></i>
-							</button>
-						</a>
-					</td>
-					<!-- <th scope="row">{{ item.id }}</th> -->
-					<td>
-						<button @click="editObras(item.id)" class="btn btn buttonedit">
-							Editar
-						</button>
-						<button @click="deleteObras(item.id)" class="btn btn buttondelet">
-							Excluir
-						</button>
-					</td>
-					<td>
-						{{ item.aprovado === 1 ? 'Aprovada' : 'Pendente' }}
-					</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+	<section class="page-surface" aria-labelledby="minhas-obras-title">
+		<div class="list-header">
+			<div>
+				<p class="eyebrow">Minhas obras</p>
+				<h1 id="minhas-obras-title" class="page-title">Obras enviadas</h1>
+				<p class="muted">
+					Acompanhe o status de aprovação e gerencie suas obras.
+				</p>
+			</div>
+			<router-link class="ui-button" to="/register_obra">
+				Cadastrar nova obra
+			</router-link>
+		</div>
+
+		<p v-if="feedback" class="notice error" role="alert">{{ feedback }}</p>
+
+		<div v-if="loading" class="status-box">Carregando suas obras...</div>
+		<div v-else-if="obras.length === 0" class="status-box">
+			Você ainda não enviou nenhuma obra.
+		</div>
+
+		<div v-else class="table-wrapper">
+			<table class="data-table">
+				<thead>
+					<tr>
+						<th scope="col">Nome</th>
+						<th scope="col">Status</th>
+						<th scope="col">Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="item in obras" :key="item.id">
+						<td>{{ item.nome }}</td>
+						<td>
+							<span
+								class="badge"
+								:class="item.aprovado === 1 ? 'success' : 'pending'"
+							>
+								{{ item.aprovado === 1 ? 'Aprovada' : 'Pendente' }}
+							</span>
+						</td>
+						<td>
+							<div class="table-actions">
+								<a
+									class="ui-button secondary small"
+									:href="item.endereco_pdf"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									Acessar
+								</a>
+								<button
+									type="button"
+									class="ui-button secondary small"
+									@click="editObra(item.id)"
+								>
+									Editar
+								</button>
+								<button
+									type="button"
+									class="ui-button danger small"
+									:disabled="actingId === item.id"
+									@click="deleteObra(item)"
+								>
+									Excluir
+								</button>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</section>
 </template>
 
 <script>
-import axios from 'axios'
-import jwtDecode from 'jwt-decode'
+import { getCurrentUser } from '../services/auth'
+import { api, getAuthConfig } from '../services/api'
 
 export default {
 	name: 'MinhasObras',
-	mounted() {
-		const token = localStorage.getItem('token')
-		if (token) {
-			const decodedToken = jwtDecode(token)
-			this.userId = decodedToken.id
-		}
-		this.getObras(this.userId)
-	},
 	data() {
 		return {
 			obras: [],
-			userId: null,
-			token: null,
+			userId: getCurrentUser()?.id ?? null,
+			loading: true,
+			feedback: '',
+			actingId: null,
 		}
 	},
 	methods: {
-		getObras() {
-			axios
-				.get(`${process.env.VUE_APP_API_URL}/lista_obra/autor/${this.userId}`)
-				.then((res) => {
-					this.obras = res.data
-				})
-				.catch((error) => {
-					console.log(error)
-				})
+		async getObras() {
+			this.loading = true
+
+			try {
+				const res = await api.get(`/lista_obra/autor/${this.userId}`)
+				this.obras = res.data?.obra || []
+			} catch (error) {
+				console.error(error)
+				this.obras = []
+				this.feedback = 'Não foi possível carregar suas obras.'
+			} finally {
+				this.loading = false
+			}
 		},
-		deleteObras(id) {
-			const token = localStorage.getItem('token')
-			console.log('token: ' + token)
-			console.log('id dentro de deleteobras: ' + id)
-			axios
-				.delete(`${process.env.VUE_APP_API_URL}/obra/delete/${id}`, {
-					headers: {
-						authorization: `Bearer ${token}`,
-					},
-				})
-				.then(() => {
-					this.getObras()
-				})
-				.catch((error) => {
-					console.log(error)
-				})
+		async deleteObra(obra) {
+			const confirmed = window.confirm(
+				`Excluir a obra "${obra.nome}"? Essa ação não pode ser desfeita.`
+			)
+			if (!confirmed) return
+
+			this.feedback = ''
+			this.actingId = obra.id
+
+			try {
+				await api.delete(`/obra/delete/${obra.id}`, getAuthConfig())
+				await this.getObras()
+			} catch (error) {
+				console.error(error)
+				this.feedback = 'Não foi possível excluir a obra.'
+			} finally {
+				this.actingId = null
+			}
 		},
-		editObras(id) {
-			this.$router.push({ name: 'ObraEditByOwnerView', params: { id: id } })
+		editObra(id) {
+			this.$router.push({ name: 'ObraEditByOwnerView', params: { id } })
 		},
+	},
+	mounted() {
+		if (!this.userId) {
+			this.$router.push({ name: 'LogUserView' })
+			return
+		}
+		this.getObras()
 	},
 }
 </script>
 
 <style scoped>
-img {
-	width: 60px;
-	height: 60px;
+.list-header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: var(--space-4);
+	flex-wrap: wrap;
+	margin-bottom: var(--space-5);
 }
-button {
-	margin-left: 10px;
-	color: white;
-}
-.buttonedit {
-	background: #029bbf;
-}
-.buttondelet {
-	background: #e85850;
-}
-.nomeobratabela {
-	text-align: left;
-}
-#title {
-	padding: 0.5em;
-}
-.corpo {
-	height: 100%;
-	padding-bottom: 40px;
-}
-.botaoacessarobra {
-	background-color: #343a40;
-	border-radius: 10px;
-	border: none;
-	font-size: 15px;
-	color: #f2f2f2;
-	text-transform: capitalize;
-	cursor: pointer;
-	transition: all ease 0.5s;
-	align-items: center;
-	gap: 5px;
-	padding: 8px 4px;
+
+.notice {
+	margin-bottom: var(--space-4);
 }
 </style>

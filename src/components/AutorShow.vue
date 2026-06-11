@@ -131,15 +131,6 @@ export default {
 	box-shadow: var(--shadow-sm);
 }
 
-.eyebrow {
-	margin: 0 0 var(--space-2);
-	color: var(--color-primary);
-	font-size: 0.78rem;
-	font-weight: 800;
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-}
-
 .info-grid {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(0, 1fr));

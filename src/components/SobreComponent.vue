@@ -1,10 +1,10 @@
 <template>
-	<div class="about">
-		<main class="main">
-			<div class="about-content">
-				<h2 class="about-title">
-					Portal Literário do Sertão: uma Janela para a Expressão Cultural Local
-				</h2>
+	<section class="page-surface about" aria-labelledby="sobre-title">
+		<div class="about-content">
+			<p class="eyebrow">Sobre</p>
+			<h1 id="sobre-title" class="page-title">
+				Portal Literário do Sertão: uma Janela para a Expressão Cultural Local
+			</h1>
 				<p class="about-description">
 					O Portal Literário do Sertão surge como uma iniciativa inovadora para
 					democratizar o acesso à cultura e ampliar as vozes literárias da
@@ -47,76 +47,43 @@
 				</p>
 				<p class="about-description">
 					Para tornar-se escritor associado e divulgar, a título gratuito, obra
-					e imagem, acesse o<router-link to="/termos_de_uso"
-						>termo de uso e cessão de direitos autorais.</router-link
-					>
+					e imagem, acesse o
+					<router-link to="/termos_de_uso">
+						termo de uso e cessão de direitos autorais.
+					</router-link>
 				</p>
-			</div>
-		</main>
-		<footer class="footer">
-			<p class="footer-text">
-				© 2023 Portal do Sertão. Todos os direitos reservados.
-			</p>
-		</footer>
-	</div>
+		</div>
+	</section>
 </template>
 
 <script>
 export default {
 	name: 'SobreComponent',
-	data() {
-		return {
-			activeNavItem: '',
-		}
-	},
 }
 </script>
 
 <style scoped>
 .about {
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
-}
-
-.main {
-	flex: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 20px;
+	display: grid;
+	justify-items: center;
 }
 
 .about-content {
 	max-width: 800px;
-	padding: 60px 20px;
-	background: #fff;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	border-radius: 10px;
-	text-align: center;
 }
 
 .about-title {
-	font-size: 32px;
-	margin: 0 0 20px;
+	margin: var(--space-6) 0 var(--space-4);
+	font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+	font-weight: 800;
 }
 
 .about-description {
-	color: #666;
-	font-size: 18px;
-	margin-bottom: 20px;
+	color: var(--color-muted);
+	font-size: 1.05rem;
+	line-height: 1.8;
+	margin-bottom: var(--space-4);
 	text-align: justify;
 	text-indent: 20px;
-}
-
-.footer {
-	background-color: #333;
-	color: #fff;
-	padding: 20px;
-	text-align: center;
-}
-
-.footer-text {
-	margin: 0;
 }
 </style>

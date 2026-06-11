@@ -33,7 +33,7 @@
 				/>
 			</label>
 
-			<p v-if="errorMessage" class="error-message" role="alert">
+			<p v-if="errorMessage" class="notice error" role="alert">
 				{{ errorMessage }}
 			</p>
 
@@ -86,9 +86,7 @@ export default {
 
 				if (tokenjwt) {
 					localStorage.setItem('token', tokenjwt)
-					this.$router.push({ name: 'UserView' }).then(() => {
-						location.reload()
-					})
+					this.$router.push({ name: 'UserView' })
 					return
 				}
 
@@ -125,15 +123,6 @@ export default {
 	box-shadow: var(--shadow-md);
 }
 
-.eyebrow {
-	margin: 0 0 var(--space-2);
-	color: var(--color-primary);
-	font-size: 0.78rem;
-	font-weight: 800;
-	text-transform: uppercase;
-	letter-spacing: 0.08em;
-}
-
 label {
 	display: grid;
 	gap: var(--space-2);
@@ -141,19 +130,4 @@ label {
 	font-weight: 700;
 }
 
-.ui-button[disabled] {
-	opacity: 0.72;
-	cursor: wait;
-	transform: none;
-}
-
-.error-message {
-	margin: 0;
-	padding: var(--space-3);
-	border: 1px solid color-mix(in srgb, var(--color-danger) 35%, transparent);
-	border-radius: var(--radius-sm);
-	background: color-mix(in srgb, var(--color-danger) 10%, transparent);
-	color: var(--color-danger);
-	font-weight: 700;
-}
 </style>
