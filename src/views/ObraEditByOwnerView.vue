@@ -8,7 +8,7 @@
 import FormEditObraByOwner from '../components/organisms/FormEditObraByOwner.vue'
 
 export default {
-	name: 'ObraEditView',
+	name: 'ObraEditByOwnerView',
 	components: {
 		FormEditObraByOwner,
 	},

@@ -93,7 +93,7 @@ export default {
 				this.errorMessage =
 					data.mensagem || 'Falha ao efetuar login. Verifique suas credenciais.'
 			} catch (error) {
-				console.log(error)
+				console.error(error)
 				this.errorMessage =
 					error.response?.data?.mensagem ||
 					'Falha ao efetuar login. Verifique suas credenciais.'

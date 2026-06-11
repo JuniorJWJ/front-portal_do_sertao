@@ -106,7 +106,7 @@ export default {
 				const res = await api.get('/lista_obra')
 				this.obras = res.data || { obra: [] }
 			} catch (error) {
-				console.log(error)
+				console.error(error)
 				this.obras = { obra: [] }
 				this.errorMessage = 'Não foi possível carregar as obras.'
 			} finally {
@@ -121,7 +121,7 @@ export default {
 				const res = await api.get(`/lista_obra/genero/${id}`)
 				this.obras = res.data || { obra: [] }
 			} catch (error) {
-				console.log(error)
+				console.error(error)
 				this.obras = { obra: [] }
 				this.errorMessage = 'Nenhuma obra encontrada para este gênero.'
 			} finally {
@@ -133,7 +133,7 @@ export default {
 				const res = await api.get('/lista_generos_literarios')
 				this.GenerosLiterarios = res.data || { generoLiterario: [] }
 			} catch (error) {
-				console.log(error)
+				console.error(error)
 				this.GenerosLiterarios = { generoLiterario: [] }
 			}
 		},

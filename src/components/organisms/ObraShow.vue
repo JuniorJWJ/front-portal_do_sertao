@@ -93,7 +93,7 @@ export default {
 					this.getGeneroLiterario(this.obra.id_genero_literario),
 				])
 			} catch (error) {
-				console.log(error)
+				console.error(error)
 				this.errorMessage = 'Não foi possível carregar esta obra.'
 			} finally {
 				this.loading = false
@@ -111,15 +111,24 @@ export default {
 			window.history.back()
 		},
 		embedYouTubeURL(url) {
-			const videoId = url.split('v=')[1]
-			const ampersandPosition = videoId ? videoId.indexOf('&') : -1
-			if (ampersandPosition !== -1) {
-				return `https://www.youtube.com/embed/${videoId.substring(
-					0,
-					ampersandPosition
-				)}`
+			// Aceita watch?v=, youtu.be/, shorts/ e embed/
+			try {
+				const parsed = new URL(url)
+				let videoId = ''
+
+				if (parsed.hostname.includes('youtu.be')) {
+					videoId = parsed.pathname.slice(1).split('/')[0]
+				} else if (parsed.searchParams.get('v')) {
+					videoId = parsed.searchParams.get('v')
+				} else {
+					const match = parsed.pathname.match(/\/(shorts|embed)\/([^/]+)/)
+					videoId = match ? match[2] : ''
+				}
+
+				return videoId ? `https://www.youtube.com/embed/${videoId}` : ''
+			} catch {
+				return ''
 			}
-			return `https://www.youtube.com/embed/${videoId || ''}`
 		},
 	},
 	created() {

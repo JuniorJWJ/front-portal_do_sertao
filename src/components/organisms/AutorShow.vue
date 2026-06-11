@@ -82,7 +82,7 @@ export default {
 					this.getObras(this.autor.id),
 				])
 			} catch (error) {
-				console.log(error)
+				console.error(error)
 				this.errorMessage = 'Não foi possível carregar este autor.'
 			} finally {
 				this.loading = false
@@ -97,7 +97,7 @@ export default {
 				const res = await api.get(`/lista_obra/autor/${id}`)
 				this.obras = res.data || { obra: [] }
 			} catch (error) {
-				console.log(error)
+				console.error(error)
 				this.obras = { obra: [] }
 			}
 		},

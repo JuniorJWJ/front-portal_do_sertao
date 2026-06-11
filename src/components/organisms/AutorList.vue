@@ -111,7 +111,7 @@ export default {
 				const res = await api.get('/lista_autor')
 				this.autores = res.data || { autor: [] }
 			} catch (error) {
-				console.log(error)
+				console.error(error)
 				this.autores = { autor: [] }
 				this.errorMessage = 'Não foi possível carregar os autores.'
 			} finally {
@@ -126,7 +126,7 @@ export default {
 				const res = await api.get(`/lista_autor/cidade/${id}`)
 				this.autores = res.data || { autor: [] }
 			} catch (error) {
-				console.log(error)
+				console.error(error)
 				this.autores = { autor: [] }
 				this.errorMessage = 'Nenhum autor encontrado para esta cidade.'
 			} finally {
@@ -138,7 +138,7 @@ export default {
 				const res = await api.get('/lista_cidade')
 				this.Cidade = res.data || { cidade: [] }
 			} catch (error) {
-				console.log(error)
+				console.error(error)
 				this.Cidade = { cidade: [] }
 			}
 		},

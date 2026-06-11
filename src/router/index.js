@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { getToken } from '../services/auth'
 
-const navigationAdminRouteGuard = (to) => {
+/** Exige usuário autenticado; redireciona para o login caso contrário. */
+const requireAuth = (to) => {
 	const bearerToken = getToken()
 	if (!bearerToken && to.name !== 'LogUserView') {
 		return { name: 'LogUserView' }
@@ -23,7 +24,7 @@ const routes = [
 		name: 'AutorCreate',
 		component: () =>
 			import(/* webpackChunkName: "AutorCreate" */ '../views/AutorCreate.vue'),
-		beforeEnter: navigationAdminRouteGuard,
+		beforeEnter: requireAuth,
 		meta: {
 			title: 'Registrar Autor',
 		},
@@ -38,7 +39,6 @@ const routes = [
 		meta: {
 			title: 'Registre-se',
 		},
-		// beforeEnter: navigationAdminRouteGuard
 	},
 	{
 		path: '/list_autor',
@@ -54,6 +54,9 @@ const routes = [
 		name: 'AutorShow',
 		component: () =>
 			import(/* webpackChunkName: "AutorView" */ '../views/AutorShow.vue'),
+		meta: {
+			title: 'Autor',
+		},
 	},
 	{
 		path: '/perfil',
@@ -62,14 +65,17 @@ const routes = [
 			import(
 				/* webpackChunkName: "AutorView" */ '../views/AutorPerfilView.vue'
 			),
-		beforeEnter: navigationAdminRouteGuard,
+		beforeEnter: requireAuth,
+		meta: {
+			title: 'Meu Perfil',
+		},
 	},
 	{
 		path: '/edit_autor_list',
 		name: 'AutorEditList',
 		component: () =>
 			import(/* webpackChunkName: "AutorView" */ '../views/AutorEditList.vue'),
-		beforeEnter: navigationAdminRouteGuard,
+		beforeEnter: requireAuth,
 		meta: {
 			title: 'Editar Autor',
 		},
@@ -79,7 +85,7 @@ const routes = [
 		name: 'AutorEditView',
 		component: () =>
 			import(/* webpackChunkName: "AutorEdit" */ '../views/AutorEditView.vue'),
-		beforeEnter: navigationAdminRouteGuard,
+		beforeEnter: requireAuth,
 		meta: {
 			title: 'Alterar Autor',
 		},
@@ -91,13 +97,20 @@ const routes = [
 			import(
 				/* webpackChunkName: "AutorEditPerfil" */ '../views/AutorEditPerfilView.vue'
 			),
-		beforeEnter: navigationAdminRouteGuard,
+		beforeEnter: requireAuth,
+		meta: {
+			title: 'Editar Perfil',
+		},
 	},
 	{
 		path: '/show_user',
 		name: 'UserView',
 		component: () =>
 			import(/* webpackChunkName: "UserView" */ '../views/UserView.vue'),
+		beforeEnter: requireAuth,
+		meta: {
+			title: 'Painel',
+		},
 	},
 	{
 		path: '/',
@@ -131,7 +144,7 @@ const routes = [
 		name: 'ObraCreate',
 		component: () =>
 			import(/* webpackChunkName: "ObraCreate" */ '../views/ObraCreate.vue'),
-		beforeEnter: navigationAdminRouteGuard,
+		beforeEnter: requireAuth,
 		meta: {
 			title: 'Registrar Obra',
 		},
@@ -143,7 +156,10 @@ const routes = [
 			import(
 				/* webpackChunkName: "ObraRegister" */ '../views/ObraRegisterView.vue'
 			),
-		beforeEnter: navigationAdminRouteGuard,
+		beforeEnter: requireAuth,
+		meta: {
+			title: 'Cadastrar Obra',
+		},
 	},
 	{
 		path: '/list_obra',
@@ -159,20 +175,26 @@ const routes = [
 		name: 'MinhasObrasView',
 		component: () =>
 			import(/* webpackChunkName: "MinhasObras" */ '../views/MinhasObrasView.vue'),
-		beforeEnter: navigationAdminRouteGuard,
+		beforeEnter: requireAuth,
+		meta: {
+			title: 'Minhas Obras',
+		},
 	},
 	{
 		path: '/show_obra/:id',
 		name: 'ObraShow',
 		component: () =>
 			import(/* webpackChunkName: "ObraShow" */ '../views/ObraShow.vue'),
+		meta: {
+			title: 'Obra',
+		},
 	},
 	{
 		path: '/edit_obra_list',
 		name: 'ObraEditList',
 		component: () =>
 			import(/* webpackChunkName: "AutorView" */ '../views/ObraEditList.vue'),
-		beforeEnter: navigationAdminRouteGuard,
+		beforeEnter: requireAuth,
 		meta: {
 			title: 'Editar Obra',
 		},
@@ -182,7 +204,7 @@ const routes = [
 		name: 'ObraEditView',
 		component: () =>
 			import(/* webpackChunkName: "ObraEdit" */ '../views/ObraEditView.vue'),
-		beforeEnter: navigationAdminRouteGuard,
+		beforeEnter: requireAuth,
 		meta: {
 			title: 'Alterar Obra',
 		},
@@ -194,7 +216,7 @@ const routes = [
 			import(
 				/* webpackChunkName: "ObraEditByOwner" */ '../views/ObraEditByOwnerView.vue'
 			),
-		beforeEnter: navigationAdminRouteGuard,
+		beforeEnter: requireAuth,
 		meta: {
 			title: 'Alterar Obra',
 		},
@@ -206,10 +228,14 @@ const routes = [
 			import(
 				/* webpackChunkName: "DadosAutores" */ '../views/DadosAutoresView.vue'
 			),
-		// beforeEnter: navigationAdminRouteGuard,
 		meta: {
 			title: 'Dados dos Autores',
 		},
+	},
+	{
+		// Rota não encontrada: volta para a home
+		path: '/:pathMatch(.*)*',
+		redirect: '/',
 	},
 ]
 
