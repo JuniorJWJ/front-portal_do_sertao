@@ -200,9 +200,6 @@
 			<p v-if="submitError" class="notice error" role="alert">
 				{{ submitError }}
 			</p>
-			<p v-if="successMessage" class="notice success" role="status">
-				{{ successMessage }}
-			</p>
 
 			<button type="submit" class="ui-button" :disabled="isSubmitting">
 				<span v-if="isSubmitting" class="btn-spinner" aria-hidden="true"></span>
@@ -240,7 +237,6 @@ export default {
 			errors: {},
 			isSubmitting: false,
 			submitError: '',
-			successMessage: '',
 		}
 	},
 	methods: {
@@ -291,11 +287,12 @@ export default {
 
 			try {
 				await api.post('/create_autor', formData)
-				this.successMessage =
-					'Seus dados foram recebidos. Aguarde a aprovação do seu registro no sistema.'
+				this.$toast.success(
+					'Cadastro enviado! Aguarde a aprovação do seu registro no sistema.'
+				)
 				setTimeout(() => {
 					this.$router.push({ name: 'HomeView' })
-				}, 5000)
+				}, 2000)
 			} catch (error) {
 				console.error(error)
 				this.submitError =

@@ -176,6 +176,7 @@ export default {
 
 			try {
 				await api.post('/create_obra', formData, getAuthConfig())
+				this.$toast.success('Obra cadastrada com sucesso!')
 				this.$router.push({ name: 'MinhasObrasView' })
 			} catch (error) {
 				console.error(error)

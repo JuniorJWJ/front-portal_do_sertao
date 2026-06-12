@@ -226,6 +226,7 @@ export default {
 					formData,
 					getAuthConfig()
 				)
+				this.$toast.success('Perfil atualizado com sucesso!')
 				this.$router.push({ name: this.redirectRouteName })
 			} catch (error) {
 				console.error(error)
