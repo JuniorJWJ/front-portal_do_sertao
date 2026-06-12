@@ -16,6 +16,12 @@
 			href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap"
 			rel="stylesheet"
 		/>
+		<script>
+			(function () {
+				var t = localStorage.getItem('theme');
+				if (t) document.documentElement.dataset.theme = t;
+			})();
+		</script>
 	</head>
 	<body>
 		<noscript>
