@@ -472,6 +472,23 @@ textarea.form-control {
 	transform: none;
 }
 
+.btn-spinner {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	border: 2px solid currentColor;
+	border-top-color: transparent;
+	border-radius: 50%;
+	animation: spin 0.7s linear infinite;
+	flex-shrink: 0;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
 /* ── Formulários padronizados ─────────────────────────────────────────── */
 .form-page {
 	display: grid;

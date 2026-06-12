@@ -105,6 +105,7 @@
 			</p>
 
 			<button type="submit" class="ui-button" :disabled="isSubmitting">
+				<span v-if="isSubmitting" class="btn-spinner" aria-hidden="true"></span>
 				{{ isSubmitting ? 'Enviando...' : 'Salvar' }}
 			</button>
 		</form>
