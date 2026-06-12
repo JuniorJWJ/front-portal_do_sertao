@@ -307,6 +307,121 @@ textarea.form-control {
 	background: var(--color-surface-muted);
 }
 
+/* ── Dropzone de upload ───────────────────────────────────────────────── */
+.dropzone {
+	display: grid;
+	justify-items: center;
+	gap: var(--space-2);
+	width: 100%;
+	padding: var(--space-5) var(--space-4);
+	border: 2px dashed var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-surface-muted);
+	color: var(--color-muted);
+	text-align: center;
+	cursor: pointer;
+	transition:
+		border-color 160ms ease,
+		background-color 160ms ease,
+		color 160ms ease;
+}
+
+.dropzone:hover,
+.dropzone:focus-visible,
+.dropzone.dragging {
+	border-color: var(--color-primary);
+	background: color-mix(in srgb, var(--color-primary) 6%, var(--color-surface-muted));
+	color: var(--color-primary);
+}
+
+.dropzone.invalid {
+	border-color: color-mix(in srgb, var(--color-danger) 60%, var(--color-border));
+}
+
+.dropzone strong {
+	color: var(--color-text);
+	font-size: 0.95rem;
+}
+
+.dropzone small {
+	font-weight: 400;
+}
+
+.file-card {
+	display: flex;
+	align-items: center;
+	gap: var(--space-3);
+	width: 100%;
+	padding: var(--space-3);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-surface);
+	box-shadow: var(--shadow-sm);
+}
+
+.file-card .thumb {
+	width: 48px;
+	height: 48px;
+	border-radius: var(--radius-sm);
+	object-fit: cover;
+	flex: 0 0 auto;
+}
+
+.file-card .file-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	border-radius: var(--radius-sm);
+	background: var(--color-primary-soft);
+	color: var(--color-primary);
+	flex: 0 0 auto;
+}
+
+.file-card .file-meta {
+	display: grid;
+	gap: 2px;
+	min-width: 0;
+	flex: 1;
+}
+
+.file-card .file-meta strong {
+	color: var(--color-text);
+	font-size: 0.92rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.file-card .file-meta small {
+	color: var(--color-muted);
+	font-weight: 400;
+}
+
+.file-card .remove-file {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 34px;
+	padding: 0;
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: var(--color-muted);
+	cursor: pointer;
+	flex: 0 0 auto;
+	transition:
+		color 160ms ease,
+		background-color 160ms ease;
+}
+
+.file-card .remove-file:hover {
+	color: var(--color-danger);
+	background: color-mix(in srgb, var(--color-danger) 10%, transparent);
+}
+
 .ui-button.danger {
 	background: var(--color-danger);
 }

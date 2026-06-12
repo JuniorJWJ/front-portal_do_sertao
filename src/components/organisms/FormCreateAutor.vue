@@ -161,25 +161,15 @@
 				</p>
 			</label>
 
-			<label class="field" for="foto">
-				<span>Foto de perfil</span>
-				<input
-					id="foto"
-					ref="file"
-					type="file"
-					class="form-control"
-					accept="image/jpeg, image/pjpeg, image/png"
-					:aria-invalid="Boolean(errors.file)"
-					aria-describedby="foto-error foto-hint"
-					@change="onSelect"
-				/>
-				<p id="foto-hint" class="field-hint">
-					Somente imagens JPEG ou PNG.
-				</p>
-				<p v-if="errors.file" id="foto-error" class="field-error">
-					{{ errors.file }}
-				</p>
-			</label>
+			<FileDropzone
+				id="foto"
+				v-model="file"
+				label="Foto de perfil"
+				accept="image/jpeg, image/pjpeg, image/png"
+				hint="Somente imagens JPEG ou PNG."
+				:error="errors.file"
+				@update:model-value="errors.file = ''"
+			/>
 
 			<div class="field">
 				<p class="field-hint">
@@ -225,12 +215,11 @@
 import { api } from '../../services/api'
 import AppIcon from '../atoms/AppIcon.vue'
 import PasswordField from '../molecules/PasswordField.vue'
-
-const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/pjpeg', 'image/png']
+import FileDropzone from '../molecules/FileDropzone.vue'
 
 export default {
 	name: 'FormCreateAutor',
-	components: { AppIcon, PasswordField },
+	components: { AppIcon, PasswordField, FileDropzone },
 	data() {
 		return {
 			form: {
@@ -254,18 +243,6 @@ export default {
 		}
 	},
 	methods: {
-		onSelect() {
-			const file = this.$refs.file.files[0]
-
-			if (file && !ACCEPTED_IMAGE_TYPES.includes(file.type)) {
-				this.errors = { ...this.errors, file: 'Somente arquivos JPEG e PNG são permitidos.' }
-				this.file = null
-				return
-			}
-
-			this.errors = { ...this.errors, file: '' }
-			this.file = file || null
-		},
 		validateForm() {
 			const errors = {}
 			const { form } = this

@@ -114,27 +114,22 @@
 				</select>
 			</label>
 
-			<div class="field">
-				<span>Foto de perfil</span>
+			<div v-if="autor.endereco_foto" class="field">
+				<span>Foto atual</span>
 				<img
-					v-if="autor.endereco_foto"
 					class="photo-preview"
 					:src="autor.endereco_foto"
 					:alt="`Foto atual de ${autor.nome}`"
 				/>
-				<input
-					id="foto"
-					ref="file"
-					type="file"
-					class="form-control"
-					accept="image/jpeg, image/pjpeg, image/png"
-					aria-label="Substituir foto de perfil"
-					@change="onSelect"
-				/>
-				<p class="field-hint">
-					Envie uma nova imagem apenas se quiser substituir a atual.
-				</p>
 			</div>
+
+			<FileDropzone
+				id="foto"
+				v-model="file"
+				label="Substituir foto (opcional)"
+				accept="image/jpeg, image/pjpeg, image/png"
+				hint="Envie uma nova imagem apenas se quiser substituir a atual."
+			/>
 
 			<p v-if="submitError" class="notice error" role="alert">
 				{{ submitError }}
@@ -149,9 +144,11 @@
 
 <script>
 import { api, getAuthConfig } from '../../../services/api'
+import FileDropzone from '../../molecules/FileDropzone.vue'
 
 export default {
 	name: 'AutorEditForm',
+	components: { FileDropzone },
 	props: {
 		autorId: {
 			type: [String, Number],
@@ -192,13 +189,6 @@ export default {
 		}
 	},
 	methods: {
-		onSelect() {
-			const file = this.$refs.file.files[0]
-			if (!file) return
-
-			this.file = file
-			this.autor.endereco_foto = URL.createObjectURL(file)
-		},
 		validateForm() {
 			const errors = {}
 

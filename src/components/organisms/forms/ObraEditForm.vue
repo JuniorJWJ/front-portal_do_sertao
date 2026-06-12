@@ -57,32 +57,20 @@
 				</select>
 			</label>
 
-			<label class="field" for="pdfFile">
-				<span>Arquivo PDF</span>
-				<input
-					id="pdfFile"
-					ref="pdfFile"
-					type="file"
-					class="form-control"
-					accept="application/pdf"
-					@change="onSelectPDF"
-				/>
-				<p class="field-hint">
-					Envie um novo PDF apenas se quiser substituir o atual.
-				</p>
-			</label>
+			<FileDropzone
+				id="pdfFile"
+				v-model="pdfFile"
+				label="Substituir PDF (opcional)"
+				accept="application/pdf"
+				hint="Envie um novo PDF apenas se quiser substituir o atual."
+			/>
 
-			<label class="field" for="audioFile">
-				<span>Arquivo de Áudio (opcional)</span>
-				<input
-					id="audioFile"
-					ref="audioFile"
-					type="file"
-					class="form-control"
-					accept="audio/*"
-					@change="onSelectAudio"
-				/>
-			</label>
+			<FileDropzone
+				id="audioFile"
+				v-model="audioFile"
+				label="Arquivo de áudio (opcional)"
+				accept="audio/*"
+			/>
 
 			<label class="field" for="endereco_video">
 				<span>Link do vídeo do YouTube (opcional)</span>
@@ -135,9 +123,11 @@
 
 <script>
 import { api, getAuthConfig } from '../../../services/api'
+import FileDropzone from '../../molecules/FileDropzone.vue'
 
 export default {
 	name: 'ObraEditForm',
+	components: { FileDropzone },
 	props: {
 		obraId: {
 			type: [String, Number],
@@ -173,12 +163,6 @@ export default {
 		}
 	},
 	methods: {
-		onSelectPDF() {
-			this.pdfFile = this.$refs.pdfFile.files[0] || null
-		},
-		onSelectAudio() {
-			this.audioFile = this.$refs.audioFile.files[0] || null
-		},
 		validateForm() {
 			const errors = {}
 

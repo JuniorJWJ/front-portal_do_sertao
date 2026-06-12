@@ -45,34 +45,22 @@
 				</p>
 			</label>
 
-			<label class="field" for="pdfFile">
-				<span>Arquivo PDF</span>
-				<input
-					id="pdfFile"
-					ref="file"
-					type="file"
-					class="form-control"
-					accept="application/pdf"
-					:aria-invalid="Boolean(errors.file)"
-					aria-describedby="pdf-error"
-					@change="onSelect"
-				/>
-				<p v-if="errors.file" id="pdf-error" class="field-error">
-					{{ errors.file }}
-				</p>
-			</label>
+			<FileDropzone
+				id="pdfFile"
+				v-model="file"
+				label="Arquivo PDF"
+				accept="application/pdf"
+				hint="Somente arquivos PDF."
+				:error="errors.file"
+				@update:model-value="errors.file = ''"
+			/>
 
-			<label class="field" for="audioFile">
-				<span>Arquivo de Áudio (opcional)</span>
-				<input
-					id="audioFile"
-					ref="audioFile"
-					type="file"
-					class="form-control"
-					accept="audio/*"
-					@change="onAudioSelect"
-				/>
-			</label>
+			<FileDropzone
+				id="audioFile"
+				v-model="audioFile"
+				label="Arquivo de áudio (opcional)"
+				accept="audio/*"
+			/>
 
 			<label class="field" for="endereco_video">
 				<span>Link do vídeo do YouTube (opcional)</span>
@@ -126,9 +114,11 @@
 <script>
 import { getCurrentUser } from '../../services/auth'
 import { api, getAuthConfig } from '../../services/api'
+import FileDropzone from '../molecules/FileDropzone.vue'
 
 export default {
 	name: 'FormRegisterObra',
+	components: { FileDropzone },
 	data() {
 		return {
 			form: {
@@ -147,13 +137,6 @@ export default {
 		}
 	},
 	methods: {
-		onSelect() {
-			this.file = this.$refs.file.files[0] || null
-			this.errors = { ...this.errors, file: '' }
-		},
-		onAudioSelect() {
-			this.audioFile = this.$refs.audioFile.files[0] || null
-		},
 		validateForm() {
 			const errors = {}
 
