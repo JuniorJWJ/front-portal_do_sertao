@@ -166,7 +166,9 @@ export default {
 
 			const formData = new FormData()
 			formData.append('file', this.file)
-			formData.append('audioFile', this.audioFile)
+			if (this.audioFile) {
+				formData.append('audioFile', this.audioFile)
+			}
 			formData.append('endereco_video', this.form.endereco_video)
 			formData.append('nome', this.form.nome)
 			formData.append('select_autor', this.idAutor)
