@@ -10,12 +10,11 @@
 
 		<p v-if="feedback" class="notice error" role="alert">{{ feedback }}</p>
 
-		<div v-if="loading" class="status-box">Carregando autores...</div>
-		<div v-else-if="autores.length === 0" class="status-box">
+		<div v-if="!loading && autores.length === 0" class="status-box">
 			Nenhum autor cadastrado.
 		</div>
 
-		<div v-else class="table-wrapper">
+		<div v-if="loading || autores.length > 0" class="table-wrapper">
 			<table class="data-table">
 				<thead>
 					<tr>
@@ -25,7 +24,26 @@
 						<th scope="col">Ações</th>
 					</tr>
 				</thead>
-				<tbody>
+				<tbody v-if="loading">
+					<tr v-for="i in 5" :key="i">
+						<th scope="row"><span class="skeleton skel-text short"></span></th>
+						<td>
+							<div class="author-cell">
+								<span class="skeleton skel-avatar"></span>
+								<span class="skeleton skel-text medium"></span>
+							</div>
+						</td>
+						<td><span class="skeleton skel-badge"></span></td>
+						<td>
+							<div class="table-actions">
+								<span class="skeleton skel-btn"></span>
+								<span class="skeleton skel-btn"></span>
+								<span class="skeleton skel-btn"></span>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+				<tbody v-else>
 					<tr v-for="item in autores" :key="item.id">
 						<th scope="row">{{ item.id }}</th>
 						<td>

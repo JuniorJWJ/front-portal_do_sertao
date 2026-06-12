@@ -681,6 +681,42 @@ textarea.form-control {
 	}
 }
 
+.skel-text {
+	display: block;
+	height: 14px;
+	border-radius: 6px;
+}
+
+.skel-text.short {
+	width: 36%;
+}
+
+.skel-text.medium {
+	width: 60%;
+}
+
+.skel-badge {
+	display: inline-block;
+	height: 22px;
+	width: 72px;
+	border-radius: 999px;
+}
+
+.skel-avatar {
+	display: inline-block;
+	width: 44px;
+	height: 44px;
+	border-radius: 999px;
+	flex-shrink: 0;
+}
+
+.skel-btn {
+	display: inline-block;
+	height: 32px;
+	width: 64px;
+	border-radius: var(--radius-sm);
+}
+
 @media (max-width: 720px) {
 	.app-content {
 		padding: var(--space-3);
